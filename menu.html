@@ -538,6 +538,32 @@
   .allergen-anim-sway svg{animation:allergenSway 2.8s ease-in-out infinite; transform-origin:50% 90%;}
   .allergen-anim-bob svg{animation:allergenBob 2.4s ease-in-out infinite;}
 
+  /* egg cracking loop */
+  .egg-icon .egg-shell{
+    animation:eggShake 3.4s ease-in-out infinite;
+    transform-origin:50% 90%;
+  }
+  .egg-icon .egg-crack{
+    fill:none;
+    opacity:0;
+    stroke-dasharray:14;
+    stroke-dashoffset:14;
+    animation:eggCrack 3.4s ease-in-out infinite;
+  }
+  @keyframes eggShake{
+    0%, 55%, 100%{ transform:rotate(0deg); }
+    58%{ transform:rotate(-4deg); }
+    61%{ transform:rotate(3deg); }
+    64%{ transform:rotate(-2deg); }
+    67%{ transform:rotate(0deg); }
+  }
+  @keyframes eggCrack{
+    0%, 55%{ opacity:0; stroke-dashoffset:14; }
+    62%{ opacity:1; }
+    75%, 92%{ opacity:1; stroke-dashoffset:0; }
+    100%{ opacity:0; stroke-dashoffset:14; }
+  }
+
   .aller-1{background:#C9A227;}
   .aller-2{background:#D9534F;}
   .aller-3{background:#E8B93A;}
@@ -893,7 +919,7 @@
       <div class="allergen-badge" id="allergen-2">
         <div class="allergen-circle-wrap allergen-anim-bob">
           <div class="allergen-circle aller-2">
-            <svg viewBox="0 0 24 24"><path d="M6 16c-2-3-1-8 3-10 3-1.5 6-1 7 1 .8 1.6-.2 3-2 3.4"/><path d="M14 10c2 .5 4 2 4 5 0 2-1 4-3 5"/><path d="M6 16l-2 2M8 18l-1.5 2.5M10.5 19l-1 2.5"/></svg>
+            <svg viewBox="0 0 24 24"><ellipse cx="12" cy="14" rx="6" ry="4.3"/><path d="M7.5 11.5L4 7.5M7.5 11.5L3 9.5"/><path d="M16.5 11.5l3.5-4M16.5 11.5l4.5-2"/><path d="M8 18l-3 3M8 18l-4 1"/><path d="M16 18l3 3M16 18l4 1"/><path d="M9.5 13.5v1M14.5 13.5v1"/><circle cx="9.5" cy="12" r=".55" fill="currentColor" stroke="none"/><circle cx="14.5" cy="12" r=".55" fill="currentColor" stroke="none"/></svg>
           </div>
           <span class="allergen-num">2</span>
         </div>
@@ -901,9 +927,9 @@
       </div>
 
       <div class="allergen-badge" id="allergen-3">
-        <div class="allergen-circle-wrap allergen-anim-pulse">
+        <div class="allergen-circle-wrap">
           <div class="allergen-circle aller-3">
-            <svg viewBox="0 0 24 24"><ellipse cx="9" cy="14" rx="4" ry="5.5"/><ellipse cx="15" cy="11" rx="4" ry="5.5"/></svg>
+            <svg viewBox="0 0 24 24" class="egg-icon"><path class="egg-shell" d="M12 3.2c-3.6 1.5-6.2 5.7-6.2 9.8a6.2 6.2 0 0 0 12.4 0c0-4.1-2.6-8.3-6.2-9.8z"/><path class="egg-crack" d="M9 10.5l2 1.8-1.6 1.7 3 1.6-1 2.4"/></svg>
           </div>
           <span class="allergen-num">3</span>
         </div>
@@ -923,7 +949,7 @@
       <div class="allergen-badge" id="allergen-5">
         <div class="allergen-circle-wrap allergen-anim-bob">
           <div class="allergen-circle aller-5">
-            <svg viewBox="0 0 24 24"><circle cx="9" cy="9" r="3.2"/><circle cx="14" cy="15" r="3.6"/><path d="M11 11l2 2"/></svg>
+            <svg viewBox="0 0 24 24"><path d="M12 2c-3 0-5 2.2-5 5 0 1.6.8 2.7 2 3.3-1.6.5-3 2-3 4.2 0 3 2.7 5.5 6 5.5s6-2.5 6-5.5c0-2.2-1.4-3.7-3-4.2 1.2-.6 2-1.7 2-3.3 0-2.8-2-5-5-5z"/><path d="M9.3 5.3l2.4 2.4M14.7 5.3l-2.4 2.4M9.3 15.3l2.4 2.4M14.7 15.3l-2.4 2.4"/></svg>
           </div>
           <span class="allergen-num">5</span>
         </div>
@@ -933,7 +959,7 @@
       <div class="allergen-badge" id="allergen-6">
         <div class="allergen-circle-wrap allergen-anim-pulse">
           <div class="allergen-circle aller-6">
-            <svg viewBox="0 0 24 24"><path d="M8 4c-3 3-3 13 0 16 2-1 3-3 3-8s-1-7-3-8z"/><circle cx="9" cy="9" r="1" fill="white" stroke="none"/><circle cx="9.5" cy="13" r="1" fill="white" stroke="none"/><circle cx="9" cy="17" r="1" fill="white" stroke="none"/></svg>
+            <svg viewBox="0 0 24 24"><path d="M7 14c-.6-5 2.4-9.4 7-10.5.8 2.7-.4 4.7-2.3 5.9 3 .1 5.3 2.3 5.3 5.6 0 4-3.1 7-7 7-3.2 0-5.5-2.1-5.5-5 0-1.1.4-2.1 1-3z"/><circle cx="9.3" cy="12.2" r="1.3"/><circle cx="12.3" cy="15.2" r="1.3"/><circle cx="9.3" cy="18" r="1.3"/></svg>
           </div>
           <span class="allergen-num">6</span>
         </div>
@@ -943,7 +969,7 @@
       <div class="allergen-badge" id="allergen-7">
         <div class="allergen-circle-wrap allergen-anim-sway">
           <div class="allergen-circle aller-7">
-            <svg viewBox="0 0 24 24"><path d="M12 3c3 4 6 8 6 11a6 6 0 0 1-12 0c0-3 3-7 6-11z"/></svg>
+            <svg viewBox="0 0 24 24"><path d="M12 3c3 4 6 8 6 11a6 6 0 0 1-12 0c0-3 3-7 6-11z" fill="#fff"/></svg>
           </div>
           <span class="allergen-num">7</span>
         </div>
@@ -953,7 +979,7 @@
       <div class="allergen-badge" id="allergen-8">
         <div class="allergen-circle-wrap allergen-anim-bob">
           <div class="allergen-circle aller-8">
-            <svg viewBox="0 0 24 24"><path d="M12 3c-3 0-5 2-5 5 0 2 1 4 2 6l3 6 3-6c1-2 2-4 2-6 0-3-2-5-5-5z"/><path d="M8 8h8"/></svg>
+            <svg viewBox="0 0 24 24"><path d="M12 3c-3.4 2.2-6.2 6.4-6.2 10.3a6.2 6.2 0 0 0 12.4 0c0-3.9-2.8-8.1-6.2-10.3z"/><path d="M9 8.5c1.2 1.8 1.2 3.7 0 5.5M15 8.5c-1.2 1.8-1.2 3.7 0 5.5M9.7 16.3c1.4.9 3.2.9 4.6 0"/></svg>
           </div>
           <span class="allergen-num">8</span>
         </div>
