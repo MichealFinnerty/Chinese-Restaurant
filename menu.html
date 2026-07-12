@@ -462,6 +462,29 @@
     padding:16px 26px;
     border-left:5px solid var(--gold);
   }
+  .cat-header.cat-header-toggle{
+    width:100%;
+    border:none;
+    border-left:5px solid var(--gold);
+    font-family:inherit;
+    text-align:left;
+    cursor:pointer;
+    -webkit-appearance:none;
+    appearance:none;
+  }
+  .cat-header.cat-header-toggle:focus-visible{
+    outline:2px solid var(--gold);
+    outline-offset:-3px;
+  }
+  .cat-chevron{
+    flex:0 0 auto;
+    margin-left:auto;
+    font-size:.85rem;
+    color:var(--gold);
+    transition:transform .25s ease;
+    display:inline-block;
+  }
+  .menu-cat.collapsed .cat-chevron{transform:rotate(-90deg);}
   .cat-header .icon{
     flex:0 0 auto;
     width:34px;height:34px;
@@ -479,12 +502,26 @@
     margin-left:auto;
     letter-spacing:.1em;
   }
+  .cat-header.cat-header-toggle .cat-sub{margin-left:0;}
 
   .cat-note{
     font-size:.9rem;
     font-style:italic;
     color:#5c4a44;
     padding:14px 26px 0;
+  }
+
+  .cat-body{
+    display:grid;
+    grid-template-rows:1fr;
+    transition:grid-template-rows .3s ease;
+  }
+  .cat-body > div{
+    overflow:hidden;
+    min-height:0;
+  }
+  .menu-cat.collapsed .cat-body{
+    grid-template-rows:0fr;
   }
 
   .item-list{
@@ -825,12 +862,14 @@
   <section class="menu-sections">
     <div class="wrap" id="menuRoot"></div>
 
-    <div class="wrap menu-cat" id="set-dinners">
-      <div class="cat-header">
+    <div class="wrap menu-cat collapsed" id="set-dinners">
+      <button class="cat-header cat-header-toggle" type="button" aria-expanded="false">
         <span class="icon" data-icon="setdinner"></span>
         <h2>Special Set Dinners</h2>
         <span class="cat-sub chinese">套餐</span>
-      </div>
+        <span class="cat-chevron">&#9662;</span>
+      </button>
+      <div class="cat-body"><div>
       <div class="dinner-grid">
         <div class="dinner-card">
           <h3>Dinner A</h3>
@@ -868,14 +907,17 @@
           </ul>
         </div>
       </div>
+      </div></div>
     </div>
 
-    <div class="wrap menu-cat" id="catering">
-      <div class="cat-header">
+    <div class="wrap menu-cat collapsed" id="catering">
+      <button class="cat-header cat-header-toggle" type="button" aria-expanded="false">
         <span class="icon" data-icon="catering"></span>
         <h2>Catering Services</h2>
         <span class="cat-sub chinese">到會</span>
-      </div>
+        <span class="cat-chevron">&#9662;</span>
+      </button>
+      <div class="cat-body"><div>
       <p class="cat-note">Quality Chinese &amp; European cuisine, prepared by our chefs for your marquee or venue of choice. Minimum 10 people.</p>
       <div class="catering-grid" style="margin-top:14px;">
         <div class="catering-card">
@@ -896,6 +938,7 @@
           </ul>
         </div>
       </div>
+      </div></div>
     </div>
   </section>
 
@@ -1124,13 +1167,16 @@
     let rows = cat.items.map(it => renderItemRow(it, nextNum())).join('');
     const end = counter.n;
     return {
-      html: `<div class="wrap menu-cat" id="${cat.id}">
-        <div class="cat-header">
+      html: `<div class="wrap menu-cat collapsed" id="${cat.id}">
+        <button class="cat-header cat-header-toggle" type="button" aria-expanded="false">
           <span class="icon">${ICONS[cat.icon]}</span>
           <h2>${cat.title}</h2>
           <span class="cat-sub chinese">${cat.sub}</span>
-        </div>
+          <span class="cat-chevron">&#9662;</span>
+        </button>
+        <div class="cat-body"><div>
         <div class="item-list">${rows}</div>
+        </div></div>
       </div>`,
       range: [start, end]
     };
@@ -1142,17 +1188,20 @@
     const sauceRows = WOK_SAUCES.map(it => renderItemRow(it, nextNum())).join('');
     const end = counter.n;
     return {
-      html: `<div class="wrap menu-cat" id="wok">
-        <div class="cat-header">
+      html: `<div class="wrap menu-cat collapsed" id="wok">
+        <button class="cat-header cat-header-toggle" type="button" aria-expanded="false">
           <span class="icon">${ICONS.wok}</span>
           <h2>Straight From Wok</h2>
           <span class="cat-sub chinese">鑊氣</span>
-        </div>
+          <span class="cat-chevron">&#9662;</span>
+        </button>
+        <div class="cat-body"><div>
         <p class="cat-note">Pick your protein, then choose a sauce to go with it &mdash; priced by the protein below.</p>
         <div class="sub-heading">Choose Your Protein</div>
         <div class="item-list">${proteinRows}</div>
         <div class="sub-heading">Choose Your Sauce</div>
         <div class="item-list">${sauceRows}</div>
+        </div></div>
       </div>`,
       range: [start, end]
     };
@@ -1184,6 +1233,27 @@
     el.innerHTML = ICONS[el.dataset.icon] || '';
   });
 
+  // ---------- Accordion behavior for menu category headers (allergens excluded) ----------
+  function initAccordions(){
+    document.querySelectorAll('.menu-cat > .cat-header-toggle').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const section = btn.closest('.menu-cat');
+        const collapsed = section.classList.toggle('collapsed');
+        btn.setAttribute('aria-expanded', String(!collapsed));
+      });
+    });
+  }
+  initAccordions();
+
+  function openSectionFor(el){
+    const section = el.closest('.menu-cat');
+    if(section && section.classList.contains('collapsed')){
+      section.classList.remove('collapsed');
+      const btn = section.querySelector('.cat-header-toggle');
+      if(btn) btn.setAttribute('aria-expanded', 'true');
+    }
+  }
+
   const quickNav = document.getElementById('quickNav');
   quickNav.innerHTML = catMeta.map(c => {
     const numLabel = c.range ? `<span class="qn-num">${c.range[0]}&ndash;${c.range[1]}</span>` : '';
@@ -1202,7 +1272,11 @@
     setPanelOpen(!qnPanel.classList.contains('open'));
   });
   quickNav.querySelectorAll('.qn-pill').forEach(a => {
-    a.addEventListener('click', () => setPanelOpen(false));
+    a.addEventListener('click', (e) => {
+      setPanelOpen(false);
+      const target = document.getElementById(a.dataset.id);
+      if(target) openSectionFor(target);
+    });
   });
   document.addEventListener('click', (e) => {
     if(!e.target.closest('.quick-nav')) setPanelOpen(false);
@@ -1268,9 +1342,19 @@
     startAutoplay();
   }
 
+  slides: {
+    heroGallery && heroGallery.querySelectorAll('.hero-slide').forEach(s => {
+      s.addEventListener('click', () => {
+        const target = document.querySelector(s.getAttribute('href'));
+        if(target) openSectionFor(target);
+      });
+    });
+  }
+
   if(location.hash){
     const target = document.querySelector(location.hash);
     if(target){
+      openSectionFor(target);
       requestAnimationFrame(() => {
         setNavHeight();
         target.scrollIntoView();
