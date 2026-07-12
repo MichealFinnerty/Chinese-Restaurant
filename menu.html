@@ -138,6 +138,7 @@
     border:6px solid var(--gold);
     box-shadow:0 14px 22px rgba(0,0,0,.35), inset 0 0 0 2px rgba(27,58,92,.5);
     background:var(--porcelain-white);
+    touch-action:pan-y;
   }
   .hero-slide{
     position:absolute; inset:0;
@@ -1669,6 +1670,41 @@
     galleryWrap.addEventListener('mouseleave', startAutoplay);
     galleryWrap.addEventListener('focusin', stopAutoplay);
     galleryWrap.addEventListener('focusout', startAutoplay);
+
+    // ---------- Touch swipe support ----------
+    let touchStartX = 0, touchStartY = 0, touchDX = 0, touchDY = 0, isSwiping = false;
+    const SWIPE_THRESHOLD = 40;
+
+    heroGallery.addEventListener('touchstart', (e) => {
+      const t = e.touches[0];
+      touchStartX = t.clientX;
+      touchStartY = t.clientY;
+      touchDX = 0; touchDY = 0;
+      isSwiping = false;
+      stopAutoplay();
+    }, { passive: true });
+
+    heroGallery.addEventListener('touchmove', (e) => {
+      const t = e.touches[0];
+      touchDX = t.clientX - touchStartX;
+      touchDY = t.clientY - touchStartY;
+      if(Math.abs(touchDX) > Math.abs(touchDY)) isSwiping = true;
+    }, { passive: true });
+
+    heroGallery.addEventListener('touchend', () => {
+      if(isSwiping && Math.abs(touchDX) > SWIPE_THRESHOLD){
+        showSlide(heroIndex + (touchDX < 0 ? 1 : -1));
+      }
+      startAutoplay();
+    });
+
+    // Prevent a swipe from also being treated as a tap-through to the linked dish
+    heroGallery.addEventListener('click', (e) => {
+      if(isSwiping && Math.abs(touchDX) > SWIPE_THRESHOLD){
+        e.preventDefault();
+        isSwiping = false;
+      }
+    }, true);
 
     startAutoplay();
   }
