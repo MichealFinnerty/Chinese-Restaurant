@@ -865,13 +865,22 @@
       <h1>Our Menu</h1>
       <p class="tagline">Wok-fired classics and chef's specials, plated the way they've always been &mdash; nothing skipped, nothing rushed.</p>
 
-      <div class="hero-gallery">
-        <div class="hero-gallery-frame" id="heroGallery"></div>
-        <div class="hero-gallery-dots" id="heroDots"></div>
-        <p class="hero-gallery-hint">Tap a dish to jump to it on the menu</p>
-      </div>
+<div class="hero-gallery">
+    <div class="hero-gallery-frame" id="heroGallery">
+        <!-- Static LCP image for better performance discovery -->
+        <a class="hero-slide active" href="#item-2">
+            <img src="400x400Food/Aromatic%20Duck.avif" 
+                 alt="Aromatic Duck" 
+                 loading="eager" 
+                 fetchpriority="high"
+                 width="400" 
+                 height="400">
+            <span class="hero-slide-caption">Aromatic Duck</span>
+        </a>
     </div>
-  </section>
+    <div class="hero-gallery-dots" id="heroDots"></div>
+    <p class="hero-gallery-hint">Tap a dish to jump to it on the menu</p>
+</div>
 
   <nav class="quick-nav" aria-label="Menu categories">
     <div class="qn-bar">
