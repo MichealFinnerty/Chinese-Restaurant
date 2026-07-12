@@ -249,8 +249,106 @@
     border:none;
     font-family:inherit;
     text-align:left;
-    cursor:pointer;
     color:inherit;
+  }
+  .qn-bar-left{
+    display:flex;
+    align-items:center;
+    gap:14px;
+    flex:1;
+    min-width:0;
+  }
+  .qn-bar-text{
+    background:none; border:none; padding:0; text-align:left; font:inherit; color:inherit; cursor:pointer;
+  }
+  .qn-search-btn{
+    flex:0 0 auto;
+    width:38px; height:38px;
+    border-radius:50%;
+    border:1.5px solid var(--maroon);
+    background:var(--white);
+    color:var(--maroon);
+    display:flex; align-items:center; justify-content:center;
+    cursor:pointer;
+    transition:background .18s ease, color .18s ease;
+  }
+  .qn-search-btn svg{width:18px;height:18px;}
+  .qn-search-btn:hover{background:var(--maroon); color:var(--cream);}
+  .qn-search-btn:focus-visible{outline:2px solid var(--ruby-red); outline-offset:2px;}
+  .qn-search-btn.active{background:var(--maroon); color:var(--gold);}
+
+  .qn-search-wrap{
+    max-width:1180px;
+    margin:0 auto;
+    max-height:0;
+    overflow:hidden;
+    transition:max-height .28s ease;
+    background:var(--white);
+    border-top:1px solid rgba(70,27,30,.12);
+  }
+  .qn-search-wrap.open{max-height:420px;}
+  .qn-search-inner{padding:16px 20px 18px; position:relative;}
+  .qn-search-input{
+    width:100%;
+    padding:12px 16px;
+    border:1.5px solid rgba(70,27,30,.25);
+    border-radius:8px;
+    font-family:inherit;
+    font-size:.95rem;
+    color:var(--charcoal);
+    background:var(--cream);
+  }
+  .qn-search-input:focus{outline:none; border-color:var(--ruby-red);}
+  .qn-search-hint{
+    font-size:.76rem;
+    color:#8a6f52;
+    margin-top:8px;
+    letter-spacing:.02em;
+  }
+  .qn-search-results{
+    margin-top:10px;
+    max-height:280px;
+    overflow-y:auto;
+    display:flex;
+    flex-direction:column;
+    gap:6px;
+  }
+  .qn-result{
+    display:flex;
+    align-items:baseline;
+    gap:12px;
+    padding:10px 14px;
+    background:rgba(70,27,30,.05);
+    border:1px solid rgba(70,27,30,.14);
+    border-radius:8px;
+    text-align:left;
+    cursor:pointer;
+    transition:background .15s ease;
+  }
+  .qn-result:hover, .qn-result:focus-visible{background:rgba(213,167,84,.28);}
+  .qn-result .qn-result-num{
+    font-family:'Noto Serif SC', serif;
+    color:var(--ruby-red);
+    font-size:.82rem;
+    min-width:1.8em;
+  }
+  .qn-result .qn-result-name{
+    flex:1;
+    font-size:.9rem;
+    color:var(--charcoal);
+  }
+  .qn-result .qn-result-cat{
+    font-size:.72rem;
+    color:#8a6f52;
+    text-transform:uppercase;
+    letter-spacing:.05em;
+    white-space:nowrap;
+  }
+  .qn-search-empty{
+    font-size:.85rem;
+    color:#8a6f52;
+    padding:10px 14px;
+    font-style:italic;
   }
   .qn-bar-label{
     font-size:.7rem;
@@ -697,13 +795,25 @@
   </section>
 
   <nav class="quick-nav" aria-label="Menu categories">
-    <button class="qn-bar" id="qnToggle" aria-expanded="false" aria-controls="qnPanel">
-      <span>
-        <span class="qn-bar-label">Jump to</span><br>
-        <span class="qn-bar-current" id="qnCurrent">Appetizers</span>
-      </span>
-      <span class="qn-toggle" aria-hidden="true">Categories <span class="chevron">&#9662;</span></span>
-    </button>
+    <div class="qn-bar">
+      <div class="qn-bar-left">
+        <button class="qn-search-btn" id="qnSearchBtn" type="button" aria-expanded="false" aria-controls="qnSearchPanel" aria-label="Search menu">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="M20 20l-4.3-4.3"/></svg>
+        </button>
+        <button class="qn-bar-text" id="qnToggle" aria-expanded="false" aria-controls="qnPanel">
+          <span class="qn-bar-label">Jump to</span><br>
+          <span class="qn-bar-current" id="qnCurrent">Appetizers</span>
+        </button>
+      </div>
+      <span class="qn-toggle" id="qnToggleVisual" aria-hidden="true">Categories <span class="chevron">&#9662;</span></span>
+    </div>
+    <div class="qn-search-wrap" id="qnSearchWrap">
+      <div class="qn-search-inner">
+        <input type="text" class="qn-search-input" id="qnSearchInput" placeholder="Search by dish name, or by number/letter (e.g. 32 or A)" autocomplete="off">
+        <div class="qn-search-hint">Type a dish name to find its number, or type a number/letter to find the dish.</div>
+        <div class="qn-search-results" id="qnSearchResults"></div>
+      </div>
+    </div>
     <div class="qn-panel" id="qnPanel">
       <div class="qn-panel-grid" id="quickNav"></div>
     </div>
@@ -1261,15 +1371,134 @@
   }).join('');
 
   const qnToggle = document.getElementById('qnToggle');
+  const qnToggleVisual = document.getElementById('qnToggleVisual');
   const qnPanel = document.getElementById('qnPanel');
   const qnCurrent = document.getElementById('qnCurrent');
 
   function setPanelOpen(open){
     qnPanel.classList.toggle('open', open);
     qnToggle.setAttribute('aria-expanded', open);
+    if(open) setSearchOpen(false);
+    if(qnToggleVisual) qnToggleVisual.setAttribute('aria-expanded', open);
   }
   qnToggle.addEventListener('click', () => {
     setPanelOpen(!qnPanel.classList.contains('open'));
+  });
+  if(qnToggleVisual){
+    qnToggleVisual.style.cursor = 'pointer';
+    qnToggleVisual.addEventListener('click', () => {
+      setPanelOpen(!qnPanel.classList.contains('open'));
+    });
+  }
+
+  // ---------- Search ----------
+  const qnSearchBtn = document.getElementById('qnSearchBtn');
+  const qnSearchWrap = document.getElementById('qnSearchWrap');
+  const qnSearchInput = document.getElementById('qnSearchInput');
+  const qnSearchResults = document.getElementById('qnSearchResults');
+
+  function setSearchOpen(open){
+    qnSearchWrap.classList.toggle('open', open);
+    qnSearchBtn.classList.toggle('active', open);
+    qnSearchBtn.setAttribute('aria-expanded', open);
+    if(open){
+      setPanelOpen(false);
+      requestAnimationFrame(() => qnSearchInput.focus());
+    } else {
+      qnSearchInput.value = '';
+      qnSearchResults.innerHTML = '';
+    }
+  }
+  qnSearchBtn.addEventListener('click', () => {
+    setSearchOpen(!qnSearchWrap.classList.contains('open'));
+  });
+  document.addEventListener('click', (e) => {
+    if(!e.target.closest('.quick-nav')) setSearchOpen(false);
+  });
+  qnSearchInput.addEventListener('keydown', (e) => {
+    if(e.key === 'Escape') setSearchOpen(false);
+  });
+
+  // Build a flat searchable index of every numbered dish, once the menu has rendered.
+  const SEARCH_INDEX = [];
+  (function buildSearchIndex(){
+    document.querySelectorAll('.item-row').forEach(row => {
+      const numEl = row.querySelector('.num');
+      const nameEl = row.querySelector('.item-name');
+      if(!numEl || !nameEl || !numEl.textContent.trim()) return;
+      const cat = row.closest('.menu-cat');
+      const catTitleEl = cat ? cat.querySelector('h2') : null;
+      SEARCH_INDEX.push({
+        num: numEl.textContent.trim(),
+        name: nameEl.textContent.trim(),
+        rowId: row.id,
+        catTitle: catTitleEl ? catTitleEl.textContent.trim() : ''
+      });
+    });
+  })();
+
+  function jumpToRow(rowId){
+    const row = document.getElementById(rowId);
+    if(!row) return;
+    openSectionFor(row);
+    setSearchOpen(false);
+    requestAnimationFrame(() => {
+      setNavHeight();
+      row.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      row.classList.remove('item-row');
+      void row.offsetWidth;
+      row.classList.add('item-row');
+      history.replaceState(null, '', '#' + rowId);
+    });
+  }
+
+  function renderSearchResults(query){
+    const q = query.trim();
+    if(!q){ qnSearchResults.innerHTML = ''; return; }
+
+    let matches = [];
+    // Pure number/letter query (e.g. "32" or "A") -> exact number match first
+    if(/^[a-zA-Z0-9]{1,3}$/.test(q)){
+      matches = SEARCH_INDEX.filter(item => item.num.toLowerCase() === q.toLowerCase());
+      if(matches.length){
+        renderList(matches);
+        return;
+      }
+    }
+    // Otherwise (or if no exact number match) search by dish name substring
+    const qLower = q.toLowerCase();
+    matches = SEARCH_INDEX.filter(item => item.name.toLowerCase().includes(qLower));
+    // Also allow numeric substring matches (e.g. typing "3" shows dish 3, 13, 30s...)
+    if(/^\d+$/.test(q)){
+      const numMatches = SEARCH_INDEX.filter(item => item.num.includes(q) && !matches.includes(item));
+      matches = matches.concat(numMatches);
+    }
+    renderList(matches);
+  }
+
+  function renderList(matches){
+    if(!matches.length){
+      qnSearchResults.innerHTML = '<div class="qn-search-empty">No dishes found. Try a different name or number.</div>';
+      return;
+    }
+    qnSearchResults.innerHTML = matches.slice(0, 25).map(m => `
+      <button type="button" class="qn-result" data-row="${m.rowId}">
+        <span class="qn-result-num">${m.num}</span>
+        <span class="qn-result-name">${m.name}</span>
+        <span class="qn-result-cat">${m.catTitle}</span>
+      </button>
+    `).join('');
+    qnSearchResults.querySelectorAll('.qn-result').forEach(btn => {
+      btn.addEventListener('click', () => jumpToRow(btn.dataset.row));
+    });
+  }
+
+  qnSearchInput.addEventListener('input', () => renderSearchResults(qnSearchInput.value));
+  qnSearchInput.addEventListener('keydown', (e) => {
+    if(e.key === 'Enter'){
+      const first = qnSearchResults.querySelector('.qn-result');
+      if(first) jumpToRow(first.dataset.row);
+    }
   });
   quickNav.querySelectorAll('.qn-pill').forEach(a => {
     a.addEventListener('click', (e) => {
