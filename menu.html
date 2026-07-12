@@ -334,6 +334,119 @@
     .qn-panel-grid{grid-template-columns:repeat(4, 1fr);}
   }
 
+  /* ---------- ALLERGEN KEY ---------- */
+  .allergen-header .icon{
+    animation:allergenIconSway 3.2s ease-in-out infinite;
+    transform-origin:50% 85%;
+  }
+  @keyframes allergenIconSway{
+    0%,100%{transform:rotate(0deg);}
+    25%{transform:rotate(-6deg);}
+    75%{transform:rotate(6deg);}
+  }
+  .allergen-grid{
+    display:grid;
+    grid-template-columns:repeat(7, 1fr);
+    gap:22px 12px;
+    padding:26px 26px 30px;
+    background:var(--white);
+  }
+  .allergen-badge{
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    text-align:center;
+    gap:8px;
+  }
+  .allergen-circle-wrap{
+    position:relative;
+    width:54px;
+    height:54px;
+  }
+  .allergen-circle{
+    width:54px;
+    height:54px;
+    border-radius:50%;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    box-shadow:0 2px 6px rgba(0,0,0,.18), inset 0 0 0 1px rgba(255,255,255,.15);
+  }
+  .allergen-circle svg{
+    width:58%;
+    height:58%;
+    stroke:var(--white);
+    fill:none;
+    stroke-width:1.6;
+    stroke-linecap:round;
+    stroke-linejoin:round;
+  }
+  .allergen-num{
+    position:absolute;
+    top:-3px;
+    left:-3px;
+    width:19px;
+    height:19px;
+    border-radius:50%;
+    background:var(--ruby-red);
+    color:var(--white);
+    font-family:'Noto Serif SC', serif;
+    font-weight:700;
+    font-size:.68rem;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    border:2px solid var(--white);
+    box-shadow:0 1px 3px rgba(0,0,0,.25);
+  }
+  .allergen-name{
+    font-size:.74rem;
+    color:var(--charcoal);
+    letter-spacing:.01em;
+    line-height:1.25;
+    max-width:9ch;
+  }
+
+  /* three gentle idle animations, cycled across icons for a lively but subtle key */
+  @keyframes allergenPulse{
+    0%,100%{transform:scale(1);}
+    50%{transform:scale(1.12);}
+  }
+  @keyframes allergenSway{
+    0%,100%{transform:rotate(0deg);}
+    50%{transform:rotate(8deg);}
+  }
+  @keyframes allergenBob{
+    0%,100%{transform:translateY(0);}
+    50%{transform:translateY(-3px);}
+  }
+  .allergen-anim-pulse svg{animation:allergenPulse 2.6s ease-in-out infinite;}
+  .allergen-anim-sway svg{animation:allergenSway 2.8s ease-in-out infinite; transform-origin:50% 90%;}
+  .allergen-anim-bob svg{animation:allergenBob 2.4s ease-in-out infinite;}
+
+  .aller-1{background:#C9A227;}
+  .aller-2{background:#D9534F;}
+  .aller-3{background:#E8B93A;}
+  .aller-4{background:#4FA9C6;}
+  .aller-5{background:#E08E45;}
+  .aller-6{background:#6FAE5D;}
+  .aller-7{background:#6FB9DE;}
+  .aller-8{background:#8B5E3C;}
+  .aller-9{background:#D46A8C;}
+  .aller-10{background:#E0A727;}
+  .aller-11{background:#B08968;}
+  .aller-12{background:#6C7FD1;}
+  .aller-13{background:#9B6FB0;}
+  .aller-14{background:#8C2F39;}
+
+  @media (max-width: 900px){
+    .allergen-grid{grid-template-columns:repeat(4, 1fr);}
+  }
+  @media (max-width: 560px){
+    .allergen-grid{grid-template-columns:repeat(3, 1fr);}
+    .allergen-name{max-width:none;}
+  }
+
   /* ---------- MENU SECTIONS ---------- */
   .menu-sections{padding:64px 0 40px;}
   .menu-cat{
@@ -559,6 +672,156 @@
     </div>
   </nav>
 
+  <section class="allergen-section wrap" aria-label="Food allergen information" style="padding-top:40px;">
+    <div class="cat-header allergen-header">
+      <span class="icon" data-icon="allergen"></span>
+      <h2>Be Food Allergen Aware</h2>
+      <span class="cat-sub chinese">過敏原</span>
+    </div>
+    <p class="cat-note">Please inform our staff before placing your order if you have an allergy to any of the following allergens.</p>
+    <div class="allergen-grid">
+      <div class="allergen-badge">
+        <div class="allergen-circle-wrap allergen-anim-sway">
+          <div class="allergen-circle aller-1">
+            <svg viewBox="0 0 24 24"><path d="M12 21V3"/><path d="M12 6l-3-2M12 6l3-2M12 10l-3-2M12 10l3-2M12 14l-3-2M12 14l3-2M12 18l-3-2M12 18l3-2"/></svg>
+          </div>
+          <span class="allergen-num">1</span>
+        </div>
+        <span class="allergen-name">Gluten</span>
+      </div>
+
+      <div class="allergen-badge">
+        <div class="allergen-circle-wrap allergen-anim-bob">
+          <div class="allergen-circle aller-2">
+            <svg viewBox="0 0 24 24"><path d="M6 16c-2-3-1-8 3-10 3-1.5 6-1 7 1 .8 1.6-.2 3-2 3.4"/><path d="M14 10c2 .5 4 2 4 5 0 2-1 4-3 5"/><path d="M6 16l-2 2M8 18l-1.5 2.5M10.5 19l-1 2.5"/></svg>
+          </div>
+          <span class="allergen-num">2</span>
+        </div>
+        <span class="allergen-name">Crustaceans</span>
+      </div>
+
+      <div class="allergen-badge">
+        <div class="allergen-circle-wrap allergen-anim-pulse">
+          <div class="allergen-circle aller-3">
+            <svg viewBox="0 0 24 24"><ellipse cx="9" cy="14" rx="4" ry="5.5"/><ellipse cx="15" cy="11" rx="4" ry="5.5"/></svg>
+          </div>
+          <span class="allergen-num">3</span>
+        </div>
+        <span class="allergen-name">Eggs</span>
+      </div>
+
+      <div class="allergen-badge">
+        <div class="allergen-circle-wrap allergen-anim-sway">
+          <div class="allergen-circle aller-4">
+            <svg viewBox="0 0 24 24"><path d="M3 12c4-5 12-5 16 0-4 5-12 5-16 0z"/><path d="M19 12l3-3v6z"/><circle cx="8" cy="11" r=".6" fill="white" stroke="none"/></svg>
+          </div>
+          <span class="allergen-num">4</span>
+        </div>
+        <span class="allergen-name">Fish</span>
+      </div>
+
+      <div class="allergen-badge">
+        <div class="allergen-circle-wrap allergen-anim-bob">
+          <div class="allergen-circle aller-5">
+            <svg viewBox="0 0 24 24"><circle cx="9" cy="9" r="3.2"/><circle cx="14" cy="15" r="3.6"/><path d="M11 11l2 2"/></svg>
+          </div>
+          <span class="allergen-num">5</span>
+        </div>
+        <span class="allergen-name">Peanuts</span>
+      </div>
+
+      <div class="allergen-badge">
+        <div class="allergen-circle-wrap allergen-anim-pulse">
+          <div class="allergen-circle aller-6">
+            <svg viewBox="0 0 24 24"><path d="M8 4c-3 3-3 13 0 16 2-1 3-3 3-8s-1-7-3-8z"/><circle cx="9" cy="9" r="1" fill="white" stroke="none"/><circle cx="9.5" cy="13" r="1" fill="white" stroke="none"/><circle cx="9" cy="17" r="1" fill="white" stroke="none"/></svg>
+          </div>
+          <span class="allergen-num">6</span>
+        </div>
+        <span class="allergen-name">Soya</span>
+      </div>
+
+      <div class="allergen-badge">
+        <div class="allergen-circle-wrap allergen-anim-sway">
+          <div class="allergen-circle aller-7">
+            <svg viewBox="0 0 24 24"><path d="M12 3c3 4 6 8 6 11a6 6 0 0 1-12 0c0-3 3-7 6-11z"/></svg>
+          </div>
+          <span class="allergen-num">7</span>
+        </div>
+        <span class="allergen-name">Milk</span>
+      </div>
+
+      <div class="allergen-badge">
+        <div class="allergen-circle-wrap allergen-anim-bob">
+          <div class="allergen-circle aller-8">
+            <svg viewBox="0 0 24 24"><path d="M12 3c-3 0-5 2-5 5 0 2 1 4 2 6l3 6 3-6c1-2 2-4 2-6 0-3-2-5-5-5z"/><path d="M8 8h8"/></svg>
+          </div>
+          <span class="allergen-num">8</span>
+        </div>
+        <span class="allergen-name">Nuts</span>
+      </div>
+
+      <div class="allergen-badge">
+        <div class="allergen-circle-wrap allergen-anim-pulse">
+          <div class="allergen-circle aller-9">
+            <svg viewBox="0 0 24 24"><path d="M12 21V9"/><path d="M12 9c-3-1-4-4-3-7 3 1 4 4 3 7z"/><path d="M12 9c3-1 4-4 3-7-3 1-4 4-3 7z"/></svg>
+          </div>
+          <span class="allergen-num">9</span>
+        </div>
+        <span class="allergen-name">Celery</span>
+      </div>
+
+      <div class="allergen-badge">
+        <div class="allergen-circle-wrap allergen-anim-sway">
+          <div class="allergen-circle aller-10">
+            <svg viewBox="0 0 24 24"><rect x="8" y="9" width="8" height="10" rx="1.5"/><path d="M9 9V6a3 3 0 0 1 6 0v3"/></svg>
+          </div>
+          <span class="allergen-num">10</span>
+        </div>
+        <span class="allergen-name">Mustard</span>
+      </div>
+
+      <div class="allergen-badge">
+        <div class="allergen-circle-wrap allergen-anim-bob">
+          <div class="allergen-circle aller-11">
+            <svg viewBox="0 0 24 24" fill="white" stroke="none"><ellipse cx="8" cy="10" rx="1.6" ry="2.4" transform="rotate(-20 8 10)"/><ellipse cx="12" cy="8" rx="1.6" ry="2.4" transform="rotate(10 12 8)"/><ellipse cx="16" cy="10" rx="1.6" ry="2.4" transform="rotate(25 16 10)"/><ellipse cx="10" cy="14" rx="1.6" ry="2.4" transform="rotate(-10 10 14)"/><ellipse cx="14" cy="14" rx="1.6" ry="2.4" transform="rotate(15 14 14)"/></svg>
+          </div>
+          <span class="allergen-num">11</span>
+        </div>
+        <span class="allergen-name">Sesame Seed</span>
+      </div>
+
+      <div class="allergen-badge">
+        <div class="allergen-circle-wrap allergen-anim-pulse">
+          <div class="allergen-circle aller-12">
+            <svg viewBox="0 0 24 24"><path d="M10 3h4v4l4 8a3 3 0 0 1-3 4H9a3 3 0 0 1-3-4l4-8z"/><path d="M9 14h6"/></svg>
+          </div>
+          <span class="allergen-num">12</span>
+        </div>
+        <span class="allergen-name">Sulphur Dioxide</span>
+      </div>
+
+      <div class="allergen-badge">
+        <div class="allergen-circle-wrap allergen-anim-sway">
+          <div class="allergen-circle aller-13">
+            <svg viewBox="0 0 24 24"><path d="M12 21V5"/><circle cx="10" cy="7" r="1" fill="white" stroke="none"/><circle cx="14" cy="9" r="1" fill="white" stroke="none"/><circle cx="10" cy="11" r="1" fill="white" stroke="none"/><circle cx="14" cy="13" r="1" fill="white" stroke="none"/><circle cx="10" cy="15" r="1" fill="white" stroke="none"/></svg>
+          </div>
+          <span class="allergen-num">13</span>
+        </div>
+        <span class="allergen-name">Lupin</span>
+      </div>
+
+      <div class="allergen-badge">
+        <div class="allergen-circle-wrap allergen-anim-bob">
+          <div class="allergen-circle aller-14">
+            <svg viewBox="0 0 24 24"><path d="M12 4c4 0 7 3 7 7 0 5-3 8-7 9-4-1-7-4-7-9 0-4 3-7 7-7z"/><path d="M12 4v16M9 8c0 4 1 8 3 12M15 8c0 4-1 8-3 12"/></svg>
+          </div>
+          <span class="allergen-num">14</span>
+        </div>
+        <span class="allergen-name">Molluscs</span>
+      </div>
+    </div>
+  </section>
+
   <section class="menu-sections">
     <div class="wrap" id="menuRoot"></div>
 
@@ -696,7 +959,8 @@
     extras: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M6 8h12l-1.5 12h-9z"/><path d="M9 8V5h6v3"/></svg>',
     snackbox: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M4 9h16v10H4z"/><path d="M4 9l3-5h10l3 5M12 9v10"/></svg>',
     setdinner: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="12" cy="12" r="6"/><path d="M4 4v6M4 7h1.6M20 4v16"/></svg>',
-    catering: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><ellipse cx="12" cy="17" rx="9" ry="2.2"/><path d="M4.5 16C4 10 7.5 5 12 5s8 5 7.5 11"/></svg>'
+    catering: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><ellipse cx="12" cy="17" rx="9" ry="2.2"/><path d="M4.5 16C4 10 7.5 5 12 5s8 5 7.5 11"/></svg>',
+    allergen: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M12 3.5 21.5 20h-19z"/><path d="M12 9.5v5"/><circle cx="12" cy="17" r=".9" fill="currentColor" stroke="none"/></svg>'
   };
 
   const FEATURED = [
