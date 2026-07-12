@@ -360,9 +360,12 @@
   .trust-dot.active{background:var(--ruby-red); transform:scale(1.3);}
 
   @media (max-width: 880px){
-    .trust-track{flex-direction:column;}
+    /* Mobile: show a single review card; swipe left/right moves to the next/previous */
+    .trust-viewport{touch-action:pan-y;}
+    .trust-track{flex-direction:row;}
     .review-text{min-height:0;}
-    .review-card.side{opacity:1; transform:none;}
+    .review-card.side{display:none;}
+    .review-card.center{width:100%;}
   }
 
   /* ---------- SECTION HEADERS ---------- */
@@ -1025,6 +1028,7 @@
   }
 
   (function(){
+    const viewport = document.querySelector('.trust-viewport');
     const track = document.getElementById('trustTrack');
     const dotsWrap = document.getElementById('trustDots');
     if(!track || !dotsWrap) return;
@@ -1091,6 +1095,48 @@
     });
     track.addEventListener('focusin', stopAutoplay);
     track.addEventListener('focusout', startAutoplay);
+
+    // Mobile: swipe left/right on the single visible card to move to the next/previous review.
+    // Desktop layout and click behavior above are untouched.
+    let touchStartX = 0;
+    let touchStartY = 0;
+    let touchActive = false;
+
+    if(viewport){
+      viewport.addEventListener('touchstart', (e) => {
+        if(e.touches.length !== 1) return;
+        touchStartX = e.touches[0].clientX;
+        touchStartY = e.touches[0].clientY;
+        touchActive = true;
+        stopAutoplay();
+      }, {passive:true});
+
+      viewport.addEventListener('touchend', (e) => {
+        if(!touchActive) return;
+        touchActive = false;
+        const touch = e.changedTouches[0];
+        const dx = touch.clientX - touchStartX;
+        const dy = touch.clientY - touchStartY;
+        const SWIPE_THRESHOLD = 40;
+
+        if(Math.abs(dx) > SWIPE_THRESHOLD && Math.abs(dx) > Math.abs(dy)){
+          if(dx < 0){
+            // swipe left -> next review
+            start = (start + 1) % total;
+          } else {
+            // swipe right -> previous review
+            start = (start - 1 + total) % total;
+          }
+          advance(false);
+        }
+        startAutoplay();
+      }, {passive:true});
+
+      viewport.addEventListener('touchcancel', () => {
+        touchActive = false;
+        startAutoplay();
+      }, {passive:true});
+    }
 
     startAutoplay();
   })();
