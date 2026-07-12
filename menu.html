@@ -1658,7 +1658,7 @@
   if(heroGallery && FEATURED.length){
     heroGallery.innerHTML = FEATURED.map((f, i) => `
       <a class="hero-slide${i === 0 ? ' active' : ''}" href="#item-${f.num}" data-i="${i}">
-        <img src="${f.img}" alt="${f.name}" loading="${i === 0 ? 'eager' : 'lazy'}">
+        <img src="${f.img}" alt="${f.name}" loading="${i === 0 ? 'eager' : 'lazy'}" ${i === 0 ? 'fetchpriority="high"' : ''}>
         <span class="hero-slide-caption">${f.caption}</span>
       </a>`).join('');
     heroDots.innerHTML = FEATURED.map((f, i) =>
