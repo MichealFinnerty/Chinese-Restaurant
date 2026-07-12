@@ -1,0 +1,1019 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Menu &mdash; Ruby Chinese Restaurant, Pallaskenry</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Marcellus&family=Noto+Serif+SC:wght@600;700&family=Work+Sans:wght@400;500;600;700&family=Work+Sans:ital@1&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --maroon:#7A1F26;
+    --maroon-deep:#5c161b;
+    --gold:#D5A754;
+    --sun:#F49E31;
+    --cream:#FFF9E6;
+    --header-brown:#461B1E;
+    --ruby-red:#BD1A22;
+    --white:#FFFFFF;
+    --charcoal:#1A1A1A;
+    --nav-h:65px;
+    --porcelain-blue:#1B3A5C;
+    --porcelain-blue-deep:#122943;
+    --porcelain-white:#F3F6F2;
+  }
+
+  *{margin:0;padding:0;box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    background:var(--cream);
+    color:var(--charcoal);
+    font-family:'Work Sans', sans-serif;
+    overflow-x:hidden;
+  }
+  h1,h2,h3,.display{font-family:'Marcellus', serif; letter-spacing:.01em;}
+  .chinese{font-family:'Noto Serif SC', serif;}
+  a{color:inherit;text-decoration:none;}
+  img{max-width:100%;display:block;}
+  .wrap{max-width:1180px;margin:0 auto;padding:0 32px;}
+
+  @media (prefers-reduced-motion: reduce){
+    *{animation:none !important; transition:none !important;}
+  }
+
+  /* ---------- NAV (shared with home) ---------- */
+  header.site-nav{
+    position:sticky; top:0; z-index:100;
+    background:var(--maroon);
+    border-bottom:3px solid var(--gold);
+  }
+  .nav-inner{
+    max-width:1180px; margin:0 auto; padding:14px 32px;
+    display:flex; align-items:center; justify-content:space-between; gap:24px;
+  }
+  .nav-logo{display:flex; align-items:center; gap:10px; color:var(--gold); font-size:1.5rem; font-weight:600;}
+  .nav-logo .mark{
+    width:34px;height:34px;border-radius:50%;border:2px solid var(--gold);
+    display:flex;align-items:center;justify-content:center;
+    font-family:'Noto Serif SC',serif;font-size:1rem;color:var(--sun);
+    background:radial-gradient(circle, rgba(244,158,49,.25), transparent 70%);
+  }
+  .nav-links{display:flex; align-items:center; gap:36px; list-style:none;}
+  .nav-links a{
+    color:var(--cream); font-size:.95rem; letter-spacing:.06em; text-transform:uppercase;
+    position:relative; padding-bottom:4px;
+  }
+  .nav-links a.active{color:var(--gold);}
+  .nav-links a::after{
+    content:""; position:absolute; left:0; bottom:0; width:0%; height:2px;
+    background:var(--gold); transition:width .25s ease;
+  }
+  .nav-links a:hover::after, .nav-links a:focus-visible::after{width:100%;}
+  .nav-links a.active::after{width:100%;}
+  .nav-links a:focus-visible{outline:2px solid var(--gold); outline-offset:4px;}
+  .nav-menu-cta{
+    background:var(--gold); color:var(--maroon-deep); font-family:'Marcellus', serif;
+    font-size:1.15rem; padding:12px 30px; border-radius:2px; letter-spacing:.03em;
+    box-shadow:0 3px 0 var(--maroon-deep); transition:transform .18s ease, box-shadow .18s ease;
+    white-space:nowrap;
+  }
+  .nav-menu-cta:hover{transform:translateY(-2px); box-shadow:0 5px 0 var(--maroon-deep);}
+  .nav-menu-cta:focus-visible{outline:3px solid var(--white); outline-offset:3px;}
+  .nav-toggle{display:none;}
+
+  /* ---------- MENU HERO ---------- */
+  .menu-hero{
+    position:relative;
+    background:var(--maroon);
+    color:var(--cream);
+    overflow:hidden;
+    padding:88px 32px 80px;
+    text-align:center;
+    border-bottom:10px solid var(--gold);
+  }
+  .menu-hero::before{
+    content:"";
+    position:absolute; inset:14px;
+    border:1.5px solid rgba(213,167,84,.55);
+    pointer-events:none;
+  }
+  .menu-hero .lattice-wrap{
+    position:absolute; inset:0; z-index:0; opacity:.14; pointer-events:none;
+  }
+  .menu-hero .lattice-wrap svg{width:100%;height:100%;}
+
+  .menu-hero-content{position:relative; z-index:2;}
+
+  .eyebrow{
+    font-family:'Noto Serif SC', serif; color:var(--ruby-red); letter-spacing:.3em;
+    font-size:.8rem; text-transform:uppercase; display:block; margin-bottom:12px;
+  }
+  .menu-hero .eyebrow{
+    color:var(--sun);
+  }
+
+  .menu-hero h1{
+    font-size:clamp(2.6rem, 6.5vw, 4.4rem);
+    color:var(--gold);
+    line-height:1.02;
+  }
+  .menu-hero p.tagline{
+    max-width:520px; margin:20px auto 0;
+    font-size:1.05rem; color:var(--cream); opacity:.92;
+    font-style:italic;
+  }
+
+  .hero-gallery{
+    position:relative;
+    width:min(340px, 78vw);
+    margin:38px auto 0;
+  }
+  .hero-gallery-frame{
+    position:relative;
+    width:100%;
+    aspect-ratio:1/1;
+    border-radius:50%;
+    overflow:hidden;
+    border:6px solid var(--gold);
+    box-shadow:0 14px 22px rgba(0,0,0,.35), inset 0 0 0 2px rgba(27,58,92,.5);
+    background:var(--porcelain-white);
+  }
+  .hero-slide{
+    position:absolute; inset:0;
+    display:block;
+    opacity:0;
+    transition:opacity .9s ease;
+    pointer-events:none;
+  }
+  .hero-slide.active{opacity:1; pointer-events:auto;}
+  .hero-slide img{
+    width:100%; height:100%; object-fit:cover;
+    filter:saturate(1.05) contrast(1.02);
+  }
+  .hero-slide-caption{
+    position:absolute; left:50%; bottom:11%;
+    transform:translateX(-50%);
+    max-width:72%;
+    padding:4px 12px 5px;
+    background:rgba(0,0,0,.32);
+    border-radius:10px;
+    backdrop-filter:blur(2px);
+    color:var(--white);
+    font-family:'Marcellus', serif;
+    font-size:.82rem;
+    line-height:1.3;
+    text-align:center;
+    letter-spacing:.02em;
+    text-shadow:0 1px 4px rgba(0,0,0,.65), 0 0 12px rgba(0,0,0,.4);
+  }
+  .hero-slide:focus-visible{outline:3px solid var(--sun); outline-offset:-3px;}
+  .hero-gallery-dots{
+    display:flex; justify-content:center; gap:8px; margin-top:16px;
+  }
+  .hero-dot{
+    width:8px; height:8px; border-radius:50%;
+    background:rgba(255,249,230,.35);
+    border:1px solid rgba(213,167,84,.6);
+    padding:0;
+    transition:background .2s ease, transform .2s ease;
+  }
+  .hero-dot.active{background:var(--gold); transform:scale(1.25);}
+  .hero-dot:focus-visible{outline:2px solid var(--gold); outline-offset:2px;}
+  .hero-gallery-hint{
+    margin-top:14px;
+    font-family:'Noto Serif SC', serif;
+    color:var(--gold);
+    font-size:.78rem;
+    letter-spacing:.15em;
+    text-transform:uppercase;
+    opacity:.8;
+    text-align:center;
+  }
+
+  @media (prefers-reduced-motion: reduce){
+    .hero-slide{transition:none;}
+  }
+
+  @media (max-width: 720px){
+    .nav-links{
+      position:fixed; top:66px; left:0; right:0; background:var(--maroon);
+      flex-direction:column; align-items:flex-start; padding:20px 32px; gap:18px;
+      border-bottom:0 solid var(--gold);
+      transform:translateY(-130%);
+      visibility:hidden;
+      transition:transform .25s ease, visibility 0s linear .25s;
+    }
+    .nav-links.open{
+      transform:translateY(0);
+      visibility:visible;
+      border-bottom:3px solid var(--gold);
+      transition:transform .25s ease;
+    }
+    .nav-toggle{
+      display:block; background:none; border:1.5px solid var(--gold); color:var(--gold);
+      width:40px;height:40px;border-radius:2px;font-size:1.2rem;
+    }
+    .nav-menu-cta{padding:10px 20px; font-size:1rem;}
+    .menu-hero{padding:72px 20px 60px;}
+  }
+
+  main, footer{
+    transition:filter .25s ease;
+    filter:blur(0);
+  }
+  body.nav-open main, body.nav-open footer{
+    filter:blur(5px);
+    pointer-events:none;
+  }
+
+  /* ---------- QUICK NAV ---------- */
+  .quick-nav{
+    position:sticky;
+    top:var(--nav-h, 65px);
+    z-index:90;
+    background:var(--cream);
+    border-bottom:1px solid rgba(70,27,30,.18);
+    box-shadow:0 4px 10px rgba(0,0,0,.05);
+  }
+  .qn-bar{
+    width:100%;
+    max-width:1180px;
+    margin:0 auto;
+    padding:12px 20px;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:12px;
+    background:none;
+    border:none;
+    font-family:inherit;
+    text-align:left;
+    cursor:pointer;
+    color:inherit;
+  }
+  .qn-bar-label{
+    font-size:.7rem;
+    letter-spacing:.18em;
+    text-transform:uppercase;
+    color:#8a6f52;
+  }
+  .qn-bar-current{
+    font-family:'Marcellus', serif;
+    font-size:1.05rem;
+    color:var(--maroon-deep);
+  }
+  .qn-toggle{
+    flex:0 0 auto;
+    display:flex;
+    align-items:center;
+    gap:8px;
+    background:var(--maroon);
+    color:var(--cream);
+    border:1px solid var(--maroon);
+    padding:10px 16px;
+    border-radius:20px;
+    font-size:.82rem;
+    letter-spacing:.05em;
+    text-transform:uppercase;
+    transition:background .18s ease;
+  }
+  .qn-toggle:hover{background:var(--maroon-deep);}
+  .qn-toggle:focus-visible{outline:2px solid var(--ruby-red); outline-offset:2px;}
+  .qn-toggle .chevron{
+    display:inline-block;
+    transition:transform .2s ease;
+    font-size:.7rem;
+  }
+  .qn-toggle[aria-expanded="true"] .chevron{transform:rotate(180deg);}
+
+  .qn-panel{
+    max-height:0;
+    overflow:hidden;
+    transition:max-height .28s ease;
+    background:var(--white);
+    border-top:1px solid rgba(70,27,30,.12);
+  }
+  .qn-panel.open{max-height:600px;}
+  .qn-panel-grid{
+    display:grid;
+    grid-template-columns:repeat(2, 1fr);
+    gap:8px;
+    padding:16px 20px 20px;
+  }
+  .qn-pill{
+    font-size:.85rem;
+    letter-spacing:.02em;
+    color:var(--header-brown);
+    background:rgba(70,27,30,.05);
+    border:1px solid rgba(70,27,30,.16);
+    padding:12px 14px;
+    border-radius:8px;
+    text-align:left;
+    transition:background .18s ease, color .18s ease, border-color .18s ease;
+  }
+  .qn-pill .qn-num{
+    color:var(--ruby-red);
+    font-family:'Noto Serif SC', serif;
+    font-size:.75rem;
+    margin-right:6px;
+  }
+  .qn-pill:hover{background:rgba(70,27,30,.12);}
+  .qn-pill.active{
+    background:var(--ruby-red);
+    border-color:var(--ruby-red);
+    color:var(--white);
+  }
+  .qn-pill.active .qn-num{color:var(--sun);}
+  .qn-pill:focus-visible{outline:2px solid var(--ruby-red); outline-offset:2px;}
+
+  @media (min-width: 640px){
+    .qn-panel-grid{grid-template-columns:repeat(3, 1fr);}
+  }
+  @media (min-width: 900px){
+    .qn-panel-grid{grid-template-columns:repeat(4, 1fr);}
+  }
+
+  /* ---------- MENU SECTIONS ---------- */
+  .menu-sections{padding:64px 0 40px;}
+  .menu-cat{
+    scroll-margin-top:calc(var(--nav-h, 65px) + 90px);
+    margin-bottom:56px;
+  }
+  .cat-header{
+    background:var(--header-brown);
+    color:var(--cream);
+    display:flex;
+    align-items:center;
+    gap:16px;
+    padding:16px 26px;
+    border-left:5px solid var(--gold);
+  }
+  .cat-header .icon{
+    flex:0 0 auto;
+    width:34px;height:34px;
+    color:var(--gold);
+  }
+  .cat-header .icon svg{width:100%;height:100%;}
+  .cat-header h2{
+    font-size:1.5rem;
+    color:var(--cream);
+  }
+  .cat-header .cat-sub{
+    font-family:'Noto Serif SC', serif;
+    font-size:.85rem;
+    color:var(--sun);
+    margin-left:auto;
+    letter-spacing:.1em;
+  }
+
+  .cat-note{
+    font-size:.9rem;
+    font-style:italic;
+    color:#5c4a44;
+    padding:14px 26px 0;
+  }
+
+  .item-list{
+    background:var(--white);
+  }
+  .item-row{
+    display:flex;
+    align-items:baseline;
+    gap:16px;
+    padding:14px 26px;
+    border-bottom:1px solid rgba(70,27,30,.1);
+    scroll-margin-top:calc(var(--nav-h, 65px) + 90px);
+  }
+  .item-row:target{
+    animation:menuHighlight 5s ease;
+  }
+  @keyframes menuHighlight{
+    0%{ background:rgba(213,167,84,.6); }
+    100%{ background:transparent; }
+  }
+  .item-row:last-child{border-bottom:none;}
+  .item-row .num{
+    flex:0 0 auto;
+    font-family:'Noto Serif SC', serif;
+    color:var(--ruby-red);
+    font-size:.85rem;
+    min-width:1.6em;
+  }
+  .item-row .item-main{flex:1;}
+  .item-row .item-name{
+    font-weight:600;
+    color:var(--charcoal);
+    font-size:1rem;
+  }
+  .item-row .item-desc{
+    display:block;
+    font-size:.86rem;
+    color:#5c5550;
+    margin-top:2px;
+    font-style:italic;
+    line-height:1.5;
+  }
+  .item-row .price{
+    flex:0 0 auto;
+    font-family:'Marcellus', serif;
+    color:var(--maroon-deep);
+    font-size:1rem;
+    white-space:nowrap;
+    text-align:right;
+  }
+
+  .sub-heading{
+    font-family:'Marcellus', serif;
+    color:var(--maroon-deep);
+    font-size:1.05rem;
+    padding:20px 26px 6px;
+    background:var(--white);
+  }
+
+  .dinner-grid, .catering-grid{
+    display:grid;
+    grid-template-columns:repeat(3, 1fr);
+    gap:2px;
+    background:rgba(70,27,30,.12);
+  }
+  .catering-grid{grid-template-columns:repeat(2, 1fr);}
+  .dinner-card, .catering-card{
+    background:var(--white);
+    padding:28px 26px;
+  }
+  .dinner-card h3, .catering-card h3{
+    font-size:1.15rem;
+    color:var(--ruby-red);
+    margin-bottom:4px;
+  }
+  .dinner-card .price-tag, .catering-card .price-tag{
+    font-family:'Marcellus', serif;
+    color:var(--maroon-deep);
+    font-size:1.3rem;
+    margin-bottom:14px;
+    display:block;
+  }
+  .dinner-card ul{
+    list-style:none;
+    font-size:.92rem;
+    color:#3a2f2b;
+    line-height:1.7;
+  }
+  .dinner-card ul li::before{
+    content:"\2022";
+    color:var(--gold);
+    margin-right:8px;
+  }
+  .catering-card p{
+    font-size:.92rem;
+    color:#3a2f2b;
+    line-height:1.65;
+    margin-bottom:10px;
+  }
+
+  @media (max-width: 880px){
+    .dinner-grid{grid-template-columns:1fr;}
+    .catering-grid{grid-template-columns:1fr;}
+  }
+  @media (max-width: 600px){
+    .item-row{flex-wrap:wrap;}
+    .item-row .price{margin-left:auto;}
+    .cat-header .cat-sub{display:none;}
+  }
+
+  footer{background:var(--gold); color:var(--maroon-deep); padding:44px 0 26px;}
+  .footer-top{
+    display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:20px;
+    padding-bottom:28px; border-bottom:1px solid rgba(70,27,30,.25);
+  }
+  .footer-logo{font-family:'Marcellus', serif; font-size:1.7rem;}
+  .footer-chinese{font-family:'Noto Serif SC', serif; color:var(--ruby-red); letter-spacing:.2em; font-size:.95rem;}
+  footer nav ul{list-style:none; display:flex; gap:28px; font-size:.9rem; letter-spacing:.05em; text-transform:uppercase;}
+  footer nav a:hover{color:var(--ruby-red);}
+  .footer-bottom{
+    padding-top:20px; display:flex; justify-content:space-between; flex-wrap:wrap; gap:10px;
+    font-size:.8rem; color:rgba(70,27,30,.75);
+  }
+</style>
+</head>
+<body>
+
+<header class="site-nav">
+  <div class="nav-inner">
+    <a href="index.html" class="nav-logo">
+      <span class="mark chinese">寶</span>
+      Ruby
+    </a>
+    <ul class="nav-links" id="navLinks">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="index.html#about">About Us</a></li>
+      <li><a href="index.html#contact">Contact</a></li>
+    </ul>
+    <div style="display:flex; align-items:center; gap:14px;">
+      <a class="nav-menu-cta" href="menu.html">View Menu</a>
+      <button class="nav-toggle" id="navToggle" aria-label="Toggle navigation" aria-expanded="false">&#9776;</button>
+    </div>
+  </div>
+</header>
+
+<main>
+
+  <section class="menu-hero" aria-label="Ruby menu">
+    <div class="lattice-wrap" aria-hidden="true">
+      <svg viewBox="0 0 800 500" preserveAspectRatio="xMidYMid slice">
+        <defs>
+          <pattern id="latticePattern2" width="80" height="80" patternUnits="userSpaceOnUse">
+            <path d="M40 0 L80 40 L40 80 L0 40 Z" fill="none" stroke="#D5A754" stroke-width="1.4"/>
+            <circle cx="40" cy="40" r="16" fill="none" stroke="#D5A754" stroke-width="1.4"/>
+            <path d="M40 24 V56 M24 40 H56" stroke="#D5A754" stroke-width="1.4"/>
+          </pattern>
+        </defs>
+        <rect width="800" height="500" fill="url(#latticePattern2)"/>
+      </svg>
+    </div>
+
+    <div class="menu-hero-content">
+      <span class="eyebrow">The Full Spread</span>
+      <h1>Our Menu</h1>
+      <p class="tagline">Wok-fired classics and chef's specials, plated the way they've always been &mdash; nothing skipped, nothing rushed.</p>
+
+      <div class="hero-gallery">
+        <div class="hero-gallery-frame" id="heroGallery"></div>
+        <div class="hero-gallery-dots" id="heroDots"></div>
+        <p class="hero-gallery-hint">Tap a dish to jump to it on the menu</p>
+      </div>
+    </div>
+  </section>
+
+  <nav class="quick-nav" aria-label="Menu categories">
+    <button class="qn-bar" id="qnToggle" aria-expanded="false" aria-controls="qnPanel">
+      <span>
+        <span class="qn-bar-label">Jump to</span><br>
+        <span class="qn-bar-current" id="qnCurrent">Appetizers</span>
+      </span>
+      <span class="qn-toggle" aria-hidden="true">Categories <span class="chevron">&#9662;</span></span>
+    </button>
+    <div class="qn-panel" id="qnPanel">
+      <div class="qn-panel-grid" id="quickNav"></div>
+    </div>
+  </nav>
+
+  <section class="menu-sections">
+    <div class="wrap" id="menuRoot"></div>
+
+    <div class="wrap menu-cat" id="set-dinners">
+      <div class="cat-header">
+        <span class="icon" data-icon="setdinner"></span>
+        <h2>Special Set Dinners</h2>
+        <span class="cat-sub chinese">套餐</span>
+      </div>
+      <div class="dinner-grid">
+        <div class="dinner-card">
+          <h3>Dinner A</h3>
+          <span class="price-tag">For 2 &middot; €33.00</span>
+          <ul>
+            <li>Spring Roll or BBQ Ribs or Chicken Sweet Corn Soup</li>
+            <li>Sweet &amp; Sour Chicken</li>
+            <li>Beef with Green Pepper Black Bean Sauce Plus</li>
+            <li>Breast Chicken Curry</li>
+            <li>Fried Rice for 2</li>
+          </ul>
+        </div>
+        <div class="dinner-card">
+          <h3>Dinner B</h3>
+          <span class="price-tag">For 3 &middot; €50.00</span>
+          <ul>
+            <li>Special Combination Starter (for 3)</li>
+            <li>Sweet &amp; Sour Chicken</li>
+            <li>Beef with Satay Sauce</li>
+            <li>King Prawn with Szechuan Sauce</li>
+            <li>Breast Chicken Curry</li>
+            <li>Fried Rice for 3</li>
+          </ul>
+        </div>
+        <div class="dinner-card">
+          <h3>Dinner C</h3>
+          <span class="price-tag">For 4 &middot; €65.00</span>
+          <ul>
+            <li>Special Combination Starter (for 4)</li>
+            <li>Sweet &amp; Sour Chicken</li>
+            <li>Beef with Green Pepper Black Bean Sauce</li>
+            <li>King Prawn with Szechuan Sauce</li>
+            <li>Duck with Fruity Sauce</li>
+            <li>Breast Chicken Curry &amp; Fried Rice for 4</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="wrap menu-cat" id="catering">
+      <div class="cat-header">
+        <span class="icon" data-icon="catering"></span>
+        <h2>Catering Services</h2>
+        <span class="cat-sub chinese">到會</span>
+      </div>
+      <p class="cat-note">Quality Chinese &amp; European cuisine, prepared by our chefs for your marquee or venue of choice. Minimum 10 people.</p>
+      <div class="catering-grid" style="margin-top:14px;">
+        <div class="catering-card">
+          <h3>Starter Platter</h3>
+          <span class="price-tag">€50.00</span>
+          <p>A mix of 3 starters chosen from our party menu (minimum 10 people).</p>
+        </div>
+        <div class="catering-card">
+          <h3>Main Dishes</h3>
+          <span class="price-tag">From €75.00</span>
+          <p>Choose beef, chicken, seafood or vegetables with your favourite sauce from the takeaway menu. Served with chips or boiled rice. Minimum 10 people.</p>
+          <ul style="list-style:none; font-size:.92rem; color:#3a2f2b; line-height:1.8;">
+            <li>Chicken, Beef or Pork &mdash; €80.00</li>
+            <li>King Prawn &mdash; €90.00</li>
+            <li>Duck &mdash; €105.00</li>
+            <li>House Special &mdash; €90.00</li>
+            <li>Vegetarian &mdash; €75.00</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  <div class="wrap">
+    <div class="footer-top">
+      <div>
+        <div class="footer-logo">Ruby</div>
+        <div class="footer-chinese">紅寶石飯店 &middot; Pallaskenry</div>
+      </div>
+      <nav>
+        <ul>
+          <li><a href="index.html">Home</a></li>
+          <li><a href="index.html#about">About Us</a></li>
+          <li><a href="index.html#contact">Contact</a></li>
+          <li><a href="menu.html">Menu</a></li>
+        </ul>
+      </nav>
+    </div>
+    <div class="footer-bottom">
+      <span>&copy; 2026 Ruby Chinese Restaurant, Pallaskenry, Co. Limerick.</span>
+      <span>Site by <a href="https://michealdev.ie/index.html" style="color: inherit; text-decoration: none;">michealdev.ie</a></span>
+    </div>
+  </div>
+</footer>
+
+<script>
+  function setNavHeight(){
+    const nav = document.querySelector('.site-nav');
+    if(nav) document.documentElement.style.setProperty('--nav-h', nav.offsetHeight + 'px');
+  }
+  setNavHeight();
+  window.addEventListener('resize', setNavHeight);
+  window.addEventListener('load', setNavHeight);
+
+  const toggle = document.getElementById('navToggle');
+  const links = document.getElementById('navLinks');
+  toggle.addEventListener('click', () => {
+    const open = links.classList.toggle('open');
+    toggle.setAttribute('aria-expanded', open);
+    document.body.classList.toggle('nav-open', open);
+  });
+  links.querySelectorAll('a').forEach(a => a.addEventListener('click', () => {
+    links.classList.remove('open');
+    toggle.setAttribute('aria-expanded', 'false');
+    document.body.classList.remove('nav-open');
+  }));
+
+  const ICONS = {
+    appetizers: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><ellipse cx="12" cy="12" rx="9" ry="4.2"/><path d="M4 12c0 3 3.5 5 8 5s8-2 8-5"/><path d="M8 10.5l2 2M14 10.5l2 2"/></svg>',
+    soups: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M3 11h18a9 6 0 0 1-18 0z"/><path d="M7 11c0-1.5 1-2 1-3.5S7 5 7 5M12 11c0-1.5 1-2 1-3.5S12 5 12 5M17 11c0-1.5 1-2 1-3.5S17 5 17 5"/></svg>',
+    curry: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M12 3c-2 3-4 4-4 7a4 4 0 0 0 8 0c0-1.2-.6-2-1.3-2.8.1 1-.2 1.8-.9 2.2 0-2-.6-3-1.8-6.4z"/></svg>',
+    sweetsour: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M12 3a9 9 0 0 0 0 18 4.5 4.5 0 0 1 0-9 4.5 4.5 0 0 0 0-9z"/><circle cx="12" cy="7.5" r="1" fill="currentColor" stroke="none"/><circle cx="12" cy="16.5" r="1" fill="currentColor" stroke="none"/></svg>',
+    wok: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M3 12h18a7 4.5 0 0 1-14 0z"/><path d="M3 12L1 9M21 12l2-3"/></svg>',
+    chef: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M7 21h10M8 21V13M16 21V13"/><path d="M6 9a3 3 0 0 1 3-3 3 3 0 0 1 6 0 3 3 0 0 1 2 5.2c-.6.5-1.3.8-2 .8H8c-.7 0-1.4-.3-2-.8A3 3 0 0 1 6 9z"/></svg>',
+    thai: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M4 18c8-1 12-7 12-14 0 7 4 6 4 6-2 9-9 10-16 8z"/><path d="M6 17 16 5"/></svg>',
+    friedrice: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M4 11h16a8 5 0 0 1-16 0z"/><circle cx="9" cy="9" r=".6" fill="currentColor"/><circle cx="12" cy="8" r=".6" fill="currentColor"/><circle cx="15" cy="9.2" r=".6" fill="currentColor"/></svg>',
+    chowmein: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M4 9c2 2 2-2 4 0s2-2 4 0 2-2 4 0 2-2 4 0"/><path d="M4 14c2 2 2-2 4 0s2-2 4 0 2-2 4 0 2-2 4 0"/></svg>',
+    extras: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M6 8h12l-1.5 12h-9z"/><path d="M9 8V5h6v3"/></svg>',
+    snackbox: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M4 9h16v10H4z"/><path d="M4 9l3-5h10l3 5M12 9v10"/></svg>',
+    setdinner: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="12" cy="12" r="6"/><path d="M4 4v6M4 7h1.6M20 4v16"/></svg>',
+    catering: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><ellipse cx="12" cy="17" rx="9" ry="2.2"/><path d="M4.5 16C4 10 7.5 5 12 5s8 5 7.5 11"/></svg>'
+  };
+
+  const FEATURED = [
+    { name:'Aromatic Duck',              caption:'Aromatic Duck',                    img:'Gallery/Food/Aromatic Duck.webp',                 num:2  },
+    { name:'Spring Roll',                caption:'Spring Roll',                      img:'Gallery/Food/Spring Roll.webp',                   num:5  },
+    { name:'Sesame King Prawn on Toast', caption:'Sesame King<br>Prawn on Toast',    img:'Gallery/Food/Sesame King Prawn on Toast.webp',    num:16 },
+    { name:'Chicken Satay Skewer',       caption:'Chicken Satay<br>Skewer',          img:'Gallery/Food/Chicken Satay Skewer.webp',          num:17 },
+    { name:'Hot & Sour Soup',            caption:'Hot & Sour Soup',                  img:'Gallery/Food/Hot & Sour Soup.webp',               num:23 },
+    { name:'Sweet & Sour Chicken',       caption:'Sweet & Sour<br>Chicken',          img:'Gallery/Food/Sweet & Sour Chicken.webp',          num:32 },
+    { name:'Pad Thai',              caption:'Pad Thai',              img:'Gallery/Food/Pad Thai.webp',              num:53 },
+    { name:'Chicken Fried Rice',    caption:'Chicken Fried Rice',    img:'Gallery/Food/Chicken Fried Rice.webp',    num:63 },
+    { name:'Chicken Chow Mein',     caption:'Chicken Chow Mein',     img:'Gallery/Food/Chicken Chow Mein.webp',     num:71 }
+  ];
+
+  const MENU = [
+    { id:'appetizers', title:'Appetizers', sub:'頭盤', icon:'appetizers', items:[
+      {n:'Ruby Combination (For 2 Person)', d:'2 Spring Rolls, 2 Spare Ribs, 2 Chicken Satay Skewers, 4 Fried Won Ton, Prawn Toast & Sweet Sour Sauce', p:'€13.50'},
+      {n:'Aromatic Duck', d:'Served with fresh vegetables, pancakes & hoi sin sauce', p:'(1/4) €11.00 / (1/2) €20.00'},
+      {n:'Dragon Beef', d:'Armona spicy shredded beef, served with pancakes', p:'€10.00'},
+      {n:'Minced Chicken Iceberg Parcel (For 2 Person)', p:'€9.50'},
+      {n:'Spring Roll (2)', p:'€4.50'},
+      {n:'Vegetarian Spring Roll (2)', p:'€4.50'},
+      {n:'Chicken & Cheese Roll (2)', p:'€5.00'},
+      {n:'Salt & Chili Smoked Chicken', d:'Long tray', p:'€6.50'},
+      {n:'Salt & Chili Chicken Wings', d:'Long tray', p:'€6.50'},
+      {n:'Salt & Chili Spare Ribs', d:'Long tray', p:'€7.50'},
+      {n:'Salt & Chili King Prawn (12)', p:'€11.50'},
+      {n:'Deep Fried Chicken Wings', d:'Choice of BBQ / Honey / Garlic Butter / Sweet Chili', p:'€6.50'},
+      {n:'Spare Ribs', d:'Choice of BBQ / Honey / King Do / Sweet Sour', p:'€7.50'},
+      {n:'Curry Samosa (10)', p:'€5.00'},
+      {n:'Deep Fried Won Ton (8)', d:'With sweet sour sauce', p:'€6.50'},
+      {n:'Sesame King Prawn on Toast', p:'€6.00'},
+      {n:'Chicken Satay Skewer (5)', p:'€6.00'},
+      {n:'Crispy Chicken in Garlic Butter Sauce', p:'€7.00'}
+    ]},
+    { id:'soups', title:'Soups', sub:'湯', icon:'soups', items:[
+      {n:'Chicken Sweet Corn Soup', d:'Thick', p:'€4.50'},
+      {n:'Crab Sweet Corn Soup', d:'Thick', p:'€4.50'},
+      {n:'Chicken Noodle Soup', d:'Clear', p:'€4.50'},
+      {n:'Chicken Mushroom Soup', d:'Clear', p:'€4.50'},
+      {n:'Hot & Sour Soup', d:'Thick', p:'€5.00'},
+      {n:'Won Ton Soup', d:'Clear', p:'€5.00'}
+    ]},
+    { id:'curry', title:'Curry Dishes', sub:'咖喱', icon:'curry', items:[
+      {n:'Breast Chicken Curry', p:'€10.80'},
+      {n:'Beef Curry', p:'€10.80'},
+      {n:'Pork Curry', p:'€10.80'},
+      {n:'King Prawn Curry', p:'€12.00'},
+      {n:'House Special Curry', p:'€12.00'},
+      {n:'Roast Duck Curry', p:'€13.00'},
+      {n:'Mixed Vegetable Curry', p:'€9.50'}
+    ]},
+    { id:'sweet-sour', title:'Sweet & Sour Dishes', sub:'甜酸', icon:'sweetsour', items:[
+      {n:'Sweet & Sour Chicken', p:'€10.80'},
+      {n:'Sweet & Sour King Prawn', p:'€12.00'},
+      {n:'Sweet & Sour Special', p:'€12.00'},
+      {n:'Sweet & Sour Roast Duck', p:'€13.00'}
+    ]},
+    { id:'chef-specials', title:"Chef's Specialties", sub:'名廚推介', icon:'chef', items:[
+      {n:'Crispy Chilli Chicken', d:'Honey chilli, garlic sauce', p:'€10.80'},
+      {n:'Crispy Chilli Beef', p:'€10.80'},
+      {n:'Chicken Hickory', p:'€13.00'},
+      {n:'Roast Duck with Cantonese Sauce', p:'€13.00'}
+    ]},
+    { id:'thai', title:'Thai Dishes', sub:'泰式', icon:'thai', items:[
+      {n:'Thai Chicken Green / Red Curry', p:'€11.00'},
+      {n:'Thai Beef Green / Red Curry', p:'€11.00'},
+      {n:'Thai Pork Green / Red Curry', p:'€11.00'},
+      {n:'Thai King Prawn Green / Red Curry', p:'€12.50'},
+      {n:'Thai Special Green / Red Curry', p:'€12.50'},
+      {n:'Thai Duck Green / Red Curry', p:'€13.50'},
+      {n:'Thai Mixed Vegetable Green / Red Curry', p:'€9.50'}
+    ]},
+    { id:'fried-rice', title:'Fried Rice Dishes', sub:'炒飯', icon:'friedrice', items:[
+      {n:'Chicken Fried Rice', p:'€10.80'},
+      {n:'Beef Fried Rice', p:'€10.80'},
+      {n:'King Prawn Fried Rice', p:'€12.00'},
+      {n:'Duck Fried Rice', p:'€13.00'},
+      {n:'Yong Chow Fried Rice', d:'Chicken, pork, ham, shrimp & peas', p:'€12.00'},
+      {n:'Spicy Singapore Fried Rice', d:'Chicken, pork, ham, shrimp & vegetables', p:'€11.00'}
+    ]},
+    { id:'chow-mein', title:'Chow Mein Dishes', sub:'炒麵', icon:'chowmein', items:[
+      {n:'Mixed Vegetables Chow Mein', p:'€9.00'},
+      {n:'Chicken Chow Mein', p:'€11.00'},
+      {n:'Beef Chow Mein', p:'€12.00'},
+      {n:'King Prawn Chow Mein', p:'€12.00'},
+      {n:'House Special Chow Mein', p:'€11.80'},
+      {n:'Spicy Singapore Chow Mein', d:'Chicken, pork, ham, shrimp & peas', p:'€12.00'}
+    ]},
+    { id:'extras', title:'Extra Portions', sub:'配菜', icon:'extras', items:[
+      {n:'Chips', p:'(S) €3.00 / (L) €4.00'},
+      {n:'Spicy Chips', p:'(S) €3.00 / (L) €4.50'},
+      {n:'Boiled Rice', p:'(S) €2.80 / (L) €3.80'},
+      {n:'Fried Rice', p:'(S) €3.00 / (L) €4.00'},
+      {n:'Fried Noodles', p:'(S) €5.00 / (L) €6.00'},
+      {n:'Curry Chips', p:'(L) €4.50'},
+      {n:'Curry Boiled Rice', p:'(L) €4.50'},
+      {n:'Curry Fried Rice', p:'(L) €4.50'},
+      {n:'Curry Noodles', p:'(L) €7.00'},
+      {n:'3 in 1', p:'(L) €5.50'},
+      {n:'Chicken or Beef 4 in 1', p:'(L) €7.50'},
+      {n:'Smoked Chicken 4 in 1', p:'(L) €8.50'},
+      {n:'Prawn Crackers', p:'€2.00'},
+      {n:'Sausage (each)', p:'€1.00'},
+      {n:'Chicken Nuggets (6)', p:'€3.50'},
+      {n:'Chicken Balls (8)', p:'€7.00'},
+      {n:'Fried Mixed Vegetable', p:'€7.00'},
+      {n:'Deep Fried Onion Rings (12)', p:'€4.00'},
+      {n:'Choice of Sauce', p:'(S) €2.50 / (L) €3.50'},
+      {n:'Soft Drink', d:'Coke, Diet Coke, 7up or Orange', p:'(Can) €2.00 / (Large) €4.00'}
+    ]},
+    { id:'snack-boxes', title:'Snack Boxes', sub:'小食盒', icon:'snackbox', items:[
+      {n:'Chicken Balls (8), Chips & Choice of Sauce', p:'€10.80'},
+      {n:'Spicy Bag', d:'Smoked Chicken, Spicy Chips', p:'€8.30'},
+      {n:'Spicy Bag Plus', d:'Smoked Chicken, 2 Chicken Balls, Spicy Chips', p:'€9.30'},
+      {n:'Munchie Box 12"', d:'Smoked Chicken, Chicken Balls, Chicken Wings, Ribs, Sauce, Spicy Chips & a Drink', p:'€22.00'}
+    ]}
+  ];
+
+  const WOK_PROTEINS = [
+    {n:'A. Chicken', p:'€10.80'}, {n:'B. Beef', p:'€10.80'}, {n:'C. King Prawn', p:'€12.00'},
+    {n:'D. House Special', p:'€12.00'}, {n:'E. Duck', p:'€13.00'}, {n:'F. Just Veg', p:'€9.50'},
+    {n:'G. Cha Siu Roast Pork', p:'€10.80'}
+  ];
+  const WOK_SAUCES = [
+    {n:'Black Bean', d:'Chilli, garlic & onion in a zesty, sharp black bean sauce'},
+    {n:'Kung Po', d:'Stir-fried chilli & garlic with mixed vegetables & cashew nuts'},
+    {n:'Szechuan', d:'Hot and spicy sauce that tingles the palate'},
+    {n:'Satay', d:'Rich, savoury peanut sauce'},
+    {n:'Hot Garlic', d:'Stir-fried with fresh hot garlic in sauce'},
+    {n:'Mushroom', d:'Mushroom & vegetable in oyster sauce'},
+    {n:'Chop Suey', d:'Mixed vegetables in oyster sauce'},
+    {n:'Cashew Nuts'},
+    {n:'Ginger & Scallion'},
+    {n:'Sweet Chilli Sauce', d:'Traditional recipe, spicy yet delicate'},
+    {n:'Black Pepper Sauce'},
+    {n:'Oyster Sauce'},
+    {n:'King Do Sauce', d:'Sweet, sour & spicy'},
+    {n:'Fruity Sauce'},
+    {n:'Orange Sauce'},
+    {n:'Lemon Sauce'},
+    {n:'Plum Sauce'}
+  ];
+
+  function renderItemRow(item, index){
+    return `<div class="item-row"${index != null ? ` id="item-${index}"` : ''}>
+      <span class="num">${index != null ? index : ''}</span>
+      <span class="item-main">
+        <span class="item-name">${item.n}</span>
+        ${item.d ? `<span class="item-desc">${item.d}</span>` : ''}
+      </span>
+      <span class="price">${item.p || ''}</span>
+    </div>`;
+  }
+
+  const counter = { n: 0 };
+  function nextNum(){ counter.n += 1; return counter.n; }
+
+  function renderCategory(cat){
+    const start = counter.n + 1;
+    let rows = cat.items.map(it => renderItemRow(it, nextNum())).join('');
+    const end = counter.n;
+    return {
+      html: `<div class="wrap menu-cat" id="${cat.id}">
+        <div class="cat-header">
+          <span class="icon">${ICONS[cat.icon]}</span>
+          <h2>${cat.title}</h2>
+          <span class="cat-sub chinese">${cat.sub}</span>
+        </div>
+        <div class="item-list">${rows}</div>
+      </div>`,
+      range: [start, end]
+    };
+  }
+
+  function renderWok(){
+    const proteinRows = WOK_PROTEINS.map(it => renderItemRow(it, null)).join('');
+    const start = counter.n + 1;
+    const sauceRows = WOK_SAUCES.map(it => renderItemRow(it, nextNum())).join('');
+    const end = counter.n;
+    return {
+      html: `<div class="wrap menu-cat" id="wok">
+        <div class="cat-header">
+          <span class="icon">${ICONS.wok}</span>
+          <h2>Straight From Wok</h2>
+          <span class="cat-sub chinese">鑊氣</span>
+        </div>
+        <p class="cat-note">Pick your protein, then choose a sauce to go with it &mdash; priced by the protein below.</p>
+        <div class="sub-heading">Choose Your Protein</div>
+        <div class="item-list">${proteinRows}</div>
+        <div class="sub-heading">Choose Your Sauce</div>
+        <div class="item-list">${sauceRows}</div>
+      </div>`,
+      range: [start, end]
+    };
+  }
+
+  const root = document.getElementById('menuRoot');
+  const order = ['appetizers','soups','curry','sweet-sour','wok','chef-specials','thai','fried-rice','chow-mein','extras','snack-boxes'];
+  const catMeta = [];
+  let html = '';
+  order.forEach(id => {
+    if(id === 'wok'){
+      const { html: h, range } = renderWok();
+      html += h;
+      catMeta.push({ id:'wok', title:'Straight From Wok', range });
+      return;
+    }
+    const cat = MENU.find(c => c.id === id);
+    if(cat){
+      const { html: h, range } = renderCategory(cat);
+      html += h;
+      catMeta.push({ id: cat.id, title: cat.title, range });
+    }
+  });
+  root.innerHTML = html;
+  catMeta.push({ id:'set-dinners', title:'Special Set Dinners', range:null });
+  catMeta.push({ id:'catering', title:'Catering Services', range:null });
+
+  document.querySelectorAll('.icon[data-icon]').forEach(el => {
+    el.innerHTML = ICONS[el.dataset.icon] || '';
+  });
+
+  const quickNav = document.getElementById('quickNav');
+  quickNav.innerHTML = catMeta.map(c => {
+    const numLabel = c.range ? `<span class="qn-num">${c.range[0]}&ndash;${c.range[1]}</span>` : '';
+    return `<a class="qn-pill" href="#${c.id}" data-id="${c.id}">${numLabel}${c.title}</a>`;
+  }).join('');
+
+  const qnToggle = document.getElementById('qnToggle');
+  const qnPanel = document.getElementById('qnPanel');
+  const qnCurrent = document.getElementById('qnCurrent');
+
+  function setPanelOpen(open){
+    qnPanel.classList.toggle('open', open);
+    qnToggle.setAttribute('aria-expanded', open);
+  }
+  qnToggle.addEventListener('click', () => {
+    setPanelOpen(!qnPanel.classList.contains('open'));
+  });
+  quickNav.querySelectorAll('.qn-pill').forEach(a => {
+    a.addEventListener('click', () => setPanelOpen(false));
+  });
+  document.addEventListener('click', (e) => {
+    if(!e.target.closest('.quick-nav')) setPanelOpen(false);
+  });
+
+  const pills = Array.from(quickNav.querySelectorAll('.qn-pill'));
+  const sections = catMeta.map(c => document.getElementById(c.id)).filter(Boolean);
+  const spy = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if(entry.isIntersecting){
+        const meta = catMeta.find(c => c.id === entry.target.id);
+        pills.forEach(p => p.classList.toggle('active', p.dataset.id === entry.target.id));
+        if(meta) qnCurrent.textContent = meta.title;
+      }
+    });
+  }, { rootMargin: '-160px 0px -70% 0px', threshold: 0 });
+  sections.forEach(s => spy.observe(s));
+
+  const heroGallery = document.getElementById('heroGallery');
+  const heroDots = document.getElementById('heroDots');
+  if(heroGallery && FEATURED.length){
+    heroGallery.innerHTML = FEATURED.map((f, i) => `
+      <a class="hero-slide${i === 0 ? ' active' : ''}" href="#item-${f.num}" data-i="${i}">
+        <img src="${f.img}" alt="${f.name}" loading="${i === 0 ? 'eager' : 'lazy'}">
+        <span class="hero-slide-caption">${f.caption}</span>
+      </a>`).join('');
+    heroDots.innerHTML = FEATURED.map((f, i) =>
+      `<button class="hero-dot${i === 0 ? ' active' : ''}" data-i="${i}" aria-label="Show ${f.name}"></button>`
+    ).join('');
+
+    const slides = Array.from(heroGallery.querySelectorAll('.hero-slide'));
+    const dots = Array.from(heroDots.querySelectorAll('.hero-dot'));
+    let heroIndex = 0;
+
+    function showSlide(i){
+      heroIndex = (i + slides.length) % slides.length;
+      slides.forEach((s, idx) => s.classList.toggle('active', idx === heroIndex));
+      dots.forEach((d, idx) => d.classList.toggle('active', idx === heroIndex));
+    }
+
+    const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    let heroTimer = null;
+    function startAutoplay(){
+      if(reduceMotion || slides.length < 2) return;
+      stopAutoplay();
+      heroTimer = setInterval(() => showSlide(heroIndex + 1), 3800);
+    }
+    function stopAutoplay(){
+      if(heroTimer){ clearInterval(heroTimer); heroTimer = null; }
+    }
+
+    dots.forEach(d => d.addEventListener('click', () => {
+      showSlide(Number(d.dataset.i));
+      startAutoplay();
+    }));
+
+    const galleryWrap = document.querySelector('.hero-gallery');
+    galleryWrap.addEventListener('mouseenter', stopAutoplay);
+    galleryWrap.addEventListener('mouseleave', startAutoplay);
+    galleryWrap.addEventListener('focusin', stopAutoplay);
+    galleryWrap.addEventListener('focusout', startAutoplay);
+
+    startAutoplay();
+  }
+
+  if(location.hash){
+    const target = document.querySelector(location.hash);
+    if(target){
+      requestAnimationFrame(() => {
+        setNavHeight();
+        target.scrollIntoView();
+      });
+    }
+  }
+</script>
+
+</body>
+</html>
