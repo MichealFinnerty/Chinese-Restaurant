@@ -344,6 +344,11 @@
     letter-spacing:.05em;
     white-space:nowrap;
   }
+  .qn-result-allergens{
+    display:flex;
+    align-items:center;
+    flex:0 0 auto;
+  }
   .qn-search-empty{
     font-size:.85rem;
     color:#8a6f52;
@@ -455,6 +460,16 @@
     align-items:center;
     text-align:center;
     gap:8px;
+    scroll-margin-top:calc(var(--nav-h, 65px) + 20px);
+    border-radius:12px;
+    transition:background .3s ease, box-shadow .3s ease;
+  }
+  .allergen-badge.highlight{
+    animation:allergenHighlight 2.6s ease;
+  }
+  @keyframes allergenHighlight{
+    0%{ background:rgba(213,167,84,.55); box-shadow:0 0 0 6px rgba(213,167,84,.35); }
+    100%{ background:transparent; box-shadow:0 0 0 0 rgba(213,167,84,0); }
   }
   .allergen-circle-wrap{
     position:relative;
@@ -662,6 +677,43 @@
     font-style:italic;
     line-height:1.5;
   }
+  .item-allergens{
+    display:block;
+    font-size:.76rem;
+    color:#8a6f52;
+    margin-top:4px;
+    font-style:normal;
+    letter-spacing:.01em;
+  }
+  .item-allergens .aller-label{
+    text-transform:uppercase;
+    letter-spacing:.08em;
+    font-size:.68rem;
+    color:#a68a63;
+    margin-right:4px;
+  }
+  .allergen-link{
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
+    min-width:1.4em;
+    height:1.4em;
+    padding:0 4px;
+    margin:0 2px;
+    border-radius:50%;
+    background:rgba(189,26,34,.1);
+    color:var(--ruby-red);
+    font-family:'Noto Serif SC', serif;
+    font-size:.72rem;
+    border:1px solid rgba(189,26,34,.3);
+    text-decoration:none;
+    transition:background .15s ease, color .15s ease;
+  }
+  .allergen-link:hover, .allergen-link:focus-visible{
+    background:var(--ruby-red);
+    color:var(--white);
+    outline:none;
+  }
   .item-row .price{
     flex:0 0 auto;
     font-family:'Marcellus', serif;
@@ -827,7 +879,7 @@
     </div>
     <p class="cat-note">Please inform our staff before placing your order if you have an allergy to any of the following allergens.</p>
     <div class="allergen-grid">
-      <div class="allergen-badge">
+      <div class="allergen-badge" id="allergen-1">
         <div class="allergen-circle-wrap allergen-anim-sway">
           <div class="allergen-circle aller-1">
             <svg viewBox="0 0 24 24"><path d="M12 21V3"/><path d="M12 6l-3-2M12 6l3-2M12 10l-3-2M12 10l3-2M12 14l-3-2M12 14l3-2M12 18l-3-2M12 18l3-2"/></svg>
@@ -837,7 +889,7 @@
         <span class="allergen-name">Gluten</span>
       </div>
 
-      <div class="allergen-badge">
+      <div class="allergen-badge" id="allergen-2">
         <div class="allergen-circle-wrap allergen-anim-bob">
           <div class="allergen-circle aller-2">
             <svg viewBox="0 0 24 24"><path d="M6 16c-2-3-1-8 3-10 3-1.5 6-1 7 1 .8 1.6-.2 3-2 3.4"/><path d="M14 10c2 .5 4 2 4 5 0 2-1 4-3 5"/><path d="M6 16l-2 2M8 18l-1.5 2.5M10.5 19l-1 2.5"/></svg>
@@ -847,7 +899,7 @@
         <span class="allergen-name">Crustaceans</span>
       </div>
 
-      <div class="allergen-badge">
+      <div class="allergen-badge" id="allergen-3">
         <div class="allergen-circle-wrap allergen-anim-pulse">
           <div class="allergen-circle aller-3">
             <svg viewBox="0 0 24 24"><ellipse cx="9" cy="14" rx="4" ry="5.5"/><ellipse cx="15" cy="11" rx="4" ry="5.5"/></svg>
@@ -857,7 +909,7 @@
         <span class="allergen-name">Eggs</span>
       </div>
 
-      <div class="allergen-badge">
+      <div class="allergen-badge" id="allergen-4">
         <div class="allergen-circle-wrap allergen-anim-sway">
           <div class="allergen-circle aller-4">
             <svg viewBox="0 0 24 24"><path d="M3 12c4-5 12-5 16 0-4 5-12 5-16 0z"/><path d="M19 12l3-3v6z"/><circle cx="8" cy="11" r=".6" fill="white" stroke="none"/></svg>
@@ -867,7 +919,7 @@
         <span class="allergen-name">Fish</span>
       </div>
 
-      <div class="allergen-badge">
+      <div class="allergen-badge" id="allergen-5">
         <div class="allergen-circle-wrap allergen-anim-bob">
           <div class="allergen-circle aller-5">
             <svg viewBox="0 0 24 24"><circle cx="9" cy="9" r="3.2"/><circle cx="14" cy="15" r="3.6"/><path d="M11 11l2 2"/></svg>
@@ -877,7 +929,7 @@
         <span class="allergen-name">Peanuts</span>
       </div>
 
-      <div class="allergen-badge">
+      <div class="allergen-badge" id="allergen-6">
         <div class="allergen-circle-wrap allergen-anim-pulse">
           <div class="allergen-circle aller-6">
             <svg viewBox="0 0 24 24"><path d="M8 4c-3 3-3 13 0 16 2-1 3-3 3-8s-1-7-3-8z"/><circle cx="9" cy="9" r="1" fill="white" stroke="none"/><circle cx="9.5" cy="13" r="1" fill="white" stroke="none"/><circle cx="9" cy="17" r="1" fill="white" stroke="none"/></svg>
@@ -887,7 +939,7 @@
         <span class="allergen-name">Soya</span>
       </div>
 
-      <div class="allergen-badge">
+      <div class="allergen-badge" id="allergen-7">
         <div class="allergen-circle-wrap allergen-anim-sway">
           <div class="allergen-circle aller-7">
             <svg viewBox="0 0 24 24"><path d="M12 3c3 4 6 8 6 11a6 6 0 0 1-12 0c0-3 3-7 6-11z"/></svg>
@@ -897,7 +949,7 @@
         <span class="allergen-name">Milk</span>
       </div>
 
-      <div class="allergen-badge">
+      <div class="allergen-badge" id="allergen-8">
         <div class="allergen-circle-wrap allergen-anim-bob">
           <div class="allergen-circle aller-8">
             <svg viewBox="0 0 24 24"><path d="M12 3c-3 0-5 2-5 5 0 2 1 4 2 6l3 6 3-6c1-2 2-4 2-6 0-3-2-5-5-5z"/><path d="M8 8h8"/></svg>
@@ -907,7 +959,7 @@
         <span class="allergen-name">Nuts</span>
       </div>
 
-      <div class="allergen-badge">
+      <div class="allergen-badge" id="allergen-9">
         <div class="allergen-circle-wrap allergen-anim-pulse">
           <div class="allergen-circle aller-9">
             <svg viewBox="0 0 24 24"><path d="M12 21V9"/><path d="M12 9c-3-1-4-4-3-7 3 1 4 4 3 7z"/><path d="M12 9c3-1 4-4 3-7-3 1-4 4-3 7z"/></svg>
@@ -917,7 +969,7 @@
         <span class="allergen-name">Celery</span>
       </div>
 
-      <div class="allergen-badge">
+      <div class="allergen-badge" id="allergen-10">
         <div class="allergen-circle-wrap allergen-anim-sway">
           <div class="allergen-circle aller-10">
             <svg viewBox="0 0 24 24"><rect x="8" y="9" width="8" height="10" rx="1.5"/><path d="M9 9V6a3 3 0 0 1 6 0v3"/></svg>
@@ -927,7 +979,7 @@
         <span class="allergen-name">Mustard</span>
       </div>
 
-      <div class="allergen-badge">
+      <div class="allergen-badge" id="allergen-11">
         <div class="allergen-circle-wrap allergen-anim-bob">
           <div class="allergen-circle aller-11">
             <svg viewBox="0 0 24 24" fill="white" stroke="none"><ellipse cx="8" cy="10" rx="1.6" ry="2.4" transform="rotate(-20 8 10)"/><ellipse cx="12" cy="8" rx="1.6" ry="2.4" transform="rotate(10 12 8)"/><ellipse cx="16" cy="10" rx="1.6" ry="2.4" transform="rotate(25 16 10)"/><ellipse cx="10" cy="14" rx="1.6" ry="2.4" transform="rotate(-10 10 14)"/><ellipse cx="14" cy="14" rx="1.6" ry="2.4" transform="rotate(15 14 14)"/></svg>
@@ -937,7 +989,7 @@
         <span class="allergen-name">Sesame Seed</span>
       </div>
 
-      <div class="allergen-badge">
+      <div class="allergen-badge" id="allergen-12">
         <div class="allergen-circle-wrap allergen-anim-pulse">
           <div class="allergen-circle aller-12">
             <svg viewBox="0 0 24 24"><path d="M10 3h4v4l4 8a3 3 0 0 1-3 4H9a3 3 0 0 1-3-4l4-8z"/><path d="M9 14h6"/></svg>
@@ -947,7 +999,7 @@
         <span class="allergen-name">Sulphur Dioxide</span>
       </div>
 
-      <div class="allergen-badge">
+      <div class="allergen-badge" id="allergen-13">
         <div class="allergen-circle-wrap allergen-anim-sway">
           <div class="allergen-circle aller-13">
             <svg viewBox="0 0 24 24"><path d="M12 21V5"/><circle cx="10" cy="7" r="1" fill="white" stroke="none"/><circle cx="14" cy="9" r="1" fill="white" stroke="none"/><circle cx="10" cy="11" r="1" fill="white" stroke="none"/><circle cx="14" cy="13" r="1" fill="white" stroke="none"/><circle cx="10" cy="15" r="1" fill="white" stroke="none"/></svg>
@@ -957,7 +1009,7 @@
         <span class="allergen-name">Lupin</span>
       </div>
 
-      <div class="allergen-badge">
+      <div class="allergen-badge" id="allergen-14">
         <div class="allergen-circle-wrap allergen-anim-bob">
           <div class="allergen-circle aller-14">
             <svg viewBox="0 0 24 24"><path d="M12 4c4 0 7 3 7 7 0 5-3 8-7 9-4-1-7-4-7-9 0-4 3-7 7-7z"/><path d="M12 4v16M9 8c0 4 1 8 3 12M15 8c0 4-1 8-3 12"/></svg>
@@ -1130,93 +1182,94 @@
 
   const MENU = [
     { id:'appetizers', title:'Appetizers', sub:'頭盤', icon:'appetizers', items:[
-      {n:'Ruby Combination (For 2 Person)', d:'2 Spring Rolls, 2 Spare Ribs, 2 Chicken Satay Skewers, 4 Fried Won Ton, Prawn Toast & Sweet Sour Sauce', p:'€13.50'},
-      {n:'Aromatic Duck', d:'Served with fresh vegetables, pancakes & hoi sin sauce', p:'(1/4) €11.00 / (1/2) €20.00'},
-      {n:'Dragon Beef', d:'Armona spicy shredded beef, served with pancakes', p:'€10.00'},
-      {n:'Minced Chicken Iceberg Parcel (For 2 Person)', p:'€9.50'},
-      {n:'Spring Roll (2)', p:'€4.50'},
-      {n:'Vegetarian Spring Roll (2)', p:'€4.50'},
-      {n:'Chicken & Cheese Roll (2)', p:'€5.00'},
-      {n:'Salt & Chili Smoked Chicken', d:'Long tray', p:'€6.50'},
-      {n:'Salt & Chili Chicken Wings', d:'Long tray', p:'€6.50'},
-      {n:'Salt & Chili Spare Ribs', d:'Long tray', p:'€7.50'},
-      {n:'Salt & Chili King Prawn (12)', p:'€11.50'},
-      {n:'Deep Fried Chicken Wings', d:'Choice of BBQ / Honey / Garlic Butter / Sweet Chili', p:'€6.50'},
+      {n:'Ruby Combination (For 2 Person)', d:'2 Spring Rolls, 2 Spare Ribs, 2 Chicken Satay Skewers, 4 Fried Won Ton, Prawn Toast & Sweet Sour Sauce', p:'€13.50', a:[1,2,5,8,11]},
+      {n:'Aromatic Duck', d:'Served with fresh vegetables, pancakes & hoi sin sauce', p:'(1/4) €11.00 / (1/2) €20.00', a:[1,6]},
+      {n:'Dragon Beef', d:'Armona spicy shredded beef, served with pancakes', p:'€10.00', a:[1,6]},
+      {n:'Minced Chicken Iceberg Parcel (For 2 Person)', p:'€9.50', a:[6,8]},
+      {n:'Spring Roll (2)', p:'€4.50', a:[1]},
+      {n:'Vegetarian Spring Roll (2)', p:'€4.50', a:[1]},
+      {n:'Chicken & Cheese Roll (2)', p:'€5.00', a:[1,7,10]},
+      {n:'Salt & Chili Smoked Chicken', d:'Long tray', p:'€6.50', a:[2,3]},
+      {n:'Salt & Chili Chicken Wings', d:'Long tray', p:'€6.50', a:[2,3]},
+      {n:'Salt & Chili Spare Ribs', d:'Long tray', p:'€7.50', a:[2]},
+      {n:'Salt & Chili King Prawn (12)', p:'€11.50', a:[2,3]},
+      {n:'Deep Fried Chicken Wings', d:'Choice of BBQ / Honey / Garlic Butter / Sweet Chili', p:'€6.50', a:[3]},
       {n:'Spare Ribs', d:'Choice of BBQ / Honey / King Do / Sweet Sour', p:'€7.50'},
-      {n:'Curry Samosa (10)', p:'€5.00'},
-      {n:'Deep Fried Won Ton (8)', d:'With sweet sour sauce', p:'€6.50'},
-      {n:'Sesame King Prawn on Toast', p:'€6.00'},
-      {n:'Chicken Satay Skewer (5)', p:'€6.00'},
-      {n:'Crispy Chicken in Garlic Butter Sauce', p:'€7.00'}
+      {n:'Curry Samosa (10)', p:'€5.00', a:[1]},
+      {n:'Deep Fried Won Ton (8)', d:'With sweet sour sauce', p:'€6.50', a:[1,2,9]},
+      {n:'Sesame King Prawn on Toast', p:'€6.00', a:[2,11]},
+      {n:'Chicken Satay Skewer (5)', p:'€6.00', a:[5]},
+      {n:'Crispy Chicken in Garlic Butter Sauce', p:'€7.00', a:[3,7]}
     ]},
     { id:'soups', title:'Soups', sub:'湯', icon:'soups', items:[
-      {n:'Chicken Sweet Corn Soup', d:'Thick', p:'€4.50'},
-      {n:'Crab Sweet Corn Soup', d:'Thick', p:'€4.50'},
-      {n:'Chicken Noodle Soup', d:'Clear', p:'€4.50'},
-      {n:'Chicken Mushroom Soup', d:'Clear', p:'€4.50'},
-      {n:'Hot & Sour Soup', d:'Thick', p:'€5.00'},
-      {n:'Won Ton Soup', d:'Clear', p:'€5.00'}
+      {n:'Chicken Sweet Corn Soup', d:'Thick', p:'€4.50', a:[3]},
+      {n:'Crab Sweet Corn Soup', d:'Thick', p:'€4.50', a:[3]},
+      {n:'Chicken Noodle Soup', d:'Clear', p:'€4.50', a:[1,3,6]},
+      {n:'Chicken Mushroom Soup', d:'Clear', p:'€4.50', a:[1]},
+      {n:'Hot & Sour Soup', d:'Thick', p:'€5.00', a:[2,3]},
+      {n:'Won Ton Soup', d:'Clear', p:'€5.00', a:[2,6]}
     ]},
     { id:'curry', title:'Curry Dishes', sub:'咖喱', icon:'curry', items:[
-      {n:'Breast Chicken Curry', p:'€10.80'},
-      {n:'Beef Curry', p:'€10.80'},
-      {n:'Pork Curry', p:'€10.80'},
-      {n:'King Prawn Curry', p:'€12.00'},
-      {n:'House Special Curry', p:'€12.00'},
-      {n:'Roast Duck Curry', p:'€13.00'},
-      {n:'Mixed Vegetable Curry', p:'€9.50'}
+      {n:'Breast Chicken Curry', p:'€10.80', a:[1,9]},
+      {n:'Beef Curry', p:'€10.80', a:[1,9]},
+      {n:'Pork Curry', p:'€10.80', a:[1,9]},
+      {n:'King Prawn Curry', p:'€12.00', a:[1,2,9]},
+      {n:'House Special Curry', p:'€12.00', a:[1,2,6,9]},
+      {n:'Roast Duck Curry', p:'€13.00', a:[1,6,9]},
+      {n:'Mixed Vegetable Curry', p:'€9.50', a:[1,9]}
     ]},
     { id:'sweet-sour', title:'Sweet & Sour Dishes', sub:'甜酸', icon:'sweetsour', items:[
-      {n:'Sweet & Sour Chicken', p:'€10.80'},
-      {n:'Sweet & Sour King Prawn', p:'€12.00'},
-      {n:'Sweet & Sour Special', p:'€12.00'},
-      {n:'Sweet & Sour Roast Duck', p:'€13.00'}
+      {n:'Sweet & Sour Chicken', p:'€10.80', a:[3,9]},
+      {n:'Sweet & Sour King Prawn', p:'€12.00', a:[2,3,9]},
+      {n:'Sweet & Sour Special', p:'€12.00', a:[2,3,9]},
+      {n:'Sweet & Sour Roast Duck', p:'€13.00', a:[6,9]}
     ]},
     { id:'chef-specials', title:"Chef's Specialties", sub:'名廚推介', icon:'chef', items:[
-      {n:'Crispy Chilli Chicken', d:'Honey chilli, garlic sauce', p:'€10.80'},
-      {n:'Crispy Chilli Beef', p:'€10.80'},
-      {n:'Chicken Hickory', p:'€13.00'},
-      {n:'Roast Duck with Cantonese Sauce', p:'€13.00'}
+      {n:'Crispy Chilli Chicken', d:'Honey chilli, garlic sauce', p:'€10.80', a:[2,3,9]},
+      {n:'Crispy Chilli Beef', p:'€10.80', a:[2,3,9]},
+      {n:'Chicken Hickory', p:'€13.00', a:[2,3,6]},
+      {n:'Roast Duck with Cantonese Sauce', p:'€13.00', a:[6]}
     ]},
     { id:'thai', title:'Thai Dishes', sub:'泰式', icon:'thai', items:[
-      {n:'Thai Chicken Green / Red Curry', p:'€11.00'},
-      {n:'Thai Beef Green / Red Curry', p:'€11.00'},
-      {n:'Thai Pork Green / Red Curry', p:'€11.00'},
-      {n:'Thai King Prawn Green / Red Curry', p:'€12.50'},
-      {n:'Thai Special Green / Red Curry', p:'€12.50'},
-      {n:'Thai Duck Green / Red Curry', p:'€13.50'},
-      {n:'Thai Mixed Vegetable Green / Red Curry', p:'€9.50'}
+      {n:'Thai Chicken Green / Red Curry', p:'€11.00', a:[7]},
+      {n:'Thai Beef Green / Red Curry', p:'€11.00', a:[6,7]},
+      {n:'Thai Pork Green / Red Curry', p:'€11.00', a:[7]},
+      {n:'Thai King Prawn Green / Red Curry', p:'€12.50', a:[2,7]},
+      {n:'Thai Special Green / Red Curry', p:'€12.50', a:[2,6,7]},
+      {n:'Thai Duck Green / Red Curry', p:'€13.50', a:[6,7]},
+      {n:'Thai Mixed Vegetable Green / Red Curry', p:'€9.50', a:[7]}
     ]},
     { id:'fried-rice', title:'Fried Rice Dishes', sub:'炒飯', icon:'friedrice', items:[
-      {n:'Chicken Fried Rice', p:'€10.80'},
-      {n:'Beef Fried Rice', p:'€10.80'},
-      {n:'King Prawn Fried Rice', p:'€12.00'},
-      {n:'Duck Fried Rice', p:'€13.00'},
-      {n:'Yong Chow Fried Rice', d:'Chicken, pork, ham, shrimp & peas', p:'€12.00'},
-      {n:'Spicy Singapore Fried Rice', d:'Chicken, pork, ham, shrimp & vegetables', p:'€11.00'}
+      {n:'Chicken Fried Rice', p:'€10.80', a:[3,6]},
+      {n:'Beef Fried Rice', p:'€10.80', a:[3,6]},
+      {n:'House Special Fried Rice', p:'€12.00', a:[2,3,6]},
+      {n:'King Prawn Fried Rice', p:'€12.00', a:[2,3,6]},
+      {n:'Duck Fried Rice', p:'€13.00', a:[3,6]},
+      {n:'Yong Chow Fried Rice', d:'Chicken, pork, ham, shrimp & peas', p:'€12.00', a:[2,3,6]},
+      {n:'Spicy Singapore Fried Rice', d:'Chicken, pork, ham, shrimp & vegetables', p:'€11.00', a:[2]}
     ]},
     { id:'chow-mein', title:'Chow Mein Dishes', sub:'炒麵', icon:'chowmein', items:[
-      {n:'Mixed Vegetables Chow Mein', p:'€9.00'},
-      {n:'Chicken Chow Mein', p:'€11.00'},
-      {n:'Beef Chow Mein', p:'€12.00'},
-      {n:'King Prawn Chow Mein', p:'€12.00'},
-      {n:'House Special Chow Mein', p:'€11.80'},
-      {n:'Spicy Singapore Chow Mein', d:'Chicken, pork, ham, shrimp & peas', p:'€12.00'}
+      {n:'Mixed Vegetables Chow Mein', p:'€9.00', a:[1,3,6,14]},
+      {n:'Chicken Chow Mein', p:'€11.00', a:[1,3,6,14]},
+      {n:'Beef Chow Mein', p:'€12.00', a:[1,3,6,14]},
+      {n:'King Prawn Chow Mein', p:'€12.00', a:[1,2,3,6,14]},
+      {n:'House Special Chow Mein', p:'€11.80', a:[1,2,3,6,14]},
+      {n:'Spicy Singapore Chow Mein', d:'Chicken, pork, ham, shrimp & peas', p:'€12.00', a:[1,2,3,6,14]}
     ]},
     { id:'extras', title:'Extra Portions', sub:'配菜', icon:'extras', items:[
       {n:'Chips', p:'(S) €3.00 / (L) €4.00'},
       {n:'Spicy Chips', p:'(S) €3.00 / (L) €4.50'},
       {n:'Boiled Rice', p:'(S) €2.80 / (L) €3.80'},
-      {n:'Fried Rice', p:'(S) €3.00 / (L) €4.00'},
-      {n:'Fried Noodles', p:'(S) €5.00 / (L) €6.00'},
-      {n:'Curry Chips', p:'(L) €4.50'},
-      {n:'Curry Boiled Rice', p:'(L) €4.50'},
-      {n:'Curry Fried Rice', p:'(L) €4.50'},
-      {n:'Curry Noodles', p:'(L) €7.00'},
-      {n:'3 in 1', p:'(L) €5.50'},
-      {n:'Chicken or Beef 4 in 1', p:'(L) €7.50'},
-      {n:'Smoked Chicken 4 in 1', p:'(L) €8.50'},
-      {n:'Prawn Crackers', p:'€2.00'},
+      {n:'Fried Rice', p:'(S) €3.00 / (L) €4.00', a:[3,6]},
+      {n:'Fried Noodles', p:'(S) €5.00 / (L) €6.00', a:[1,3,6,14]},
+      {n:'Curry Chips', p:'(L) €4.50', a:[1,9]},
+      {n:'Curry Boiled Rice', p:'(L) €4.50', a:[1,9]},
+      {n:'Curry Fried Rice', p:'(L) €4.50', a:[1,3,6,9]},
+      {n:'Curry Noodles', p:'(L) €7.00', a:[1,3,6,9,14]},
+      {n:'3 in 1', p:'(L) €5.50', a:[1,3,6,9]},
+      {n:'Chicken or Beef 4 in 1', p:'(L) €7.50', a:[1,3,6,9]},
+      {n:'Smoked Chicken 4 in 1', p:'(L) €8.50', a:[1,3,9]},
+      {n:'Prawn Crackers', p:'€2.00', a:[2]},
       {n:'Sausage (each)', p:'€1.00'},
       {n:'Chicken Nuggets (6)', p:'€3.50'},
       {n:'Chicken Balls (8)', p:'€7.00'},
@@ -1239,31 +1292,40 @@
     {n:'G. Cha Siu Roast Pork', p:'€10.80'}
   ];
   const WOK_SAUCES = [
-    {n:'Black Bean', d:'Chilli, garlic & onion in a zesty, sharp black bean sauce'},
-    {n:'Kung Po', d:'Stir-fried chilli & garlic with mixed vegetables & cashew nuts'},
-    {n:'Szechuan', d:'Hot and spicy sauce that tingles the palate'},
-    {n:'Satay', d:'Rich, savoury peanut sauce'},
-    {n:'Hot Garlic', d:'Stir-fried with fresh hot garlic in sauce'},
-    {n:'Mushroom', d:'Mushroom & vegetable in oyster sauce'},
-    {n:'Chop Suey', d:'Mixed vegetables in oyster sauce'},
-    {n:'Cashew Nuts'},
-    {n:'Ginger & Scallion'},
-    {n:'Sweet Chilli Sauce', d:'Traditional recipe, spicy yet delicate'},
-    {n:'Black Pepper Sauce'},
-    {n:'Oyster Sauce'},
-    {n:'King Do Sauce', d:'Sweet, sour & spicy'},
-    {n:'Fruity Sauce'},
-    {n:'Orange Sauce'},
-    {n:'Lemon Sauce'},
-    {n:'Plum Sauce'}
+    {n:'Black Bean', d:'Chilli, garlic & onion in a zesty, sharp black bean sauce', a:[6,14]},
+    {n:'Kung Po', d:'Stir-fried chilli & garlic with mixed vegetables & cashew nuts', a:[8]},
+    {n:'Szechuan', d:'Hot and spicy sauce that tingles the palate', a:[1]},
+    {n:'Satay', d:'Rich, savoury peanut sauce', a:[5]},
+    {n:'Hot Garlic', d:'Stir-fried with fresh hot garlic in sauce', a:[6,14]},
+    {n:'Mushroom', d:'Mushroom & vegetable in oyster sauce', a:[6,14]},
+    {n:'Chop Suey', d:'Mixed vegetables in oyster sauce', a:[6,14]},
+    {n:'Cashew Nuts', a:[6,8]},
+    {n:'Ginger & Scallion', a:[6,14]},
+    {n:'Sweet Chilli Sauce', d:'Traditional recipe, spicy yet delicate', a:[9]},
+    {n:'Black Pepper Sauce', a:[6,14]},
+    {n:'Oyster Sauce', a:[6,14]},
+    {n:'King Do Sauce', d:'Sweet, sour & spicy', a:[9]},
+    {n:'Fruity Sauce', a:[9]},
+    {n:'Orange Sauce', a:[9]},
+    {n:'Lemon Sauce', a:[9]},
+    {n:'Plum Sauce', a:[9]}
   ];
 
+  const ALLERGEN_NAMES = {
+    1:'Gluten', 2:'Crustaceans', 3:'Eggs', 4:'Fish', 5:'Peanuts', 6:'Soya', 7:'Milk',
+    8:'Nuts', 9:'Celery', 10:'Mustard', 11:'Sesame Seed', 12:'Sulphur Dioxide', 13:'Lupin', 14:'Molluscs'
+  };
+
   function renderItemRow(item, index){
-    return `<div class="item-row"${index != null ? ` id="item-${index}"` : ''}>
+    const allergenHtml = (item.a && item.a.length)
+      ? `<span class="item-allergens"><span class="aller-label">Contains</span>${item.a.map(n => `<a href="#allergen-${n}" class="allergen-link" data-a="${n}" title="${ALLERGEN_NAMES[n] || ''}">${n}</a>`).join('')}</span>`
+      : '';
+    return `<div class="item-row"${index != null ? ` id="item-${index}"` : ''}${item.a ? ` data-allergens="${item.a.join(',')}"` : ''}>
       <span class="num">${index != null ? index : ''}</span>
       <span class="item-main">
         <span class="item-name">${item.n}</span>
         ${item.d ? `<span class="item-desc">${item.d}</span>` : ''}
+        ${allergenHtml}
       </span>
       <span class="price">${item.p || ''}</span>
     </div>`;
@@ -1428,11 +1490,13 @@
       if(!numEl || !nameEl || !numEl.textContent.trim()) return;
       const cat = row.closest('.menu-cat');
       const catTitleEl = cat ? cat.querySelector('h2') : null;
+      const allergensAttr = row.dataset.allergens;
       SEARCH_INDEX.push({
         num: numEl.textContent.trim(),
         name: nameEl.textContent.trim(),
         rowId: row.id,
-        catTitle: catTitleEl ? catTitleEl.textContent.trim() : ''
+        catTitle: catTitleEl ? catTitleEl.textContent.trim() : '',
+        allergens: allergensAttr ? allergensAttr.split(',').map(n => n.trim()) : []
       });
     });
   })();
@@ -1481,17 +1545,55 @@
       qnSearchResults.innerHTML = '<div class="qn-search-empty">No dishes found. Try a different name or number.</div>';
       return;
     }
-    qnSearchResults.innerHTML = matches.slice(0, 25).map(m => `
+    qnSearchResults.innerHTML = matches.slice(0, 25).map(m => {
+      const allergenBadges = m.allergens.length
+        ? `<span class="qn-result-allergens">${m.allergens.map(n => `<span class="allergen-link" data-a="${n}" title="${ALLERGEN_NAMES[n] || ''}">${n}</span>`).join('')}</span>`
+        : '';
+      return `
       <button type="button" class="qn-result" data-row="${m.rowId}">
         <span class="qn-result-num">${m.num}</span>
         <span class="qn-result-name">${m.name}</span>
+        ${allergenBadges}
         <span class="qn-result-cat">${m.catTitle}</span>
       </button>
-    `).join('');
+    `;
+    }).join('');
     qnSearchResults.querySelectorAll('.qn-result').forEach(btn => {
-      btn.addEventListener('click', () => jumpToRow(btn.dataset.row));
+      btn.addEventListener('click', (e) => {
+        // If the click landed on an allergen badge inside the result, jump to allergens instead of the dish
+        const allergenHit = e.target.closest('.allergen-link');
+        if(allergenHit){
+          e.stopPropagation();
+          jumpToAllergen(allergenHit.dataset.a);
+          return;
+        }
+        jumpToRow(btn.dataset.row);
+      });
     });
   }
+
+  function jumpToAllergen(num){
+    const badge = document.getElementById('allergen-' + num);
+    if(!badge) return;
+    setSearchOpen(false);
+    setPanelOpen(false);
+    requestAnimationFrame(() => {
+      setNavHeight();
+      badge.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      badge.classList.remove('highlight');
+      void badge.offsetWidth;
+      badge.classList.add('highlight');
+    });
+  }
+
+  // Clicking any "Contains" allergen number (on the menu items or in search results) jumps to the allergen key
+  document.addEventListener('click', (e) => {
+    const link = e.target.closest('.allergen-link');
+    if(link && link.tagName === 'A'){
+      e.preventDefault();
+      jumpToAllergen(link.dataset.a);
+    }
+  });
 
   qnSearchInput.addEventListener('input', () => renderSearchResults(qnSearchInput.value));
   qnSearchInput.addEventListener('keydown', (e) => {
