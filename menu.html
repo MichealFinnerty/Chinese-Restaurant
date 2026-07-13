@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Menu &mdash; Ruby Chinese Restaurant, Pallaskenry</title>
+<title>Menu — Ruby Chinese Restaurant, Pallaskenry</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Marcellus&family=Noto+Serif+SC:wght@600;700&family=Work+Sans:wght@400;500;600;700&family=Work+Sans:ital@1&display=swap" rel="stylesheet">
@@ -22,6 +22,7 @@
     --porcelain-blue:#1B3A5C;
     --porcelain-blue-deep:#122943;
     --porcelain-white:#F3F6F2;
+    --warning-red:#DC2626;
   }
 
   *{margin:0;padding:0;box-sizing:border-box;}
@@ -38,11 +39,74 @@
   img{max-width:100%;display:block;}
   .wrap{max-width:1180px;margin:0 auto;padding:0 32px;}
 
+  /* ---------- ALLERGEN FILTER STYLES ---------- */
+  .allergen-warning-banner{
+    display:none;
+    position:sticky;
+    top:var(--nav-h, 65px);
+    z-index:89;
+    background:linear-gradient(90deg, var(--warning-red) 0%, #EF4444 100%);
+    color:white;
+    padding:16px 32px;
+    text-align:center;
+    box-shadow:0 4px 12px rgba(220, 38, 38, 0.3);
+    animation:slideDown .3s ease;
+  }
+  .allergen-warning-banner.active{display:block;}
+  @keyframes slideDown{
+    from{ transform:translateY(-100%); opacity:0; }
+    to{ transform:translateY(0); opacity:1; }
+  }
+  .allergen-warning-text{
+    font-weight:600;
+    font-size:1rem;
+    margin-bottom:6px;
+  }
+  .allergen-warning-sub{
+    font-size:.9rem;
+    opacity:.95;
+  }
+  .allergen-warning-close{
+    position:absolute;
+    right:32px;
+    top:50%;
+    transform:translateY(-50%);
+    background:rgba(255,255,255,.2);
+    border:none;
+    color:white;
+    width:32px;
+    height:32px;
+    border-radius:50%;
+    cursor:pointer;
+    font-size:1.2rem;
+    transition:background .2s ease;
+  }
+  .allergen-warning-close:hover{background:rgba(255,255,255,.35);}
+
+  /* Item warning state when allergen is selected */
+  body.allergen-filter-active .item-row[data-allergens]{
+    transition:background-color .2s ease;
+  }
+  body.allergen-filter-active .item-row.contains-selected-allergen{
+    background:linear-gradient(90deg, rgba(220, 38, 38, 0.08) 0%, transparent 100%);
+    border-left:4px solid var(--warning-red);
+    padding-left:22px;
+  }
+
+  /* Allergen badge filter state */
+  .allergen-badge.filter-active{
+    animation:allergenFilterPulse .6s ease;
+  }
+  @keyframes allergenFilterPulse{
+    0%, 100%{ transform:scale(1); }
+    50%{ transform:scale(1.15); }
+  }
+
   @media (prefers-reduced-motion: reduce){
     *{animation:none !important; transition:none !important;}
   }
 
-  /* ---------- NAV (shared with home) ---------- */
+  /* Rest of existing styles... */
   header.site-nav{
     position:sticky; top:0; z-index:100;
     background:var(--maroon);
@@ -192,10 +256,6 @@
     text-align:center;
   }
 
-  @media (prefers-reduced-motion: reduce){
-    .hero-slide{transition:none;}
-  }
-
   @media (max-width: 720px){
     .nav-links{
       position:fixed; top:66px; left:0; right:0; background:var(--maroon);
@@ -217,6 +277,8 @@
     }
     .nav-menu-cta{padding:10px 20px; font-size:1rem;}
     .menu-hero{padding:72px 20px 60px;}
+    .allergen-warning-banner{padding:12px 20px;}
+    .allergen-warning-close{right:20px;}
   }
 
   main, footer{
@@ -463,7 +525,11 @@
     gap:8px;
     scroll-margin-top:calc(var(--nav-h, 65px) + 20px);
     border-radius:12px;
-    transition:background .3s ease, box-shadow .3s ease;
+    transition:background .3s ease, box-shadow .3s ease, transform .3s ease;
+    cursor:pointer;
+  }
+  .allergen-badge:hover{
+    transform:translateY(-4px);
   }
   .allergen-badge.highlight{
     animation:allergenHighlight 2.6s ease;
@@ -485,6 +551,11 @@
     align-items:center;
     justify-content:center;
     box-shadow:0 2px 6px rgba(0,0,0,.18), inset 0 0 0 1px rgba(255,255,255,.15);
+    transition:transform .2s ease;
+  }
+  .allergen-badge.filter-active .allergen-circle{
+    transform:scale(1.15);
+    box-shadow:0 4px 12px rgba(220, 38, 38, 0.35), inset 0 0 0 2px var(--warning-red);
   }
   .allergen-circle svg{
     width:58%;
@@ -512,6 +583,11 @@
     justify-content:center;
     border:2px solid var(--white);
     box-shadow:0 1px 3px rgba(0,0,0,.25);
+    transition:background .2s ease;
+  }
+  .allergen-badge.filter-active .allergen-num{
+    background:var(--warning-red);
+    box-shadow:0 2px 6px rgba(220, 38, 38, 0.4);
   }
   .allergen-name{
     font-size:.74rem;
@@ -521,7 +597,6 @@
     max-width:9ch;
   }
 
-  /* three gentle idle animations, cycled across icons for a lively but subtle key */
   @keyframes allergenPulse{
     0%,100%{transform:scale(1);}
     50%{transform:scale(1.12);}
@@ -538,7 +613,6 @@
   .allergen-anim-sway svg{animation:allergenSway 2.8s ease-in-out infinite; transform-origin:50% 90%;}
   .allergen-anim-bob svg{animation:allergenBob 2.4s ease-in-out infinite;}
 
-  /* egg cracking loop */
   .egg-icon .egg-shell{
     animation:eggShake 3.4s ease-in-out infinite;
     transform-origin:50% 90%;
@@ -674,6 +748,8 @@
     padding:14px 26px;
     border-bottom:1px solid rgba(70,27,30,.1);
     scroll-margin-top:calc(var(--nav-h, 65px) + 90px);
+    border-left:4px solid transparent;
+    transition:background-color .2s ease, border-left-color .2s ease;
   }
   .item-row:target{
     animation:menuHighlight 5s ease;
@@ -734,6 +810,7 @@
     font-size:.72rem;
     border:1px solid rgba(189,26,34,.3);
     text-decoration:none;
+    cursor:pointer;
     transition:background .15s ease, color .15s ease;
   }
   .allergen-link:hover, .allergen-link:focus-visible{
@@ -844,6 +921,13 @@
   </div>
 </header>
 
+<!-- Allergen warning banner -->
+<div class="allergen-warning-banner" id="allergenWarningBanner" role="alert">
+  <button class="allergen-warning-close" id="allergenWarningClose" aria-label="Close warning">×</button>
+  <div class="allergen-warning-text">⚠️ You're filtering dishes by allergen</div>
+  <div class="allergen-warning-sub">Items highlighted below contain <span id="selectedAllergenName"></span>. Click allergen badges to add/remove from filter.</div>
+</div>
+
 <main>
 
   <section class="menu-hero" aria-label="Ruby menu">
@@ -904,9 +988,9 @@
       <h2>Be Food Allergen Aware</h2>
       <span class="cat-sub chinese">過敏原</span>
     </div>
-    <p class="cat-note">Please inform our staff before placing your order if you have an allergy to any of the following allergens.</p>
+    <p class="cat-note">Click on allergens to highlight all dishes containing them. Select multiple allergens to see dishes containing any of them. Please inform our staff before placing your order if you have an allergy to any of the following allergens.</p>
     <div class="allergen-grid">
-      <div class="allergen-badge" id="allergen-1">
+      <div class="allergen-badge" id="allergen-1" data-allergen="1">
         <div class="allergen-circle-wrap allergen-anim-sway">
           <div class="allergen-circle aller-1">
             <svg viewBox="0 0 24 24"><path d="M12 21V3"/><path d="M12 6l-3-2M12 6l3-2M12 10l-3-2M12 10l3-2M12 14l-3-2M12 14l3-2M12 18l-3-2M12 18l3-2"/></svg>
@@ -916,7 +1000,7 @@
         <span class="allergen-name">Gluten</span>
       </div>
 
-      <div class="allergen-badge" id="allergen-2">
+      <div class="allergen-badge" id="allergen-2" data-allergen="2">
         <div class="allergen-circle-wrap allergen-anim-bob">
           <div class="allergen-circle aller-2">
             <svg viewBox="0 0 24 24"><ellipse cx="12" cy="14" rx="6" ry="4.3"/><path d="M7.5 11.5L4 7.5M7.5 11.5L3 9.5"/><path d="M16.5 11.5l3.5-4M16.5 11.5l4.5-2"/><path d="M8 18l-3 3M8 18l-4 1"/><path d="M16 18l3 3M16 18l4 1"/><path d="M9.5 13.5v1M14.5 13.5v1"/><circle cx="9.5" cy="12" r=".55" fill="currentColor" stroke="none"/><circle cx="14.5" cy="12" r=".55" fill="currentColor" stroke="none"/></svg>
@@ -926,7 +1010,7 @@
         <span class="allergen-name">Crustaceans</span>
       </div>
 
-      <div class="allergen-badge" id="allergen-3">
+      <div class="allergen-badge" id="allergen-3" data-allergen="3">
         <div class="allergen-circle-wrap">
           <div class="allergen-circle aller-3">
             <svg viewBox="0 0 24 24" class="egg-icon"><path class="egg-shell" d="M12 3.2c-3.6 1.5-6.2 5.7-6.2 9.8a6.2 6.2 0 0 0 12.4 0c0-4.1-2.6-8.3-6.2-9.8z"/><path class="egg-crack" d="M9 10.5l2 1.8-1.6 1.7 3 1.6-1 2.4"/></svg>
@@ -936,7 +1020,7 @@
         <span class="allergen-name">Eggs</span>
       </div>
 
-      <div class="allergen-badge" id="allergen-4">
+      <div class="allergen-badge" id="allergen-4" data-allergen="4">
         <div class="allergen-circle-wrap allergen-anim-sway">
           <div class="allergen-circle aller-4">
             <svg viewBox="0 0 24 24"><path d="M3 12c4-5 12-5 16 0-4 5-12 5-16 0z"/><path d="M19 12l3-3v6z"/><circle cx="8" cy="11" r=".6" fill="white" stroke="none"/></svg>
@@ -946,7 +1030,7 @@
         <span class="allergen-name">Fish</span>
       </div>
 
-      <div class="allergen-badge" id="allergen-5">
+      <div class="allergen-badge" id="allergen-5" data-allergen="5">
         <div class="allergen-circle-wrap allergen-anim-bob">
           <div class="allergen-circle aller-5">
             <svg viewBox="0 0 24 24"><path d="M12 2c-3 0-5 2.2-5 5 0 1.6.8 2.7 2 3.3-1.6.5-3 2-3 4.2 0 3 2.7 5.5 6 5.5s6-2.5 6-5.5c0-2.2-1.4-3.7-3-4.2 1.2-.6 2-1.7 2-3.3 0-2.8-2-5-5-5z"/><path d="M9.3 5.3l2.4 2.4M14.7 5.3l-2.4 2.4M9.3 15.3l2.4 2.4M14.7 15.3l-2.4 2.4"/></svg>
@@ -956,7 +1040,7 @@
         <span class="allergen-name">Peanuts</span>
       </div>
 
-      <div class="allergen-badge" id="allergen-6">
+      <div class="allergen-badge" id="allergen-6" data-allergen="6">
         <div class="allergen-circle-wrap allergen-anim-pulse">
           <div class="allergen-circle aller-6">
             <svg viewBox="0 0 24 24"><path d="M7 14c-.6-5 2.4-9.4 7-10.5.8 2.7-.4 4.7-2.3 5.9 3 .1 5.3 2.3 5.3 5.6 0 4-3.1 7-7 7-3.2 0-5.5-2.1-5.5-5 0-1.1.4-2.1 1-3z"/><circle cx="9.3" cy="12.2" r="1.3"/><circle cx="12.3" cy="15.2" r="1.3"/><circle cx="9.3" cy="18" r="1.3"/></svg>
@@ -966,7 +1050,7 @@
         <span class="allergen-name">Soya</span>
       </div>
 
-      <div class="allergen-badge" id="allergen-7">
+      <div class="allergen-badge" id="allergen-7" data-allergen="7">
         <div class="allergen-circle-wrap allergen-anim-sway">
           <div class="allergen-circle aller-7">
             <svg viewBox="0 0 24 24"><path d="M12 3c3 4 6 8 6 11a6 6 0 0 1-12 0c0-3 3-7 6-11z" fill="#fff"/></svg>
@@ -976,7 +1060,7 @@
         <span class="allergen-name">Milk</span>
       </div>
 
-      <div class="allergen-badge" id="allergen-8">
+      <div class="allergen-badge" id="allergen-8" data-allergen="8">
         <div class="allergen-circle-wrap allergen-anim-bob">
           <div class="allergen-circle aller-8">
             <svg viewBox="0 0 24 24"><path d="M12 3c-3.4 2.2-6.2 6.4-6.2 10.3a6.2 6.2 0 0 0 12.4 0c0-3.9-2.8-8.1-6.2-10.3z"/><path d="M9 8.5c1.2 1.8 1.2 3.7 0 5.5M15 8.5c-1.2 1.8-1.2 3.7 0 5.5M9.7 16.3c1.4.9 3.2.9 4.6 0"/></svg>
@@ -986,7 +1070,7 @@
         <span class="allergen-name">Nuts</span>
       </div>
 
-      <div class="allergen-badge" id="allergen-9">
+      <div class="allergen-badge" id="allergen-9" data-allergen="9">
         <div class="allergen-circle-wrap allergen-anim-pulse">
           <div class="allergen-circle aller-9">
             <svg viewBox="0 0 24 24"><path d="M12 21V9"/><path d="M12 9c-3-1-4-4-3-7 3 1 4 4 3 7z"/><path d="M12 9c3-1 4-4 3-7-3 1-4 4-3 7z"/></svg>
@@ -996,7 +1080,7 @@
         <span class="allergen-name">Celery</span>
       </div>
 
-      <div class="allergen-badge" id="allergen-10">
+      <div class="allergen-badge" id="allergen-10" data-allergen="10">
         <div class="allergen-circle-wrap allergen-anim-sway">
           <div class="allergen-circle aller-10">
             <svg viewBox="0 0 24 24"><rect x="8" y="9" width="8" height="10" rx="1.5"/><path d="M9 9V6a3 3 0 0 1 6 0v3"/></svg>
@@ -1006,7 +1090,7 @@
         <span class="allergen-name">Mustard</span>
       </div>
 
-      <div class="allergen-badge" id="allergen-11">
+      <div class="allergen-badge" id="allergen-11" data-allergen="11">
         <div class="allergen-circle-wrap allergen-anim-bob">
           <div class="allergen-circle aller-11">
             <svg viewBox="0 0 24 24" fill="white" stroke="none"><ellipse cx="8" cy="10" rx="1.6" ry="2.4" transform="rotate(-20 8 10)"/><ellipse cx="12" cy="8" rx="1.6" ry="2.4" transform="rotate(10 12 8)"/><ellipse cx="16" cy="10" rx="1.6" ry="2.4" transform="rotate(25 16 10)"/><ellipse cx="10" cy="14" rx="1.6" ry="2.4" transform="rotate(-10 10 14)"/><ellipse cx="14" cy="14" rx="1.6" ry="2.4" transform="rotate(15 14 14)"/></svg>
@@ -1016,7 +1100,7 @@
         <span class="allergen-name">Sesame Seed</span>
       </div>
 
-      <div class="allergen-badge" id="allergen-12">
+      <div class="allergen-badge" id="allergen-12" data-allergen="12">
         <div class="allergen-circle-wrap allergen-anim-pulse">
           <div class="allergen-circle aller-12">
             <svg viewBox="0 0 24 24"><path d="M10 3h4v4l4 8a3 3 0 0 1-3 4H9a3 3 0 0 1-3-4l4-8z"/><path d="M9 14h6"/></svg>
@@ -1026,7 +1110,7 @@
         <span class="allergen-name">Sulphur Dioxide</span>
       </div>
 
-      <div class="allergen-badge" id="allergen-13">
+      <div class="allergen-badge" id="allergen-13" data-allergen="13">
         <div class="allergen-circle-wrap allergen-anim-sway">
           <div class="allergen-circle aller-13">
             <svg viewBox="0 0 24 24"><path d="M12 21V5"/><circle cx="10" cy="7" r="1" fill="white" stroke="none"/><circle cx="14" cy="9" r="1" fill="white" stroke="none"/><circle cx="10" cy="11" r="1" fill="white" stroke="none"/><circle cx="14" cy="13" r="1" fill="white" stroke="none"/><circle cx="10" cy="15" r="1" fill="white" stroke="none"/></svg>
@@ -1036,7 +1120,7 @@
         <span class="allergen-name">Lupin</span>
       </div>
 
-      <div class="allergen-badge" id="allergen-14">
+      <div class="allergen-badge" id="allergen-14" data-allergen="14">
         <div class="allergen-circle-wrap allergen-anim-bob">
           <div class="allergen-circle aller-14">
             <svg viewBox="0 0 24 24"><path d="M12 4c4 0 7 3 7 7 0 5-3 8-7 9-4-1-7-4-7-9 0-4 3-7 7-7z"/><path d="M12 4v16M9 8c0 4 1 8 3 12M15 8c0 4-1 8-3 12"/></svg>
@@ -1157,6 +1241,79 @@
 </footer>
 
 <script>
+  const ALLERGEN_NAMES = {
+    1:'Gluten', 2:'Crustaceans', 3:'Eggs', 4:'Fish', 5:'Peanuts', 6:'Soya', 7:'Milk',
+    8:'Nuts', 9:'Celery', 10:'Mustard', 11:'Sesame Seed', 12:'Sulphur Dioxide', 13:'Lupin', 14:'Molluscs'
+  };
+
+  // Allergen filter state - now supports multiple selections
+  let selectedAllergens = new Set();
+  const warningBanner = document.getElementById('allergenWarningBanner');
+  const warningClose = document.getElementById('allergenWarningClose');
+  const selectedAllergenName = document.getElementById('selectedAllergenName');
+
+  function clearAllergenFilter(){
+    selectedAllergens.clear();
+    document.body.classList.remove('allergen-filter-active');
+    warningBanner.classList.remove('active');
+    document.querySelectorAll('.allergen-badge.filter-active').forEach(b => b.classList.remove('filter-active'));
+    document.querySelectorAll('.item-row.contains-selected-allergen').forEach(r => r.classList.remove('contains-selected-allergen'));
+  }
+
+  function updateAllergenDisplay(){
+    if(selectedAllergens.size === 0){
+      clearAllergenFilter();
+      return;
+    }
+
+    document.body.classList.add('allergen-filter-active');
+    warningBanner.classList.add('active');
+    
+    // Create display text for selected allergens
+    const allergenNames = Array.from(selectedAllergens)
+      .map(num => ALLERGEN_NAMES[num] || 'Unknown')
+      .sort();
+    
+    if(allergenNames.length === 1){
+      selectedAllergenName.textContent = allergenNames[0];
+    } else {
+      selectedAllergenName.textContent = allergenNames.join(', ');
+    }
+    
+    // Update badges
+    document.querySelectorAll('.allergen-badge').forEach(badge => {
+      const num = parseInt(badge.dataset.allergen);
+      badge.classList.toggle('filter-active', selectedAllergens.has(num));
+    });
+    
+    // Update menu items - highlight if contains ANY of the selected allergens
+    document.querySelectorAll('.item-row[data-allergens]').forEach(row => {
+      const rowAllergens = row.dataset.allergens.split(',').map(a => parseInt(a.trim()));
+      const containsAny = rowAllergens.some(allergen => selectedAllergens.has(allergen));
+      row.classList.toggle('contains-selected-allergen', containsAny);
+    });
+  }
+
+  function toggleAllergenFilter(allergenNum){
+    if(selectedAllergens.has(allergenNum)){
+      selectedAllergens.delete(allergenNum);
+    } else {
+      selectedAllergens.add(allergenNum);
+    }
+    updateAllergenDisplay();
+  }
+
+  warningClose.addEventListener('click', clearAllergenFilter);
+
+  // Allergen badge click handler - now supports multi-select
+  document.querySelectorAll('.allergen-badge').forEach(badge => {
+    badge.addEventListener('click', () => {
+      const allergenNum = parseInt(badge.dataset.allergen);
+      toggleAllergenFilter(allergenNum);
+    });
+  });
+
+  // Rest of the existing menu script code...
   function setNavHeight(){
     const nav = document.querySelector('.site-nav');
     if(nav) document.documentElement.style.setProperty('--nav-h', nav.offsetHeight + 'px');
@@ -1338,11 +1495,6 @@
     {n:'Plum Sauce', a:[9]}
   ];
 
-  const ALLERGEN_NAMES = {
-    1:'Gluten', 2:'Crustaceans', 3:'Eggs', 4:'Fish', 5:'Peanuts', 6:'Soya', 7:'Milk',
-    8:'Nuts', 9:'Celery', 10:'Mustard', 11:'Sesame Seed', 12:'Sulphur Dioxide', 13:'Lupin', 14:'Molluscs'
-  };
-
   function renderItemRow(item, index){
     const allergenHtml = (item.a && item.a.length)
       ? `<span class="item-allergens"><span class="aller-label">Contains</span>${item.a.map(n => `<a href="#allergen-${n}" class="allergen-link" data-a="${n}" title="${ALLERGEN_NAMES[n] || ''}">${n}</a>`).join('')}</span>`
@@ -1432,7 +1584,6 @@
     el.innerHTML = ICONS[el.dataset.icon] || '';
   });
 
-  // ---------- Accordion behavior for menu category headers (allergens excluded) ----------
   function initAccordions(){
     document.querySelectorAll('.menu-cat > .cat-header-toggle').forEach(btn => {
       btn.addEventListener('click', () => {
@@ -1480,7 +1631,6 @@
     });
   }
 
-  // ---------- Search ----------
   const qnSearchBtn = document.getElementById('qnSearchBtn');
   const qnSearchWrap = document.getElementById('qnSearchWrap');
   const qnSearchInput = document.getElementById('qnSearchInput');
@@ -1508,7 +1658,6 @@
     if(e.key === 'Escape') setSearchOpen(false);
   });
 
-  // Build a flat searchable index of every numbered dish, once the menu has rendered.
   const SEARCH_INDEX = [];
   (function buildSearchIndex(){
     document.querySelectorAll('.item-row').forEach(row => {
@@ -1548,7 +1697,6 @@
     if(!q){ qnSearchResults.innerHTML = ''; return; }
 
     let matches = [];
-    // Pure number/letter query (e.g. "32" or "A") -> exact number match first
     if(/^[a-zA-Z0-9]{1,3}$/.test(q)){
       matches = SEARCH_INDEX.filter(item => item.num.toLowerCase() === q.toLowerCase());
       if(matches.length){
@@ -1556,10 +1704,8 @@
         return;
       }
     }
-    // Otherwise (or if no exact number match) search by dish name substring
     const qLower = q.toLowerCase();
     matches = SEARCH_INDEX.filter(item => item.name.toLowerCase().includes(qLower));
-    // Also allow numeric substring matches (e.g. typing "3" shows dish 3, 13, 30s...)
     if(/^\d+$/.test(q)){
       const numMatches = SEARCH_INDEX.filter(item => item.num.includes(q) && !matches.includes(item));
       matches = matches.concat(numMatches);
@@ -1587,40 +1733,15 @@
     }).join('');
     qnSearchResults.querySelectorAll('.qn-result').forEach(btn => {
       btn.addEventListener('click', (e) => {
-        // If the click landed on an allergen badge inside the result, jump to allergens instead of the dish
         const allergenHit = e.target.closest('.allergen-link');
         if(allergenHit){
           e.stopPropagation();
-          jumpToAllergen(allergenHit.dataset.a);
           return;
         }
         jumpToRow(btn.dataset.row);
       });
     });
   }
-
-  function jumpToAllergen(num){
-    const badge = document.getElementById('allergen-' + num);
-    if(!badge) return;
-    setSearchOpen(false);
-    setPanelOpen(false);
-    requestAnimationFrame(() => {
-      setNavHeight();
-      badge.scrollIntoView({ behavior: 'smooth', block: 'center' });
-      badge.classList.remove('highlight');
-      void badge.offsetWidth;
-      badge.classList.add('highlight');
-    });
-  }
-
-  // Clicking any "Contains" allergen number (on the menu items or in search results) jumps to the allergen key
-  document.addEventListener('click', (e) => {
-    const link = e.target.closest('.allergen-link');
-    if(link && link.tagName === 'A'){
-      e.preventDefault();
-      jumpToAllergen(link.dataset.a);
-    }
-  });
 
   qnSearchInput.addEventListener('input', () => renderSearchResults(qnSearchInput.value));
   qnSearchInput.addEventListener('keydown', (e) => {
@@ -1697,7 +1818,6 @@
     galleryWrap.addEventListener('focusin', stopAutoplay);
     galleryWrap.addEventListener('focusout', startAutoplay);
 
-    // ---------- Touch swipe support ----------
     let touchStartX = 0, touchStartY = 0, touchDX = 0, touchDY = 0, isSwiping = false;
     const SWIPE_THRESHOLD = 40;
 
@@ -1724,7 +1844,6 @@
       startAutoplay();
     });
 
-    // Prevent a swipe from also being treated as a tap-through to the linked dish
     heroGallery.addEventListener('click', (e) => {
       if(isSwiping && Math.abs(touchDX) > SWIPE_THRESHOLD){
         e.preventDefault();
