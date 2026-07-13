@@ -982,12 +982,14 @@
     </div>
   </nav>
 
-  <section class="allergen-section wrap" aria-label="Food allergen information" style="padding-top:40px;">
-    <div class="cat-header allergen-header">
+  <section class="allergen-section wrap menu-cat" id="allergen-info" aria-label="Food allergen information" style="padding-top:40px;">
+    <button class="cat-header allergen-header cat-header-toggle" type="button" aria-expanded="true">
       <span class="icon" data-icon="allergen"></span>
       <h2>Be Food Allergen Aware</h2>
       <span class="cat-sub chinese">過敏原</span>
-    </div>
+      <span class="cat-chevron">&#9662;</span>
+    </button>
+    <div class="cat-body"><div>
     <p class="cat-note">Click on allergens to highlight all dishes containing them. Please inform our staff before placing your order if you have an allergy to any of the following allergens.</p>
     <div class="allergen-grid">
       <div class="allergen-badge" id="allergen-1" data-allergen="1">
@@ -1130,6 +1132,7 @@
         <span class="allergen-name">Molluscs</span>
       </div>
     </div>
+    </div></div>
   </section>
 
   <section class="menu-sections">
