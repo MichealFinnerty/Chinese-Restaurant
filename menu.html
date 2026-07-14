@@ -789,6 +789,11 @@
     align-items:start;
     gap:4px 10px;
   }
+  @media (max-width:420px){
+    .item-row-main{
+      grid-template-columns:3fr 2fr;
+    }
+  }
   .item-name-col{
     display:flex;
     align-items:flex-start;
@@ -1047,7 +1052,7 @@
 <div class="allergen-warning-banner" id="allergenWarningBanner" role="alert">
   <button class="allergen-warning-close" id="allergenWarningClose" aria-label="Close warning">×</button>
   <div class="allergen-warning-text">⚠️ You're filtering dishes by allergen</div>
-  <div class="allergen-warning-sub">Items highlighted below contain <span id="selectedAllergenName">.</div>
+  <div class="allergen-warning-sub">Items highlighted below contain <span id="selectedAllergenName"></span>. Click allergen badges to add/remove from filter.</div>
 </div>
 
 <main>
@@ -1107,7 +1112,7 @@
       <h2>Be Food Allergen Aware</h2>
       <span class="cat-sub chinese">過敏原</span>
     </div>
-    <p class="cat-note">Click on allergens to highlight all dishes containing them..</p>
+    <p class="cat-note">Click on allergens to highlight all dishes containing them. Select multiple allergens to see dishes containing any of them. Please inform our staff before placing your order if you have an allergy to any of the following allergens.</p>
     <div class="allergen-grid">
       <div class="allergen-badge" id="allergen-1" data-allergen="1">
         <div class="allergen-circle-wrap allergen-anim-sway">
