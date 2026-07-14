@@ -1747,6 +1747,21 @@
   }
   initAccordions();
 
+  function initAutoCollapseOnScroll(){
+    const collapseObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if(entry.isIntersecting) return;
+        const section = entry.target;
+        if(section.classList.contains('collapsed')) return;
+        section.classList.add('collapsed');
+        const btn = section.querySelector('.cat-header-toggle');
+        if(btn) btn.setAttribute('aria-expanded', 'false');
+      });
+    }, { threshold: 0 });
+    document.querySelectorAll('.menu-cat').forEach(section => collapseObserver.observe(section));
+  }
+  initAutoCollapseOnScroll();
+
   function initItemToggles(){
     function toggleInfo(row){
       const infoBtn = row.querySelector('.info-toggle');
