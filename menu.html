@@ -6,7 +6,7 @@
 <title>Menu — Ruby Chinese Restaurant, Pallaskenry</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Marcellus&family=Noto+Serif+SC:wght@600;700&family=Work+Sans:wght@400;500;600;700&family=Work+Sans:ital@1&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Marcellus&family=Noto+Serif+SC:wght@600;700&family=Work+Sans:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
 <style>
   :root{
     --maroon:#7A1F26;
@@ -860,16 +860,16 @@
     gap:6px;
     flex:0 0 auto;
   }
-.item-icon-btn{
-  flex:0 0 auto;
-  width:18px; height:18px;
-  border-radius:50%;
-  display:flex; align-items:center; justify-content:center;
-  padding:0;
-  cursor:pointer;
-  transition:background .15s ease, color .15s ease, transform .15s ease, border-color .15s ease;
-}
-.item-icon-btn svg{width:10px;height:10px;}
+  .item-icon-btn{
+    flex:0 0 auto;
+    width:18px; height:18px;
+    border-radius:50%;
+    display:flex; align-items:center; justify-content:center;
+    padding:0;
+    cursor:pointer;
+    transition:background .15s ease, color .15s ease, transform .15s ease, border-color .15s ease;
+  }
+  .item-icon-btn svg{width:10px;height:10px;}
   .item-icon-btn:focus-visible{outline:2px solid var(--ruby-red); outline-offset:2px;}
   .item-icon-btn.allergen-toggle{
     border:1.5px solid rgba(189,26,34,.35);
@@ -1736,12 +1736,44 @@
     el.innerHTML = ICONS[el.dataset.icon] || '';
   });
 
+  // Shared helper: keeps the collapsed class, the toggle button's aria-expanded,
+  // and the hidden content's inert/aria-hidden state all in sync in one place.
+  function setSectionCollapsed(section, collapsed){
+    section.classList.toggle('collapsed', collapsed);
+    const btn = section.querySelector(':scope > .cat-header-toggle');
+    if(btn) btn.setAttribute('aria-expanded', String(!collapsed));
+    const body = section.querySelector(':scope > .cat-body');
+    if(body){
+      if(collapsed){
+        body.setAttribute('inert', '');
+        body.setAttribute('aria-hidden', 'true');
+      } else {
+        body.removeAttribute('inert');
+        body.removeAttribute('aria-hidden');
+      }
+    }
+  }
+
+  // Sync inert/aria-hidden for every category to match its current (possibly
+  // server-rendered) collapsed state before any interaction happens.
+  document.querySelectorAll('.menu-cat').forEach(section => {
+    setSectionCollapsed(section, section.classList.contains('collapsed'));
+  });
+
   function initAccordions(){
     document.querySelectorAll('.menu-cat > .cat-header-toggle').forEach(btn => {
       btn.addEventListener('click', () => {
         const section = btn.closest('.menu-cat');
-        const collapsed = section.classList.toggle('collapsed');
-        btn.setAttribute('aria-expanded', String(!collapsed));
+        const opening = section.classList.contains('collapsed');
+        if(opening){
+          // Only one category open at a time keeps the page from getting too long.
+          document.querySelectorAll('.menu-cat').forEach(other => {
+            if(other !== section && !other.classList.contains('collapsed')){
+              setSectionCollapsed(other, true);
+            }
+          });
+        }
+        setSectionCollapsed(section, !opening);
       });
     });
   }
@@ -1753,9 +1785,7 @@
         if(entry.isIntersecting) return;
         const section = entry.target;
         if(section.classList.contains('collapsed')) return;
-        section.classList.add('collapsed');
-        const btn = section.querySelector('.cat-header-toggle');
-        if(btn) btn.setAttribute('aria-expanded', 'false');
+        setSectionCollapsed(section, true);
       });
     }, { threshold: 0 });
     document.querySelectorAll('.menu-cat').forEach(section => collapseObserver.observe(section));
@@ -1806,9 +1836,12 @@
   function openSectionFor(el){
     const section = el.closest('.menu-cat');
     if(section && section.classList.contains('collapsed')){
-      section.classList.remove('collapsed');
-      const btn = section.querySelector('.cat-header-toggle');
-      if(btn) btn.setAttribute('aria-expanded', 'true');
+      document.querySelectorAll('.menu-cat').forEach(other => {
+        if(other !== section && !other.classList.contains('collapsed')){
+          setSectionCollapsed(other, true);
+        }
+      });
+      setSectionCollapsed(section, false);
     }
   }
 
@@ -2009,7 +2042,7 @@
   if(heroGallery && FEATURED.length){
     heroGallery.innerHTML = FEATURED.map((f, i) => `
       <a class="hero-slide${i === 0 ? ' active' : ''}" href="#item-${f.num}" data-i="${i}">
-        <img src="${f.img}" alt="${f.name}" loading="${i === 0 ? 'eager' : 'lazy'}">
+        <img src="${f.img}" alt="${f.name}" width="400" height="400" loading="${i === 0 ? 'eager' : 'lazy'}" decoding="${i === 0 ? 'sync' : 'async'}" fetchpriority="${i === 0 ? 'high' : 'low'}">
         <span class="hero-slide-caption">${f.caption}</span>
       </a>`).join('');
     heroDots.innerHTML = FEATURED.map((f, i) =>
