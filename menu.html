@@ -4,9 +4,6 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Menu — Ruby Chinese Restaurant, Pallaskenry</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Marcellus&family=Noto+Serif+SC:wght@600;700&family=Work+Sans:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
 <style>
   :root{
     --maroon:#7A1F26;
@@ -30,11 +27,11 @@
   body{
     background:var(--cream);
     color:var(--charcoal);
-    font-family:'Work Sans', sans-serif;
+    font-family:-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
     overflow-x:hidden;
   }
-  h1,h2,h3,.display{font-family:'Marcellus', serif; letter-spacing:.01em;}
-  .chinese{font-family:'Noto Serif SC', serif;}
+  h1,h2,h3,.display{font-family:Georgia, 'Times New Roman', Times, serif; letter-spacing:.01em;}
+  .chinese{font-family:'Songti SC', 'STSong', SimSun, serif;}
   a{color:inherit;text-decoration:none;}
   img{max-width:100%;display:block;}
   .wrap{max-width:1180px;margin:0 auto;padding:0 32px;}
@@ -120,7 +117,7 @@
   .nav-logo .mark{
     width:34px;height:34px;border-radius:50%;border:2px solid var(--gold);
     display:flex;align-items:center;justify-content:center;
-    font-family:'Noto Serif SC',serif;font-size:1rem;color:var(--sun);
+    font-family:'Songti SC','STSong',SimSun,serif;font-size:1rem;color:var(--sun);
     background:radial-gradient(circle, rgba(244,158,49,.25), transparent 70%);
   }
   .nav-links{display:flex; align-items:center; gap:36px; list-style:none;}
@@ -137,7 +134,7 @@
   .nav-links a.active::after{width:100%;}
   .nav-links a:focus-visible{outline:2px solid var(--gold); outline-offset:4px;}
   .nav-menu-cta{
-    background:var(--gold); color:var(--maroon-deep); font-family:'Marcellus', serif;
+    background:var(--gold); color:var(--maroon-deep); font-family:Georgia, 'Times New Roman', Times, serif;
     font-size:1.15rem; padding:12px 30px; border-radius:2px; letter-spacing:.03em;
     box-shadow:0 3px 0 var(--maroon-deep); transition:transform .18s ease, box-shadow .18s ease;
     white-space:nowrap;
@@ -187,7 +184,7 @@
   .menu-hero-content{position:relative; z-index:2;}
 
   .eyebrow{
-    font-family:'Noto Serif SC', serif; color:var(--ruby-red); letter-spacing:.3em;
+    font-family:'Songti SC', 'STSong', SimSun, serif; color:var(--ruby-red); letter-spacing:.3em;
     font-size:.8rem; text-transform:uppercase; display:block; margin-bottom:12px;
   }
   .menu-hero .eyebrow{
@@ -242,7 +239,7 @@
     border-radius:10px;
     backdrop-filter:blur(2px);
     color:var(--white);
-    font-family:'Marcellus', serif;
+    font-family:Georgia, 'Times New Roman', Times, serif;
     font-size:.82rem;
     line-height:1.3;
     text-align:center;
@@ -264,7 +261,7 @@
   .hero-dot:focus-visible{outline:2px solid var(--gold); outline-offset:2px;}
   .hero-gallery-hint{
     margin-top:14px;
-    font-family:'Noto Serif SC', serif;
+    font-family:'Songti SC', 'STSong', SimSun, serif;
     color:var(--gold);
     font-size:.78rem;
     letter-spacing:.15em;
@@ -407,7 +404,7 @@
   }
   .qn-result:hover, .qn-result:focus-visible{background:rgba(213,167,84,.28);}
   .qn-result .qn-result-num{
-    font-family:'Noto Serif SC', serif;
+    font-family:'Songti SC', 'STSong', SimSun, serif;
     color:var(--ruby-red);
     font-size:.82rem;
     min-width:1.8em;
@@ -442,7 +439,7 @@
     color:#8a6f52;
   }
   .qn-bar-current{
-    font-family:'Marcellus', serif;
+    font-family:Georgia, 'Times New Roman', Times, serif;
     font-size:1.05rem;
     color:var(--maroon-deep);
   }
@@ -497,7 +494,7 @@
   }
   .qn-pill .qn-num{
     color:var(--ruby-red);
-    font-family:'Noto Serif SC', serif;
+    font-family:'Songti SC', 'STSong', SimSun, serif;
     font-size:.75rem;
     margin-right:6px;
   }
@@ -592,7 +589,7 @@
     border-radius:50%;
     background:var(--ruby-red);
     color:var(--white);
-    font-family:'Noto Serif SC', serif;
+    font-family:'Songti SC', 'STSong', SimSun, serif;
     font-weight:700;
     font-size:.62rem;
     display:flex;
@@ -727,7 +724,7 @@
     color:var(--cream);
   }
   .cat-header .cat-sub{
-    font-family:'Noto Serif SC', serif;
+    font-family:'Songti SC', 'STSong', SimSun, serif;
     font-size:.85rem;
     color:var(--sun);
     margin-left:auto;
@@ -802,7 +799,7 @@
   }
   .item-row .num{
     flex:0 0 auto;
-    font-family:'Noto Serif SC', serif;
+    font-family:'Songti SC', 'STSong', SimSun, serif;
     color:var(--ruby-red);
     font-size:.85rem;
     min-width:1.6em;
@@ -933,7 +930,7 @@
     border-radius:50%;
     background:rgba(189,26,34,.1);
     color:var(--ruby-red);
-    font-family:'Noto Serif SC', serif;
+    font-family:'Songti SC', 'STSong', SimSun, serif;
     font-size:.72rem;
     border:1px solid rgba(189,26,34,.3);
     text-decoration:none;
@@ -947,7 +944,7 @@
   }
   .item-row .price{
     flex:0 0 auto;
-    font-family:'Marcellus', serif;
+    font-family:Georgia, 'Times New Roman', Times, serif;
     color:var(--maroon-deep);
     font-size:1rem;
     text-align:right;
@@ -955,7 +952,7 @@
   }
 
   .sub-heading{
-    font-family:'Marcellus', serif;
+    font-family:Georgia, 'Times New Roman', Times, serif;
     color:var(--maroon-deep);
     font-size:1.05rem;
     padding:20px 26px 6px;
@@ -979,7 +976,7 @@
     margin-bottom:4px;
   }
   .dinner-card .price-tag, .catering-card .price-tag{
-    font-family:'Marcellus', serif;
+    font-family:Georgia, 'Times New Roman', Times, serif;
     color:var(--maroon-deep);
     font-size:1.3rem;
     margin-bottom:14px;
@@ -1016,8 +1013,8 @@
     display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:20px;
     padding-bottom:28px; border-bottom:1px solid rgba(70,27,30,.25);
   }
-  .footer-logo{font-family:'Marcellus', serif; font-size:1.7rem;}
-  .footer-chinese{font-family:'Noto Serif SC', serif; color:var(--ruby-red); letter-spacing:.2em; font-size:.95rem;}
+  .footer-logo{font-family:Georgia, 'Times New Roman', Times, serif; font-size:1.7rem;}
+  .footer-chinese{font-family:'Songti SC', 'STSong', SimSun, serif; color:var(--ruby-red); letter-spacing:.2em; font-size:.95rem;}
   footer nav ul{list-style:none; display:flex; gap:28px; font-size:.9rem; letter-spacing:.05em; text-transform:uppercase;}
   footer nav a:hover{color:var(--ruby-red);}
   .footer-bottom{
