@@ -781,11 +781,19 @@
     100%{ background:transparent; }
   }
   .item-row:last-child{border-bottom:none;}
+
+  /* Mobile-first: name on the left half, price/icons on the right half */
   .item-row-main{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    align-items:start;
+    gap:4px 10px;
+  }
+  .item-name-col{
     display:flex;
-    align-items:center;
-    flex-wrap:wrap;
-    gap:6px 12px;
+    align-items:flex-start;
+    gap:6px;
+    min-width:0;
   }
   .item-row .num{
     flex:0 0 auto;
@@ -796,15 +804,17 @@
   }
   .item-name-group{
     display:flex;
-    align-items:center;
+    align-items:flex-start;
     gap:6px;
-    flex:1 1 140px;
-    min-width:140px;
+    flex:1;
+    min-width:0;
   }
   .item-row .item-name{
     font-weight:600;
     color:var(--charcoal);
     font-size:.95rem;
+    min-width:0;
+    overflow-wrap:break-word;
   }
   .item-name.has-info{cursor:pointer;}
   .item-name.has-info:hover{color:var(--maroon);}
@@ -815,10 +825,29 @@
   }
   .item-meta{
     display:flex;
-    align-items:center;
-    gap:10px;
-    flex:0 0 auto;
-    margin-left:auto;
+    align-items:flex-start;
+    justify-content:flex-end;
+    gap:8px;
+    min-width:0;
+  }
+  @media (min-width:680px){
+    .item-row-main{
+      display:flex;
+      align-items:center;
+      flex-wrap:wrap;
+      gap:6px 12px;
+    }
+    .item-name-col{display:contents;}
+    .item-name-group{
+      align-items:center;
+      flex:1 1 140px;
+      min-width:140px;
+    }
+    .item-meta{
+      align-items:center;
+      flex:0 0 auto;
+      margin-left:auto;
+    }
   }
   .item-icons{
     display:flex;
@@ -1606,10 +1635,12 @@
 
     return `<div class="item-row"${rowId ? ` id="${rowId}"` : ''}${item.a ? ` data-allergens="${item.a.join(',')}"` : ''}>
       <div class="item-row-main">
-        <span class="num">${index != null ? index : ''}</span>
-        <span class="item-name-group">
-          <span class="item-name${hasInfo ? ' has-info' : ''}"${hasInfo ? ' tabindex="0" role="button"' : ''}>${item.n}</span>
-          ${infoBtn}
+        <span class="item-name-col">
+          <span class="num">${index != null ? index : ''}</span>
+          <span class="item-name-group">
+            <span class="item-name${hasInfo ? ' has-info' : ''}"${hasInfo ? ' tabindex="0" role="button"' : ''}>${item.n}</span>
+            ${infoBtn}
+          </span>
         </span>
         <span class="item-meta">
           <span class="item-icons">${allergenBtn}</span>
