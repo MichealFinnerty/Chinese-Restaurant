@@ -388,8 +388,11 @@
     z-index:5;
   }
   .dish-tile:focus-visible{outline:3px solid var(--white); outline-offset:3px;}
+  .hero-dish-strip-row-mobile{display:none;}
   @media (max-width: 720px){
-    .hero-dish-strip-row{
+    .hero-dish-strip-row{display:none;}
+    .hero-dish-strip-row-mobile{
+      display:flex;
       flex-wrap:nowrap;
       overflow-x:auto;
       justify-content:flex-start;
@@ -398,8 +401,8 @@
       -webkit-overflow-scrolling:touch;
       scrollbar-width:none;
     }
-    .hero-dish-strip-row::-webkit-scrollbar{display:none;}
-    .dish-tile{width:64px;height:64px;flex:0 0 auto;}
+    .hero-dish-strip-row-mobile::-webkit-scrollbar{display:none;}
+    .hero-dish-strip-row-mobile .dish-tile{width:64px;height:64px;flex:0 0 auto;}
   }
 
   /* ---------- TRUST BAR (rotating reviews) ---------- */
@@ -990,6 +993,7 @@
             <img src="400x400Food/Chicken Chow Mein.avif" alt="Chicken Chow Mein" width="76" height="76" loading="lazy" decoding="async">
           </a>
         </div>
+        <div class="hero-dish-strip-row-mobile" id="dishStripMobile"></div>
       </div>
     </div>
   </section>
@@ -1401,6 +1405,52 @@
     svg.appendChild(text);
 
     holder.appendChild(svg);
+  })();
+
+  // Mobile-only infinite loop for the hero dish strip. The desktop row is
+  // left completely alone; this builds a separate row (three copies of the
+  // same tiles back-to-back) that's swapped in under 720px via CSS, and
+  // silently rewinds scroll position at the seams so it feels endless.
+  (function(){
+    const desktopRow = document.querySelector('.hero-dish-strip-row');
+    const mobileRow = document.getElementById('dishStripMobile');
+    if(!desktopRow || !mobileRow) return;
+
+    const originals = Array.from(desktopRow.children);
+    [0, 1, 2].forEach(setIndex => {
+      originals.forEach(node => {
+        const clone = node.cloneNode(true);
+        if(setIndex !== 1){
+          // Side copies exist purely for the loop illusion; keep them out
+          // of the tab order and away from screen readers.
+          clone.setAttribute('aria-hidden', 'true');
+          clone.setAttribute('tabindex', '-1');
+        }
+        mobileRow.appendChild(clone);
+      });
+    });
+
+    let setWidth = 0;
+    function centerLoop(){
+      setWidth = mobileRow.scrollWidth / 3;
+      if(setWidth > 0) mobileRow.scrollLeft = setWidth;
+    }
+    requestAnimationFrame(centerLoop);
+    window.addEventListener('resize', () => requestAnimationFrame(centerLoop));
+
+    let ticking = false;
+    mobileRow.addEventListener('scroll', () => {
+      if(ticking || setWidth <= 0) return;
+      ticking = true;
+      requestAnimationFrame(() => {
+        if(mobileRow.scrollLeft <= 2){
+          mobileRow.scrollLeft += setWidth;
+        } else if(mobileRow.scrollLeft >= setWidth * 2 - 2){
+          mobileRow.scrollLeft -= setWidth;
+        }
+        ticking = false;
+      });
+    }, { passive: true });
   })();
 </script>
 
