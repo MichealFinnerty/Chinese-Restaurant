@@ -337,6 +337,20 @@
     flex:1;
     min-width:0;
   }
+  .download-menu-btn{
+    flex:0 0 auto;
+    width:36px; height:36px;
+    border-radius:50%;
+    border:1.5px solid var(--maroon);
+    background:var(--white);
+    color:var(--maroon);
+    display:flex; align-items:center; justify-content:center;
+    cursor:pointer;
+    transition:background .18s ease, color .18s ease, transform .18s ease;
+  }
+  .download-menu-btn svg{width:17px;height:17px;}
+  .download-menu-btn:hover{background:var(--maroon); color:var(--cream); transform:translateY(-1px);}
+  .download-menu-btn:focus-visible{outline:2px solid var(--ruby-red); outline-offset:2px;}
   .qn-bar-text{
     background:none; border:none; padding:0; text-align:left; font:inherit; color:inherit; cursor:pointer;
   }
@@ -1070,6 +1084,41 @@
     padding-top:20px; display:flex; justify-content:space-between; flex-wrap:wrap; gap:10px;
     font-size:.8rem; color:rgba(70,27,30,.75);
   }
+
+  /* ---------- PRINT / DOWNLOAD AS PDF ---------- */
+  @media print{
+    header.site-nav, .allergen-warning-banner, .quick-nav,
+    .hero-gallery, .hero-gallery-dots, .hero-gallery-hint,
+    .item-icon-btn, .cat-chevron, .cat-note, footer{
+      display:none !important;
+    }
+    body{background:#fff; color:#000;}
+    .menu-hero{
+      background:#fff; color:#000; padding:20px 0; border-bottom:2px solid #000;
+      box-shadow:none;
+    }
+    .menu-hero::before, .lattice-wrap{display:none !important;}
+    .menu-hero h1{color:#000;}
+    .menu-hero .eyebrow{color:#000;}
+    .menu-hero p.tagline{color:#000; opacity:1;}
+    /* force every category open regardless of on-screen collapsed state */
+    .menu-cat.collapsed .cat-body{grid-template-rows:1fr !important;}
+    .cat-body > div{overflow:visible !important;}
+    /* force every dish's allergen/description panel open so the key info actually prints */
+    .item-detail{grid-template-rows:1fr !important;}
+    .item-detail-clip{overflow:visible !important;}
+    .cat-header{
+      background:#fff !important; color:#000 !important; border-left-color:#000 !important;
+      -webkit-print-color-adjust:exact; print-color-adjust:exact;
+    }
+    .cat-header .icon, .cat-header .cat-sub{color:#000;}
+    .item-row{border-bottom-color:#ccc; break-inside:avoid;}
+    .menu-cat{break-inside:avoid-page; margin-bottom:24px;}
+    .item-row .price, .item-row .item-name{color:#000;}
+    .allergen-num, .allergen-link{
+      -webkit-print-color-adjust:exact; print-color-adjust:exact;
+    }
+  }
 </style>
 </head>
 <body>
@@ -1136,6 +1185,9 @@
         <button class="qn-bar-text" id="qnToggle" aria-expanded="false" aria-controls="qnPanel">
           <span class="qn-bar-label">Jump to</span><br>
           <span class="qn-bar-current" id="qnCurrent">Appetizers</span>
+        </button>
+        <button class="download-menu-btn" id="downloadMenuBtn" type="button" aria-label="Download or print menu" title="Download menu">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12"/><path d="M7.5 10.5 12 15l4.5-4.5"/><path d="M5 19h14"/></svg>
         </button>
       </div>
       <div class="qn-bar-right">
@@ -1490,6 +1542,15 @@
       const active = document.body.classList.toggle('veg-filter-active');
       vegToggleBtn.classList.toggle('active', active);
       vegToggleBtn.setAttribute('aria-pressed', String(active));
+    });
+  }
+
+  // Download/print the menu — opens the browser's native print dialog, where
+  // "Save as PDF" works the same way on both mobile and desktop.
+  const downloadMenuBtn = document.getElementById('downloadMenuBtn');
+  if(downloadMenuBtn){
+    downloadMenuBtn.addEventListener('click', () => {
+      window.print();
     });
   }
 
