@@ -793,6 +793,11 @@
   .menu-cat.collapsed .cat-body{
     grid-template-rows:0fr;
   }
+  /* used only for scroll-triggered auto-collapse, so the height change is
+     instant and can be compensated for in the same frame (no jarring jump) */
+  .menu-cat.auto-collapsing .cat-body{
+    transition:none;
+  }
 
   .item-list{
     background:var(--white);
@@ -2038,7 +2043,23 @@
         if(entry.isIntersecting) return;
         const section = entry.target;
         if(section.classList.contains('collapsed')) return;
-        setSectionCollapsed(section, true);
+
+        // If the section has scrolled fully above the viewport, collapsing it
+        // shrinks the page above where you're reading, which otherwise yanks
+        // your scroll position down. Collapse it instantly and subtract the
+        // lost height from scrollY in the same tick so nothing visibly moves.
+        const isAboveViewport = entry.boundingClientRect.bottom <= 0;
+        if(isAboveViewport){
+          const heightBefore = section.offsetHeight;
+          section.classList.add('auto-collapsing');
+          setSectionCollapsed(section, true);
+          const heightAfter = section.offsetHeight;
+          const delta = heightBefore - heightAfter;
+          if(delta > 0) window.scrollBy(0, -delta);
+          requestAnimationFrame(() => section.classList.remove('auto-collapsing'));
+        } else {
+          setSectionCollapsed(section, true);
+        }
       });
     }, { threshold: 0 });
     document.querySelectorAll('.menu-cat').forEach(section => collapseObserver.observe(section));
