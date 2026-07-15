@@ -364,23 +364,30 @@
     margin:0 auto;
   }
   .dish-tile{
+    display:block;
     width:76px;
     height:76px;
-    object-fit:cover;
     border-radius:8px;
     border:3px solid var(--gold);
     box-shadow:0 6px 14px rgba(0,0,0,.35);
     transform:rotate(var(--r, 0deg));
     transition:transform .25s ease, box-shadow .25s ease;
     background:var(--cream);
-    cursor:default;
+    overflow:hidden;
   }
-  .dish-tile:hover{
+  .dish-tile img{
+    width:100%;
+    height:100%;
+    object-fit:cover;
+    display:block;
+  }
+  .dish-tile:hover, .dish-tile:focus-visible{
     transform:rotate(0deg) scale(1.14);
     box-shadow:0 10px 22px rgba(0,0,0,.4);
     position:relative;
     z-index:5;
   }
+  .dish-tile:focus-visible{outline:3px solid var(--white); outline-offset:3px;}
   @media (max-width: 720px){
     .hero-dish-strip-row{
       flex-wrap:nowrap;
@@ -964,12 +971,24 @@
       <div class="hero-dish-strip">
         <span class="hero-dish-strip-label">Straight From Our Kitchen</span>
         <div class="hero-dish-strip-row">
-          <img class="dish-tile" style="--r:-6deg" src="400x400Food/Aromatic Duck.avif" alt="Aromatic Duck" width="76" height="76" loading="lazy" decoding="async">
-          <img class="dish-tile" style="--r:5deg" src="400x400Food/Spring Roll.avif" alt="Spring Roll" width="76" height="76" loading="lazy" decoding="async">
-          <img class="dish-tile" style="--r:-4deg" src="400x400Food/Sesame King Prawn on Toast.avif" alt="Sesame King Prawn on Toast" width="76" height="76" loading="lazy" decoding="async">
-          <img class="dish-tile" style="--r:6deg" src="400x400Food/Sweet & Sour Chicken.avif" alt="Sweet &amp; Sour Chicken" width="76" height="76" loading="lazy" decoding="async">
-          <img class="dish-tile" style="--r:-5deg" src="400x400Food/Chicken Fried Rice.avif" alt="Chicken Fried Rice" width="76" height="76" loading="lazy" decoding="async">
-          <img class="dish-tile" style="--r:4deg" src="400x400Food/Chicken Chow Mein.avif" alt="Chicken Chow Mein" width="76" height="76" loading="lazy" decoding="async">
+          <a class="dish-tile" style="--r:-6deg" href="menu.html#item-2" aria-label="Aromatic Duck &mdash; view on menu">
+            <img src="400x400Food/Aromatic Duck.avif" alt="Aromatic Duck" width="76" height="76" loading="lazy" decoding="async">
+          </a>
+          <a class="dish-tile" style="--r:5deg" href="menu.html#item-5" aria-label="Spring Roll &mdash; view on menu">
+            <img src="400x400Food/Spring Roll.avif" alt="Spring Roll" width="76" height="76" loading="lazy" decoding="async">
+          </a>
+          <a class="dish-tile" style="--r:-4deg" href="menu.html#item-16" aria-label="Sesame King Prawn on Toast &mdash; view on menu">
+            <img src="400x400Food/Sesame King Prawn on Toast.avif" alt="Sesame King Prawn on Toast" width="76" height="76" loading="lazy" decoding="async">
+          </a>
+          <a class="dish-tile" style="--r:6deg" href="menu.html#item-32" aria-label="Sweet &amp; Sour Chicken &mdash; view on menu">
+            <img src="400x400Food/Sweet & Sour Chicken.avif" alt="Sweet &amp; Sour Chicken" width="76" height="76" loading="lazy" decoding="async">
+          </a>
+          <a class="dish-tile" style="--r:-5deg" href="menu.html#item-63" aria-label="Chicken Fried Rice &mdash; view on menu">
+            <img src="400x400Food/Chicken Fried Rice.avif" alt="Chicken Fried Rice" width="76" height="76" loading="lazy" decoding="async">
+          </a>
+          <a class="dish-tile" style="--r:4deg" href="menu.html#item-71" aria-label="Chicken Chow Mein &mdash; view on menu">
+            <img src="400x400Food/Chicken Chow Mein.avif" alt="Chicken Chow Mein" width="76" height="76" loading="lazy" decoding="async">
+          </a>
         </div>
       </div>
     </div>
