@@ -337,6 +337,64 @@
   }
   .hero-strip span.gold{color:var(--gold); opacity:1;}
 
+  /* ---------- HERO DISH PHOTO STRIP ---------- */
+  .hero-dish-strip{
+    position:relative;
+    z-index:2;
+    margin-top:46px;
+  }
+  .hero-dish-strip-label{
+    display:block;
+    text-align:center;
+    font-family:'Songti SC', 'STSong', SimSun, serif;
+    color:var(--sun);
+    font-size:.72rem;
+    letter-spacing:.28em;
+    text-transform:uppercase;
+    margin-bottom:18px;
+    opacity:.85;
+  }
+  .hero-dish-strip-row{
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    gap:14px;
+    flex-wrap:wrap;
+    max-width:620px;
+    margin:0 auto;
+  }
+  .dish-tile{
+    width:76px;
+    height:76px;
+    object-fit:cover;
+    border-radius:8px;
+    border:3px solid var(--gold);
+    box-shadow:0 6px 14px rgba(0,0,0,.35);
+    transform:rotate(var(--r, 0deg));
+    transition:transform .25s ease, box-shadow .25s ease;
+    background:var(--cream);
+    cursor:default;
+  }
+  .dish-tile:hover{
+    transform:rotate(0deg) scale(1.14);
+    box-shadow:0 10px 22px rgba(0,0,0,.4);
+    position:relative;
+    z-index:5;
+  }
+  @media (max-width: 720px){
+    .hero-dish-strip-row{
+      flex-wrap:nowrap;
+      overflow-x:auto;
+      justify-content:flex-start;
+      padding:4px 24px 10px;
+      gap:12px;
+      -webkit-overflow-scrolling:touch;
+      scrollbar-width:none;
+    }
+    .hero-dish-strip-row::-webkit-scrollbar{display:none;}
+    .dish-tile{width:64px;height:64px;flex:0 0 auto;}
+  }
+
   /* ---------- TRUST BAR (rotating reviews) ---------- */
   .trust-bar{
     background:var(--cream);
@@ -901,6 +959,18 @@
         <span><span class="gold">Open</span> Wed&ndash;Sat</span>
         <span><span class="gold">Collection</span> Only</span>
         <span><span class="gold">Pallaskenry</span>, Co. Limerick</span>
+      </div>
+
+      <div class="hero-dish-strip">
+        <span class="hero-dish-strip-label">Straight From Our Kitchen</span>
+        <div class="hero-dish-strip-row">
+          <img class="dish-tile" style="--r:-6deg" src="400x400Food/Aromatic Duck.avif" alt="Aromatic Duck" width="76" height="76" loading="lazy" decoding="async">
+          <img class="dish-tile" style="--r:5deg" src="400x400Food/Spring Roll.avif" alt="Spring Roll" width="76" height="76" loading="lazy" decoding="async">
+          <img class="dish-tile" style="--r:-4deg" src="400x400Food/Sesame King Prawn on Toast.avif" alt="Sesame King Prawn on Toast" width="76" height="76" loading="lazy" decoding="async">
+          <img class="dish-tile" style="--r:6deg" src="400x400Food/Sweet & Sour Chicken.avif" alt="Sweet &amp; Sour Chicken" width="76" height="76" loading="lazy" decoding="async">
+          <img class="dish-tile" style="--r:-5deg" src="400x400Food/Chicken Fried Rice.avif" alt="Chicken Fried Rice" width="76" height="76" loading="lazy" decoding="async">
+          <img class="dish-tile" style="--r:4deg" src="400x400Food/Chicken Chow Mein.avif" alt="Chicken Chow Mein" width="76" height="76" loading="lazy" decoding="async">
+        </div>
       </div>
     </div>
   </section>
