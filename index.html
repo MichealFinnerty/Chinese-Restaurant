@@ -1070,12 +1070,34 @@
       transition:transform .25s ease;
     }
     .nav-toggle{
-      display:block;
-      background:none;border:1.5px solid var(--gold);
-      color:var(--gold);
+      display:flex;
+      flex-direction:column;
+      align-items:center;
+      justify-content:center;
+      gap:6px;
+      background:none;
+      border:none;
       width:40px;height:40px;
-      border-radius:2px;
-      font-size:1.2rem;
+      padding:0;
+      cursor:pointer;
+    }
+    .nav-toggle-bar{
+      display:block;
+      width:22px;
+      height:2px;
+      background:var(--gold);
+      border-radius:1px;
+      transition:transform .28s ease, opacity .2s ease, width .2s ease;
+    }
+    .nav-toggle[aria-expanded="true"] .nav-toggle-bar:first-child{
+      transform:translateY(4px) rotate(45deg);
+    }
+    .nav-toggle[aria-expanded="true"] .nav-toggle-bar:last-child{
+      transform:translateY(-4px) rotate(-45deg);
+    }
+    .nav-toggle:focus-visible{
+      outline:2px solid var(--gold);
+      outline-offset:4px;
     }
     .nav-menu-cta{padding:10px 20px; font-size:1rem;}
     .hero{padding:80px 20px 56px;}
@@ -1108,7 +1130,10 @@
     </ul>
     <div style="display:flex; align-items:center; gap:14px;">
       <a class="nav-menu-cta" href="menu.html">View Menu</a>
-      <button class="nav-toggle" id="navToggle" aria-label="Toggle navigation" aria-expanded="false">&#9776;</button>
+      <button class="nav-toggle" id="navToggle" aria-label="Toggle navigation" aria-expanded="false">
+        <span class="nav-toggle-bar"></span>
+        <span class="nav-toggle-bar"></span>
+      </button>
     </div>
   </div>
 </header>
