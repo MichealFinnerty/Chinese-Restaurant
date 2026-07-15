@@ -20,6 +20,8 @@
     --porcelain-blue-deep:#122943;
     --porcelain-white:#F3F6F2;
     --warning-red:#DC2626;
+    --veg-green:#4C8C4A;
+    --veg-green-deep:#3c6f3a;
   }
 
   *{margin:0;padding:0;box-sizing:border-box;}
@@ -467,6 +469,32 @@
   }
   .qn-toggle[aria-expanded="true"] .chevron{transform:rotate(180deg);}
 
+  .qn-bar-right{
+    flex:0 0 auto;
+    display:flex;
+    align-items:center;
+    gap:10px;
+  }
+  .veg-toggle-btn{
+    flex:0 0 auto;
+    width:38px; height:38px;
+    border-radius:50%;
+    border:1.5px solid var(--veg-green);
+    background:var(--white);
+    color:var(--veg-green);
+    display:flex; align-items:center; justify-content:center;
+    cursor:pointer;
+    transition:background .18s ease, color .18s ease, transform .18s ease;
+  }
+  .veg-toggle-btn svg{width:18px;height:18px;}
+  .veg-toggle-btn:hover{background:rgba(76,140,74,.12);}
+  .veg-toggle-btn:focus-visible{outline:2px solid var(--veg-green-deep); outline-offset:2px;}
+  .veg-toggle-btn.active{
+    background:var(--veg-green);
+    color:var(--white);
+    transform:scale(1.06);
+  }
+
   .qn-panel{
     max-height:0;
     overflow:hidden;
@@ -894,6 +922,29 @@
     color:var(--cream);
     transform:scale(1.08);
   }
+  .veg-badge{
+    flex:0 0 auto;
+    width:18px; height:18px;
+    border-radius:50%;
+    display:flex; align-items:center; justify-content:center;
+    font-family:Georgia, 'Times New Roman', Times, serif;
+    font-weight:700;
+    font-size:.64rem;
+    color:var(--white);
+    background:var(--veg-green);
+    border:1.5px solid var(--veg-green-deep);
+  }
+  /* Vegetarian-only filter: fade out everything else so veg dishes pop */
+  body.veg-filter-active .item-row{
+    transition:opacity .2s ease, background-color .2s ease, border-left-color .2s ease;
+  }
+  body.veg-filter-active .item-row:not([data-veg]){
+    opacity:.32;
+  }
+  body.veg-filter-active .item-row[data-veg]{
+    background:rgba(76,140,74,.07);
+    border-left-color:var(--veg-green);
+  }
   .item-detail{
     display:grid;
     grid-template-rows:0fr;
@@ -1089,7 +1140,12 @@
           <span class="qn-bar-current" id="qnCurrent">Appetizers</span>
         </button>
       </div>
-      <span class="qn-toggle" id="qnToggleVisual" aria-hidden="true">Categories <span class="chevron">&#9662;</span></span>
+      <div class="qn-bar-right">
+        <button class="veg-toggle-btn" id="vegToggleBtn" type="button" aria-pressed="false" aria-label="Show vegetarian dishes only" title="Vegetarian filter">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 20c8-1 12-7 12-14 0 7 4 6 4 6-2 9-9 10-16 8z"/><path d="M6 19 16 5"/></svg>
+        </button>
+        <span class="qn-toggle" id="qnToggleVisual" aria-hidden="true">Categories <span class="chevron">&#9662;</span></span>
+      </div>
     </div>
     <div class="qn-search-wrap" id="qnSearchWrap">
       <div class="qn-search-inner">
@@ -1429,6 +1485,16 @@
 
   warningClose.addEventListener('click', clearAllergenFilter);
 
+  // Vegetarian-only filter toggle
+  const vegToggleBtn = document.getElementById('vegToggleBtn');
+  if(vegToggleBtn){
+    vegToggleBtn.addEventListener('click', () => {
+      const active = document.body.classList.toggle('veg-filter-active');
+      vegToggleBtn.classList.toggle('active', active);
+      vegToggleBtn.setAttribute('aria-pressed', String(active));
+    });
+  }
+
   // Allergen badge click handler - now supports multi-select
   document.querySelectorAll('.allergen-badge').forEach(badge => {
     badge.addEventListener('click', () => {
@@ -1495,7 +1561,7 @@
       {n:'Dragon Beef', d:'Armona spicy shredded beef, served with pancakes', p:'€10.00', a:[1,6]},
       {n:'Minced Chicken Iceberg Parcel (For 2 Person)', p:'€9.50', a:[6,8]},
       {n:'Spring Roll (2)', p:'€4.50', a:[1]},
-      {n:'Vegetarian Spring Roll (2)', p:'€4.50', a:[1]},
+      {n:'Vegetarian Spring Roll (2)', p:'€4.50', a:[1], v:true},
       {n:'Chicken & Cheese Roll (2)', p:'€5.00', a:[1,7,10]},
       {n:'Salt & Chili Smoked Chicken', d:'Long tray', p:'€6.50', a:[2,3]},
       {n:'Salt & Chili Chicken Wings', d:'Long tray', p:'€6.50', a:[2,3]},
@@ -1524,7 +1590,7 @@
       {n:'King Prawn Curry', p:'€12.00', a:[1,2,9]},
       {n:'House Special Curry', p:'€12.00', a:[1,2,6,9]},
       {n:'Roast Duck Curry', p:'€13.00', a:[1,6,9]},
-      {n:'Mixed Vegetable Curry', p:'€9.50', a:[1,9]}
+      {n:'Mixed Vegetable Curry', p:'€9.50', a:[1,9], v:true}
     ]},
     { id:'sweet-sour', title:'Sweet & Sour Dishes', sub:'甜酸', icon:'sweetsour', items:[
       {n:'Sweet & Sour Chicken', p:'€10.80', a:[3,9]},
@@ -1545,7 +1611,7 @@
       {n:'Thai King Prawn Green / Red Curry', p:'€12.50', a:[2,7]},
       {n:'Thai Special Green / Red Curry', p:'€12.50', a:[2,6,7]},
       {n:'Thai Duck Green / Red Curry', p:'€13.50', a:[6,7]},
-      {n:'Thai Mixed Vegetable Green / Red Curry', p:'€9.50', a:[7]}
+      {n:'Thai Mixed Vegetable Green / Red Curry', p:'€9.50', a:[7], v:true}
     ]},
     { id:'fried-rice', title:'Fried Rice Dishes', sub:'炒飯', icon:'friedrice', items:[
       {n:'Chicken Fried Rice', p:'€10.80', a:[3,6]},
@@ -1557,7 +1623,7 @@
       {n:'Spicy Singapore Fried Rice', d:'Chicken, pork, ham, shrimp & vegetables', p:'€11.00', a:[2]}
     ]},
     { id:'chow-mein', title:'Chow Mein Dishes', sub:'炒麵', icon:'chowmein', items:[
-      {n:'Mixed Vegetables Chow Mein', p:'€9.00', a:[1,3,6,14]},
+      {n:'Mixed Vegetables Chow Mein', p:'€9.00', a:[1,3,6,14], v:true},
       {n:'Chicken Chow Mein', p:'€11.00', a:[1,3,6,14]},
       {n:'Beef Chow Mein', p:'€12.00', a:[1,3,6,14]},
       {n:'King Prawn Chow Mein', p:'€12.00', a:[1,2,3,6,14]},
@@ -1581,7 +1647,7 @@
       {n:'Sausage (each)', p:'€1.00'},
       {n:'Chicken Nuggets (6)', p:'€3.50'},
       {n:'Chicken Balls (8)', p:'€7.00'},
-      {n:'Fried Mixed Vegetable', p:'€7.00'},
+      {n:'Fried Mixed Vegetable', p:'€7.00', v:true},
       {n:'Deep Fried Onion Rings (12)', p:'€4.00'},
       {n:'Choice of Sauce', p:'(S) €2.50 / (L) €3.50'},
       {n:'Soft Drink', d:'Coke, Diet Coke, 7up or Orange', p:'(Can) €2.00 / (Large) €4.00'}
@@ -1596,7 +1662,7 @@
 
   const WOK_PROTEINS = [
     {n:'A. Chicken', p:'€10.80'}, {n:'B. Beef', p:'€10.80'}, {n:'C. King Prawn', p:'€12.00'},
-    {n:'D. House Special', p:'€12.00'}, {n:'E. Duck', p:'€13.00'}, {n:'F. Just Veg', p:'€9.50'},
+    {n:'D. House Special', p:'€12.00'}, {n:'E. Duck', p:'€13.00'}, {n:'F. Just Veg', p:'€9.50', v:true},
     {n:'G. Cha Siu Roast Pork', p:'€10.80'}
   ];
   const WOK_SAUCES = [
@@ -1623,7 +1689,9 @@
     const rowId = index != null ? `item-${index}` : null;
     const hasAllergens = !!(item.a && item.a.length);
     const hasInfo = !!item.d;
+    const isVeg = !!item.v;
 
+    const vegBadge = isVeg ? `<span class="veg-badge" title="Vegetarian">V</span>` : '';
     const allergenBtn = hasAllergens ? `<button type="button" class="item-icon-btn allergen-toggle" aria-expanded="false" aria-label="Show allergens for ${item.n}" title="Allergens">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3.5 21.5 20h-19z"/><path d="M12 9.5v5"/><circle cx="12" cy="17" r=".9" fill="currentColor" stroke="none"/></svg>
       </button>` : '';
@@ -1640,7 +1708,7 @@
         <div class="item-detail-clip"><div class="item-detail-content">${item.d}</div></div>
       </div>` : '';
 
-    return `<div class="item-row"${rowId ? ` id="${rowId}"` : ''}${item.a ? ` data-allergens="${item.a.join(',')}"` : ''}>
+    return `<div class="item-row"${rowId ? ` id="${rowId}"` : ''}${item.a ? ` data-allergens="${item.a.join(',')}"` : ''}${isVeg ? ' data-veg="1"' : ''}>
       <div class="item-row-main">
         <span class="item-name-col">
           <span class="num">${index != null ? index : ''}</span>
@@ -1650,7 +1718,7 @@
           </span>
         </span>
         <span class="item-meta">
-          <span class="item-icons">${allergenBtn}</span>
+          <span class="item-icons">${vegBadge}${allergenBtn}</span>
           <span class="price">${item.p || ''}</span>
         </span>
       </div>
