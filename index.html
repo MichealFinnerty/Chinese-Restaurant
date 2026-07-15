@@ -41,7 +41,7 @@
   "priceRange": "€€",
   "acceptsReservations": "false",
   "menu": "https://rubychinese.ie/menu.html",
-  "paymentAccepted": "Cash, Credit Card, Debit Card",
+  "paymentAccepted": "Cash",
   "address": {
     "@type": "PostalAddress",
     "streetAddress": "Main St, Pallas",
@@ -57,8 +57,10 @@
   },
   "openingHoursSpecification": [
     { "@type": "OpeningHoursSpecification", "dayOfWeek": "Monday", "opens": "18:00", "closes": "23:00" },
-    { "@type": "OpeningHoursSpecification", "dayOfWeek": ["Wednesday","Thursday"], "opens": "18:00", "closes": "23:00" },
-    { "@type": "OpeningHoursSpecification", "dayOfWeek": ["Friday","Saturday"], "opens": "13:00", "closes": "23:00" }
+    { "@type": "OpeningHoursSpecification", "dayOfWeek": "Wednesday", "opens": "18:00", "closes": "23:00" },
+    { "@type": "OpeningHoursSpecification", "dayOfWeek": "Thursday", "opens": "18:00", "closes": "23:00" },
+    { "@type": "OpeningHoursSpecification", "dayOfWeek": "Friday", "opens": "13:00", "closes": "23:00" },
+    { "@type": "OpeningHoursSpecification", "dayOfWeek": "Saturday", "opens": "13:00", "closes": "23:00" }
   ],
   "aggregateRating": {
     "@type": "AggregateRating",
@@ -745,15 +747,8 @@
     width:36px;height:36px;
     color:var(--gold);
   }
-  .card-icon{
-    animation:cardTap 1.8s ease-in-out infinite;
-  }
   .cash-icon{
     animation:coinBounce 1.6s ease-in-out infinite;
-  }
-  @keyframes cardTap{
-    0%,100%{transform:translateY(0) rotateZ(0deg);}
-    50%{transform:translateY(-4px) rotateZ(2deg);}
   }
   @keyframes coinBounce{
     0%,100%{transform:translateY(0) scale(1);}
@@ -960,7 +955,6 @@
         <a class="btn btn-outline" href="tel:+35361393221">Call to Order</a>
       </div>
       <div class="hero-strip">
-        <span><span class="gold">Open</span> Wed&ndash;Sat</span>
         <span><span class="gold">Collection</span> Only</span>
         <span><span class="gold">Pallaskenry</span>, Co. Limerick</span>
       </div>
@@ -1103,25 +1097,20 @@
             <table class="hours-table">
               <tr><td>Monday</td><td>18:00 &ndash; 23:00</td></tr>
               <tr><td>Tuesday</td><td>Closed</td></tr>
-              <tr><td>Wednesday &ndash; Thursday</td><td>18:00  &ndash; 23:00</td></tr>
-              <tr><td>Friday &ndash; Saturday</td><td>13:00  &ndash; 23:00</td></tr>
+              <tr><td>Wednesday</td><td>18:00 &ndash; 23:00</td></tr>
+              <tr><td>Thursday</td><td>18:00 &ndash; 23:00</td></tr>
+              <tr><td>Friday</td><td>13:00 &ndash; 23:00</td></tr>
+              <tr><td>Saturday</td><td>13:00 &ndash; 23:00</td></tr>
               <tr><td>Sunday</td><td>Closed</td></tr>
             </table>
             <div class="payment-methods">
-              <div class="payment-item">
-                <svg class="payment-icon card-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round">
-                  <rect x="2" y="5" width="20" height="14" rx="2"/>
-                  <path d="M2 10h20"/>
-                </svg>
-                <span>Card</span>
-              </div>
               <div class="payment-item">
                 <svg class="payment-icon cash-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
                   <circle cx="12" cy="13" r="8" fill="currentColor" opacity="0.2"/>
                   <path d="M12 9v8M9 13h6"/>
                   <path d="M3 6h18v12H3z" stroke-width="1.5"/>
                 </svg>
-                <span>Cash</span>
+                <span>Cash Only</span>
               </div>
             </div>
           </div>
