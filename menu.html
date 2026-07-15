@@ -1186,7 +1186,7 @@
           <span class="qn-bar-label">Jump to</span><br>
           <span class="qn-bar-current" id="qnCurrent">Appetizers</span>
         </button>
-        <button class="download-menu-btn" id="downloadMenuBtn" type="button" aria-label="Download or print menu" title="Download menu">
+        <button class="download-menu-btn" id="downloadMenuBtn" type="button" aria-label="Download menu as PDF" title="Download menu (PDF)">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12"/><path d="M7.5 10.5 12 15l4.5-4.5"/><path d="M5 19h14"/></svg>
         </button>
       </div>
@@ -1545,12 +1545,127 @@
     });
   }
 
-  // Download/print the menu — opens the browser's native print dialog, where
-  // "Save as PDF" works the same way on both mobile and desktop.
+  // Download the menu as a real PDF file. We build this instead of relying on
+  // window.print(), because window.print() is a no-op in every non-Safari
+  // browser on iOS (Chrome/Firefox/Edge on iPhone all run on WebKit, but only
+  // Safari itself gets access to the native print sheet). Generating an actual
+  // PDF file sidesteps that restriction entirely and works the same way in
+  // every browser, on every device.
   const downloadMenuBtn = document.getElementById('downloadMenuBtn');
+  let jsPdfLoadPromise = null;
+  function loadJsPDF(){
+    if(window.jspdf && window.jspdf.jsPDF) return Promise.resolve(window.jspdf.jsPDF);
+    if(jsPdfLoadPromise) return jsPdfLoadPromise;
+    jsPdfLoadPromise = new Promise((resolve, reject) => {
+      const s = document.createElement('script');
+      s.src = 'https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js';
+      s.onload = () => {
+        if(window.jspdf && window.jspdf.jsPDF) resolve(window.jspdf.jsPDF);
+        else reject(new Error('jsPDF failed to initialise'));
+      };
+      s.onerror = () => reject(new Error('jsPDF failed to load'));
+      document.head.appendChild(s);
+    });
+    return jsPdfLoadPromise;
+  }
+
+  function buildMenuPdfSections(){
+    const sections = [];
+    order.forEach(id => {
+      if(id === 'wok'){
+        sections.push({ title:'Straight From Wok', sub:'Choose Your Protein', items:WOK_PROTEINS });
+        sections.push({ title:null, sub:'Choose Your Sauce', items:WOK_SAUCES });
+        return;
+      }
+      const cat = MENU.find(c => c.id === id);
+      if(cat) sections.push({ title:cat.title, items:cat.items });
+    });
+    sections.push({ title:'Special Set Dinners', items:[
+      {n:'Dinner A (For 2)', p:'€33.00', d:'Starter, Sweet & Sour Chicken, Beef with Green Pepper Black Bean Sauce, Breast Chicken Curry, Fried Rice for 2'},
+      {n:'Dinner B (For 3)', p:'€50.00', d:'Combination Starter, Sweet & Sour Chicken, Beef with Satay Sauce, King Prawn with Szechuan Sauce, Breast Chicken Curry, Fried Rice for 3'},
+      {n:'Dinner C (For 4)', p:'€65.00', d:'Combination Starter, Sweet & Sour Chicken, Beef with Green Pepper Black Bean Sauce, King Prawn with Szechuan Sauce, Duck with Fruity Sauce, Breast Chicken Curry & Fried Rice for 4'}
+    ]});
+    sections.push({ title:'Catering Services', items:[
+      {n:'Starter Platter', p:'€50.00', d:'A mix of 3 starters (minimum 10 people)'},
+      {n:'Main Dishes', p:'From €75.00', d:'Chicken, Beef or Pork €80 / King Prawn €90 / Duck €105 / House Special €90 / Vegetarian €75'}
+    ]});
+    return sections;
+  }
+
+  function generateMenuPdf(){
+    return loadJsPDF().then(JsPDFCtor => {
+      const doc = new JsPDFCtor({ unit:'pt', format:'a4' });
+      const pageHeight = doc.internal.pageSize.getHeight();
+      const marginLeft = 42, marginTop = 50, lineHeight = 13;
+      let y = marginTop;
+
+      function ensureSpace(next){
+        if(y + next > pageHeight - 40){
+          doc.addPage();
+          y = marginTop;
+        }
+      }
+
+      doc.setFont('helvetica', 'bold');
+      doc.setFontSize(18);
+      doc.text('Ruby Chinese Restaurant \u2014 Menu', marginLeft, y);
+      y += 20;
+      doc.setFont('helvetica', 'normal');
+      doc.setFontSize(10);
+      doc.text('Pallaskenry, Co. Limerick', marginLeft, y);
+      y += 22;
+
+      buildMenuPdfSections().forEach(section => {
+        if(section.title){
+          ensureSpace(22);
+          doc.setFont('helvetica', 'bold');
+          doc.setFontSize(13);
+          doc.text(section.title, marginLeft, y);
+          y += 17;
+        }
+        if(section.sub){
+          ensureSpace(15);
+          doc.setFont('helvetica', 'italic');
+          doc.setFontSize(10.5);
+          doc.text(section.sub, marginLeft, y);
+          y += 14;
+        }
+        section.items.forEach(item => {
+          ensureSpace(lineHeight);
+          doc.setFont('helvetica', 'normal');
+          doc.setFontSize(10.5);
+          const priceStr = item.p ? `  \u2014  ${item.p}` : '';
+          doc.text(`${item.n}${priceStr}`, marginLeft, y);
+          y += lineHeight;
+          if(item.d){
+            const lines = doc.splitTextToSize(item.d, 480);
+            ensureSpace(lines.length * 11);
+            doc.setFont('helvetica', 'normal');
+            doc.setFontSize(9);
+            doc.setTextColor(90);
+            lines.forEach(line => { doc.text(line, marginLeft + 10, y); y += 11; });
+            doc.setTextColor(0);
+          }
+        });
+        y += 8;
+      });
+
+      doc.save('ruby-chinese-menu.pdf');
+    });
+  }
+
   if(downloadMenuBtn){
     downloadMenuBtn.addEventListener('click', () => {
-      window.print();
+      downloadMenuBtn.disabled = true;
+      downloadMenuBtn.style.opacity = '.6';
+      generateMenuPdf()
+        .catch(() => {
+          alert("Sorry, the menu couldn't be downloaded. Please check your connection and try again.");
+        })
+        .finally(() => {
+          downloadMenuBtn.disabled = false;
+          downloadMenuBtn.style.opacity = '';
+        });
     });
   }
 
