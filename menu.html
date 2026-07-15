@@ -1866,9 +1866,9 @@
   // and the hidden content's inert/aria-hidden state all in sync in one place.
   function setSectionCollapsed(section, collapsed){
     section.classList.toggle('collapsed', collapsed);
-    const btn = section.querySelector(':scope > .cat-header-toggle');
+    const btn = Array.prototype.find.call(section.children, el => el.classList.contains('cat-header-toggle'));
     if(btn) btn.setAttribute('aria-expanded', String(!collapsed));
-    const body = section.querySelector(':scope > .cat-body');
+    const body = Array.prototype.find.call(section.children, el => el.classList.contains('cat-body'));
     if(body){
       if(collapsed){
         body.setAttribute('inert', '');
