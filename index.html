@@ -711,6 +711,49 @@
   }
   .info-row a:hover{color:var(--gold);}
 
+  .hours-heading-row{
+    display:flex;
+    align-items:center;
+    flex-wrap:wrap;
+    gap:10px 14px;
+    margin-bottom:4px;
+  }
+  .hours-heading-row h4{margin-bottom:0;}
+  .status-badge{
+    display:inline-flex;
+    align-items:center;
+    gap:7px;
+    padding:4px 12px;
+    border-radius:20px;
+    border:1px solid rgba(213,167,84,.4);
+    background:rgba(213,167,84,.1);
+    font-size:.78rem;
+    letter-spacing:.04em;
+    text-transform:uppercase;
+    color:var(--cream);
+  }
+  .status-dot{
+    width:8px;height:8px;
+    border-radius:50%;
+    background:rgba(255,249,230,.4);
+    flex:0 0 auto;
+  }
+  .status-badge.is-open{
+    border-color:rgba(213,167,84,.7);
+    background:rgba(213,167,84,.18);
+  }
+  .status-badge.is-open .status-dot{
+    background:var(--gold);
+    animation:statusPulse 1.8s ease-in-out infinite;
+  }
+  .status-badge.is-closed .status-dot{
+    background:rgba(255,249,230,.35);
+  }
+  @keyframes statusPulse{
+    0%,100%{box-shadow:0 0 0 0 rgba(213,167,84,.55);}
+    50%{box-shadow:0 0 0 5px rgba(213,167,84,0);}
+  }
+
   .hours-table{
     width:100%;
     border-collapse:collapse;
@@ -726,6 +769,12 @@
     text-align:right;
     color:var(--white);
     font-weight:600;
+  }
+  .hours-table tr.is-today td{
+    color:var(--gold);
+  }
+  .hours-table tr.is-today td:last-child{
+    color:var(--gold);
   }
 
   .payment-methods{
@@ -1091,15 +1140,21 @@
         <div class="info-row">
           <div class="icon">&#9200;</div>
           <div style="width:100%;">
-            <h4>Opening Hours</h4>
-            <table class="hours-table">
-              <tr><td>Monday</td><td>18:00 &ndash; 23:00</td></tr>
-              <tr><td>Tuesday</td><td>Closed</td></tr>
-              <tr><td>Wednesday</td><td>18:00 &ndash; 23:00</td></tr>
-              <tr><td>Thursday</td><td>18:00 &ndash; 23:00</td></tr>
-              <tr><td>Friday</td><td>13:00 &ndash; 23:00</td></tr>
-              <tr><td>Saturday</td><td>13:00 &ndash; 23:00</td></tr>
-              <tr><td>Sunday</td><td>Closed</td></tr>
+            <div class="hours-heading-row">
+              <h4>Opening Hours</h4>
+              <span class="status-badge" id="statusBadge">
+                <span class="status-dot" id="statusDot"></span>
+                <span id="statusText">Checking&hellip;</span>
+              </span>
+            </div>
+            <table class="hours-table" id="hoursTable">
+              <tr data-day="1"><td>Monday</td><td>18:00 &ndash; 23:00</td></tr>
+              <tr data-day="2"><td>Tuesday</td><td>Closed</td></tr>
+              <tr data-day="3"><td>Wednesday</td><td>18:00 &ndash; 23:00</td></tr>
+              <tr data-day="4"><td>Thursday</td><td>18:00 &ndash; 23:00</td></tr>
+              <tr data-day="5"><td>Friday</td><td>13:00 &ndash; 23:00</td></tr>
+              <tr data-day="6"><td>Saturday</td><td>13:00 &ndash; 23:00</td></tr>
+              <tr data-day="0"><td>Sunday</td><td>Closed</td></tr>
             </table>
             <div class="payment-methods">
               <div class="payment-item">
@@ -1423,6 +1478,79 @@
         ticking = false;
       });
     }, { passive: true });
+  })();
+
+  // ---------- OPEN NOW / CLOSED NOW STATUS BADGE ----------
+  // Uses Dublin local time (not the visitor's device clock) so the badge is
+  // accurate for anyone browsing from a different timezone. Re-checks every
+  // 5 minutes rather than every second, since this only needs to change
+  // when the shop's actual open/closed state changes.
+  (function(){
+    const badge = document.getElementById('statusBadge');
+    const dot = document.getElementById('statusDot');
+    const text = document.getElementById('statusText');
+    if(!badge || !text) return;
+
+    // day -> {open, close} in minutes-since-midnight. Matches the hours table above.
+    // getDay()/Intl weekday convention: 0 = Sunday ... 6 = Saturday.
+    const HOURS = {
+      0: null,                          // Sunday: closed
+      1: { open: 18 * 60, close: 23 * 60 }, // Monday
+      2: null,                          // Tuesday: closed
+      3: { open: 18 * 60, close: 23 * 60 }, // Wednesday
+      4: { open: 18 * 60, close: 23 * 60 }, // Thursday
+      5: { open: 13 * 60, close: 23 * 60 }, // Friday
+      6: { open: 13 * 60, close: 23 * 60 }  // Saturday
+    };
+    const WEEKDAY_INDEX = { Sun: 0, Mon: 1, Tue: 2, Wed: 3, Thu: 4, Fri: 5, Sat: 6 };
+
+    function getDublinNow(){
+      const parts = new Intl.DateTimeFormat('en-US', {
+        timeZone: 'Europe/Dublin',
+        weekday: 'short',
+        hour: 'numeric',
+        minute: 'numeric',
+        hour12: false
+      }).formatToParts(new Date());
+      const map = {};
+      parts.forEach(p => { map[p.type] = p.value; });
+      const day = WEEKDAY_INDEX[map.weekday];
+      let hour = parseInt(map.hour, 10);
+      if(hour === 24) hour = 0; // some engines report midnight as 24 with hour12:false
+      const minute = parseInt(map.minute, 10);
+      return { day, minutes: (hour * 60) + minute };
+    }
+
+    function updateStatus(){
+      let day, minutes;
+      try {
+        ({ day, minutes } = getDublinNow());
+      } catch (e) {
+        // Extremely old browsers without Intl timeZone support: fail quietly,
+        // leave the badge on its default "Checking..." state rather than
+        // showing a wrong open/closed guess based on the visitor's own clock.
+        return;
+      }
+
+      const todayHours = HOURS[day];
+      const isOpen = !!todayHours && minutes >= todayHours.open && minutes < todayHours.close;
+
+      badge.classList.toggle('is-open', isOpen);
+      badge.classList.toggle('is-closed', !isOpen);
+      text.textContent = isOpen ? 'Open Now' : 'Closed Now';
+
+      document.querySelectorAll('#hoursTable tr').forEach(tr => {
+        tr.classList.toggle('is-today', Number(tr.dataset.day) === day);
+      });
+    }
+
+    updateStatus();
+    setInterval(updateStatus, 5 * 60 * 1000);
+    // Also refresh right away if the visitor returns to this tab after it's
+    // been backgrounded a while, so it doesn't sit on a stale state.
+    document.addEventListener('visibilitychange', () => {
+      if(document.visibilityState === 'visible') updateStatus();
+    });
   })();
 </script>
 
