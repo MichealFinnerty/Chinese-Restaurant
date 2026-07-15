@@ -109,11 +109,6 @@
       "@type": "Question",
       "name": "How long will my order take?",
       "acceptedAnswer": { "@type": "Answer", "text": "Collection orders are usually ready in 20\u201330 minutes, though it can vary at busy times \u2014 we'll give you an estimate when you call." }
-    },
-    {
-      "@type": "Question",
-      "name": "Do I need to book a table?",
-      "acceptedAnswer": { "@type": "Answer", "text": "We don't take reservations. Feel free to call ahead if you'd like to check availability before you arrive." }
     }
   ]
 }
@@ -1268,7 +1263,7 @@
     <div class="wrap">
       <span class="eyebrow">Good to Know</span>
       <h2>A few common questions</h2>
-      <div class="faq-list">
+      <div class="faq-list" id="faqList">
         <details class="faq-item">
           <summary>Do you deliver?</summary>
           <p>No, we're collection only &mdash; ring ahead and we'll have your order ready to pick up.</p>
@@ -1284,10 +1279,6 @@
         <details class="faq-item">
           <summary>How long will my order take?</summary>
           <p>Collection orders are usually ready in 20&ndash;30 minutes, though it can vary at busy times &mdash; we'll give you an estimate when you call.</p>
-        </details>
-        <details class="faq-item">
-          <summary>Do I need to book a table?</summary>
-          <p>We don't take reservations. Feel free to call ahead if you'd like to check availability before you arrive.</p>
         </details>
       </div>
     </div>
@@ -1783,6 +1774,24 @@
       } catch (e) {
         window.prompt('Copy this link:', shareData.url);
       }
+    });
+  })();
+
+  // ---------- FAQ ACCORDION ----------
+  // Native <details> elements are independent by default (multiple can stay
+  // open at once). This makes it behave like a proper accordion: opening
+  // one closes any other that's already open.
+  (function(){
+    const faqList = document.getElementById('faqList');
+    if(!faqList) return;
+    const items = faqList.querySelectorAll('.faq-item');
+    items.forEach(item => {
+      item.addEventListener('toggle', () => {
+        if(!item.open) return;
+        items.forEach(other => {
+          if(other !== item) other.open = false;
+        });
+      });
     });
   })();
 </script>
