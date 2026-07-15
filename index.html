@@ -10,6 +10,12 @@
 <meta name="author" content="Ruby Chinese Restaurant">
 <link rel="canonical" href="https://rubychinese.ie/index.html">
 <meta name="theme-color" content="#7A1F26">
+<link rel="manifest" href="manifest.json">
+<link rel="icon" type="image/svg+xml" href="icon.svg">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Ruby">
 
 <!-- Open Graph -->
 <meta property="og:type" content="restaurant">
@@ -76,6 +82,39 @@
   "itemListElement": [
     { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://rubychinese.ie/index.html" },
     { "@type": "ListItem", "position": 2, "name": "Menu", "item": "https://rubychinese.ie/menu.html" }
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "Do you deliver?",
+      "acceptedAnswer": { "@type": "Answer", "text": "No, we're collection only \u2014 ring ahead and we'll have your order ready to pick up." }
+    },
+    {
+      "@type": "Question",
+      "name": "Do you take card payments?",
+      "acceptedAnswer": { "@type": "Answer", "text": "We're cash only at the moment, so please bring cash when collecting your order." }
+    },
+    {
+      "@type": "Question",
+      "name": "Can you leave out MSG or specific allergens?",
+      "acceptedAnswer": { "@type": "Answer", "text": "Just let us know when you order and we'll do our best to accommodate. See the allergen key on our menu page for details on each dish." }
+    },
+    {
+      "@type": "Question",
+      "name": "How long will my order take?",
+      "acceptedAnswer": { "@type": "Answer", "text": "Collection orders are usually ready in 20\u201330 minutes, though it can vary at busy times \u2014 we'll give you an estimate when you call." }
+    },
+    {
+      "@type": "Question",
+      "name": "Do I need to book a table?",
+      "acceptedAnswer": { "@type": "Answer", "text": "We don't take reservations. Feel free to call ahead if you'd like to check availability before you arrive." }
+    }
   ]
 }
 </script>
@@ -668,6 +707,76 @@
     padding:18px 46px;
   }
   .menu-teaser .btn-primary:hover{box-shadow:0 6px 0 var(--maroon-deep);}
+  .share-btn{
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    gap:8px;
+    margin:18px auto 0;
+    background:none;
+    border:none;
+    color:var(--maroon-deep);
+    font-family:-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+    font-size:.92rem;
+    letter-spacing:.02em;
+    text-decoration:underline;
+    text-underline-offset:3px;
+    cursor:pointer;
+  }
+  .share-btn svg{width:16px;height:16px;color:var(--ruby-red);}
+  .share-btn:hover{color:var(--ruby-red);}
+  .share-btn:focus-visible{outline:2px solid var(--ruby-red); outline-offset:3px;}
+
+  /* ---------- FAQ ---------- */
+  .faq{
+    background:var(--cream);
+  }
+  .faq h2{
+    color:var(--header-brown);
+    font-size:2.2rem;
+    margin-bottom:32px;
+    max-width:20ch;
+  }
+  .faq-list{
+    max-width:760px;
+  }
+  .faq-item{
+    background:var(--cream);
+    border:1px solid rgba(70,27,30,.16);
+    border-left:4px solid var(--gold);
+    box-shadow:0 2px 8px rgba(70,27,30,.06);
+    padding:0;
+    margin-bottom:12px;
+  }
+  .faq-item summary{
+    cursor:pointer;
+    list-style:none;
+    padding:18px 22px;
+    font-family:Georgia, 'Times New Roman', Times, serif;
+    color:var(--maroon-deep);
+    font-size:1.05rem;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:12px;
+  }
+  .faq-item summary::-webkit-details-marker{display:none;}
+  .faq-item summary::after{
+    content:"+";
+    font-size:1.4rem;
+    color:var(--ruby-red);
+    flex:0 0 auto;
+    transition:transform .2s ease;
+  }
+  .faq-item[open] summary::after{
+    transform:rotate(45deg);
+  }
+  .faq-item p{
+    padding:0 22px 20px;
+    color:#3a2f2b;
+    font-size:.95rem;
+    line-height:1.65;
+  }
 
   /* ---------- CONTACT ---------- */
   .contact{
@@ -749,10 +858,26 @@
   .status-badge.is-closed .status-dot{
     background:rgba(255,249,230,.35);
   }
+  .status-badge.is-closing-soon{
+    border-color:rgba(244,158,49,.75);
+    background:rgba(244,158,49,.18);
+  }
+  .status-badge.is-closing-soon .status-dot{
+    background:var(--sun);
+    animation:statusPulse 1s ease-in-out infinite;
+  }
   @keyframes statusPulse{
     0%,100%{box-shadow:0 0 0 0 rgba(213,167,84,.55);}
     50%{box-shadow:0 0 0 5px rgba(213,167,84,0);}
   }
+
+  .wait-note{
+    font-size:.82rem;
+    color:rgba(255,249,230,.7);
+    font-style:italic;
+    margin:2px 0 10px;
+  }
+  .wait-note.is-hidden{display:none;}
 
   .hours-table{
     width:100%;
@@ -813,6 +938,25 @@
     min-height:340px;
   }
   .map-frame iframe{width:100%;height:100%;min-height:340px;border:0;display:block;}
+
+  .directions-btn{
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    gap:9px;
+    margin-top:14px;
+    padding:13px 20px;
+    border:2px solid var(--gold);
+    border-radius:2px;
+    color:var(--cream);
+    font-family:Georgia, 'Times New Roman', Times, serif;
+    font-size:1rem;
+    letter-spacing:.02em;
+    transition:background .18s ease, color .18s ease;
+  }
+  .directions-btn svg{width:18px;height:18px;flex:0 0 auto;}
+  .directions-btn:hover{background:var(--gold); color:var(--maroon-deep);}
+  .directions-btn:focus-visible{outline:3px solid var(--white); outline-offset:3px;}
 
   /* ---------- FLOATING CALL BUTTON ---------- */
   .floating-call-btn{
@@ -1003,6 +1147,7 @@
       </div>
       <div class="hero-strip">
         <span><span class="gold">Collection</span> Only</span>
+        <span><span class="gold">Cash</span> Only</span>
         <span><span class="gold">Pallaskenry</span>, Co. Limerick</span>
       </div>
 
@@ -1111,6 +1256,40 @@
       <h2>Browse the full menu</h2>
       <p>Explore Ruby’s full menu of starters, specials, sizzling platters and classic favourites before you order.</p>
       <a class="btn btn-primary" href="menu.html">Open Full Menu</a>
+      <button type="button" class="share-btn" id="shareBtn">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><path d="M8.6 10.5l6.8-3.9M8.6 13.5l6.8 3.9"/></svg>
+        <span id="shareBtnText">Share with a friend</span>
+      </button>
+    </div>
+  </section>
+
+  <!-- FAQ -->
+  <section class="faq" aria-label="Frequently asked questions">
+    <div class="wrap">
+      <span class="eyebrow">Good to Know</span>
+      <h2>A few common questions</h2>
+      <div class="faq-list">
+        <details class="faq-item">
+          <summary>Do you deliver?</summary>
+          <p>No, we're collection only &mdash; ring ahead and we'll have your order ready to pick up.</p>
+        </details>
+        <details class="faq-item">
+          <summary>Do you take card payments?</summary>
+          <p>We're cash only at the moment, so please bring cash when collecting your order.</p>
+        </details>
+        <details class="faq-item">
+          <summary>Can you leave out MSG or specific allergens?</summary>
+          <p>Just let us know when you order and we'll do our best to accommodate. See the allergen key on our menu page for details on each dish.</p>
+        </details>
+        <details class="faq-item">
+          <summary>How long will my order take?</summary>
+          <p>Collection orders are usually ready in 20&ndash;30 minutes, though it can vary at busy times &mdash; we'll give you an estimate when you call.</p>
+        </details>
+        <details class="faq-item">
+          <summary>Do I need to book a table?</summary>
+          <p>We don't take reservations. Feel free to call ahead if you'd like to check availability before you arrive.</p>
+        </details>
+      </div>
     </div>
   </section>
 
@@ -1147,6 +1326,7 @@
                 <span id="statusText">Checking&hellip;</span>
               </span>
             </div>
+            <p class="wait-note" id="waitNote">Collection orders are usually ready in 20&ndash;30 minutes.</p>
             <table class="hours-table" id="hoursTable">
               <tr data-day="1"><td>Monday</td><td>18:00 &ndash; 23:00</td></tr>
               <tr data-day="2"><td>Tuesday</td><td>Closed</td></tr>
@@ -1170,13 +1350,19 @@
         </div>
       </div>
 
-      <div class="map-frame">
-        <iframe
-          src="https://www.google.com/maps?q=Ruby+Chinese,+Main+St,+Pallas,+Pallaskenry,+Co.+Limerick,+V94+AWD5&output=embed"
-          loading="lazy"
-          referrerpolicy="no-referrer-when-downgrade"
-          title="Map showing Ruby Chinese Restaurant location in Pallaskenry">
-        </iframe>
+      <div>
+        <div class="map-frame">
+          <iframe
+            src="https://www.google.com/maps?q=Ruby+Chinese,+Main+St,+Pallas,+Pallaskenry,+Co.+Limerick,+V94+AWD5&output=embed"
+            loading="lazy"
+            referrerpolicy="no-referrer-when-downgrade"
+            title="Map showing Ruby Chinese Restaurant location in Pallaskenry">
+          </iframe>
+        </div>
+        <a class="directions-btn" href="https://www.google.com/maps/dir/?api=1&destination=Ruby+Chinese,+Main+St,+Pallas,+Pallaskenry,+Co.+Limerick,+V94+AWD5" target="_blank" rel="noopener noreferrer">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11l18-8-8 18-2-8-8-2z"/></svg>
+          Get Directions
+        </a>
       </div>
     </div>
   </section>
@@ -1489,7 +1675,10 @@
     const badge = document.getElementById('statusBadge');
     const dot = document.getElementById('statusDot');
     const text = document.getElementById('statusText');
+    const waitNote = document.getElementById('waitNote');
     if(!badge || !text) return;
+
+    const CLOSING_SOON_WINDOW = 30; // minutes before close counted as "closing soon"
 
     // day -> {open, close} in minutes-since-midnight. Matches the hours table above.
     // getDay()/Intl weekday convention: 0 = Sunday ... 6 = Saturday.
@@ -1534,10 +1723,20 @@
 
       const todayHours = HOURS[day];
       const isOpen = !!todayHours && minutes >= todayHours.open && minutes < todayHours.close;
+      const isClosingSoon = isOpen && (todayHours.close - minutes) <= CLOSING_SOON_WINDOW;
 
-      badge.classList.toggle('is-open', isOpen);
+      badge.classList.toggle('is-open', isOpen && !isClosingSoon);
+      badge.classList.toggle('is-closing-soon', isClosingSoon);
       badge.classList.toggle('is-closed', !isOpen);
-      text.textContent = isOpen ? 'Open Now' : 'Closed Now';
+
+      if(isClosingSoon){
+        const minsLeft = todayHours.close - minutes;
+        text.textContent = `Closing in ${minsLeft} min`;
+      } else {
+        text.textContent = isOpen ? 'Open Now' : 'Closed Now';
+      }
+
+      if(waitNote) waitNote.classList.toggle('is-hidden', !isOpen);
 
       document.querySelectorAll('#hoursTable tr').forEach(tr => {
         tr.classList.toggle('is-today', Number(tr.dataset.day) === day);
@@ -1550,6 +1749,40 @@
     // been backgrounded a while, so it doesn't sit on a stale state.
     document.addEventListener('visibilitychange', () => {
       if(document.visibilityState === 'visible') updateStatus();
+    });
+  })();
+
+  // ---------- SHARE BUTTON ----------
+  (function(){
+    const btn = document.getElementById('shareBtn');
+    const btnText = document.getElementById('shareBtnText');
+    if(!btn) return;
+
+    const shareData = {
+      title: 'Ruby Chinese Restaurant, Pallaskenry',
+      text: 'Check out Ruby Chinese Restaurant in Pallaskenry, Co. Limerick',
+      url: window.location.href
+    };
+
+    btn.addEventListener('click', async () => {
+      if(navigator.share){
+        try {
+          await navigator.share(shareData);
+        } catch (e) {
+          // Visitor cancelled the native share sheet — nothing to do.
+        }
+        return;
+      }
+      // Fallback for browsers without the Web Share API (mainly desktop):
+      // copy the link and briefly confirm it in the button label.
+      try {
+        await navigator.clipboard.writeText(shareData.url);
+        const original = btnText.textContent;
+        btnText.textContent = 'Link copied!';
+        setTimeout(() => { btnText.textContent = original; }, 2200);
+      } catch (e) {
+        window.prompt('Copy this link:', shareData.url);
+      }
     });
   })();
 </script>
