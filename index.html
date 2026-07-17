@@ -62,11 +62,13 @@
     "longitude": -8.867233
   },
   "openingHoursSpecification": [
-    { "@type": "OpeningHoursSpecification", "dayOfWeek": "Monday", "opens": "18:00", "closes": "23:00" },
-    { "@type": "OpeningHoursSpecification", "dayOfWeek": "Wednesday", "opens": "18:00", "closes": "23:00" },
-    { "@type": "OpeningHoursSpecification", "dayOfWeek": "Thursday", "opens": "18:00", "closes": "23:00" },
-    { "@type": "OpeningHoursSpecification", "dayOfWeek": "Friday", "opens": "13:00", "closes": "23:00" },
-    { "@type": "OpeningHoursSpecification", "dayOfWeek": "Saturday", "opens": "13:00", "closes": "23:00" }
+    { "@type": "OpeningHoursSpecification", "dayOfWeek": "Monday", "opens": "16:00", "closes": "23:00" },
+    { "@type": "OpeningHoursSpecification", "dayOfWeek": "Tuesday", "opens": "16:00", "closes": "23:00" },
+    { "@type": "OpeningHoursSpecification", "dayOfWeek": "Wednesday", "opens": "16:00", "closes": "23:00" },
+    { "@type": "OpeningHoursSpecification", "dayOfWeek": "Thursday", "opens": "16:00", "closes": "23:00" },
+    { "@type": "OpeningHoursSpecification", "dayOfWeek": "Friday", "opens": "16:00", "closes": "23:30" },
+    { "@type": "OpeningHoursSpecification", "dayOfWeek": "Saturday", "opens": "16:00", "closes": "23:30" },
+    { "@type": "OpeningHoursSpecification", "dayOfWeek": "Sunday", "opens": "13:00", "closes": "23:00" }
   ],
   "aggregateRating": {
     "@type": "AggregateRating",
@@ -1277,7 +1279,7 @@
     <div class="wrap" style="text-align:center;">
       <span class="eyebrow">Hungry?</span>
       <h2>Browse the full menu</h2>
-      <p>Explore Ruby’s full menu of starters, specials, sizzling platters and classic favourites before you order.</p>
+      <p>Explore Ruby's full menu of starters, specials, sizzling platters and classic favourites before you order.</p>
       <a class="btn btn-primary" href="menu.html">Open Full Menu</a>
       <button type="button" class="share-btn" id="shareBtn">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><path d="M8.6 10.5l6.8-3.9M8.6 13.5l6.8 3.9"/></svg>
@@ -1347,13 +1349,13 @@
             </div>
             <p class="wait-note" id="waitNote">Collection orders are usually ready in 20&ndash;30 minutes.</p>
             <table class="hours-table" id="hoursTable">
-              <tr data-day="1"><td>Monday</td><td>18:00 &ndash; 23:00</td></tr>
-              <tr data-day="2"><td>Tuesday</td><td>Closed</td></tr>
-              <tr data-day="3"><td>Wednesday</td><td>18:00 &ndash; 23:00</td></tr>
-              <tr data-day="4"><td>Thursday</td><td>18:00 &ndash; 23:00</td></tr>
-              <tr data-day="5"><td>Friday</td><td>13:00 &ndash; 23:00</td></tr>
-              <tr data-day="6"><td>Saturday</td><td>13:00 &ndash; 23:00</td></tr>
-              <tr data-day="0"><td>Sunday</td><td>Closed</td></tr>
+              <tr data-day="1"><td>Monday</td><td>16:00 &ndash; 23:00</td></tr>
+              <tr data-day="2"><td>Tuesday</td><td>16:00 &ndash; 23:00</td></tr>
+              <tr data-day="3"><td>Wednesday</td><td>16:00 &ndash; 23:00</td></tr>
+              <tr data-day="4"><td>Thursday</td><td>16:00 &ndash; 23:00</td></tr>
+              <tr data-day="5"><td>Friday</td><td>16:00 &ndash; 23:30</td></tr>
+              <tr data-day="6"><td>Saturday</td><td>16:00 &ndash; 23:30</td></tr>
+              <tr data-day="0"><td>Sunday</td><td>13:00 &ndash; 23:00</td></tr>
             </table>
             <div class="payment-methods">
               <div class="payment-item">
@@ -1702,13 +1704,13 @@
     // day -> {open, close} in minutes-since-midnight. Matches the hours table above.
     // getDay()/Intl weekday convention: 0 = Sunday ... 6 = Saturday.
     const HOURS = {
-      0: null,                          // Sunday: closed
-      1: { open: 18 * 60, close: 23 * 60 }, // Monday
-      2: null,                          // Tuesday: closed
-      3: { open: 18 * 60, close: 23 * 60 }, // Wednesday
-      4: { open: 18 * 60, close: 23 * 60 }, // Thursday
-      5: { open: 13 * 60, close: 23 * 60 }, // Friday
-      6: { open: 13 * 60, close: 23 * 60 }  // Saturday
+      0: { open: 13 * 60, close: 23 * 60 },  // Sunday
+      1: { open: 16 * 60, close: 23 * 60 },  // Monday
+      2: { open: 16 * 60, close: 23 * 60 },  // Tuesday
+      3: { open: 16 * 60, close: 23 * 60 },  // Wednesday
+      4: { open: 16 * 60, close: 23 * 60 },  // Thursday
+      5: { open: 16 * 60, close: 23 * 60 + 30 }, // Friday
+      6: { open: 16 * 60, close: 23 * 60 + 30 }  // Saturday
     };
     const WEEKDAY_INDEX = { Sun: 0, Mon: 1, Tue: 2, Wed: 3, Thu: 4, Fri: 5, Sat: 6 };
 
