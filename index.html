@@ -63,7 +63,6 @@
   },
   "openingHoursSpecification": [
     { "@type": "OpeningHoursSpecification", "dayOfWeek": "Monday", "opens": "16:00", "closes": "23:00" },
-    { "@type": "OpeningHoursSpecification", "dayOfWeek": "Tuesday", "opens": "16:00", "closes": "23:00" },
     { "@type": "OpeningHoursSpecification", "dayOfWeek": "Wednesday", "opens": "16:00", "closes": "23:00" },
     { "@type": "OpeningHoursSpecification", "dayOfWeek": "Thursday", "opens": "16:00", "closes": "23:00" },
     { "@type": "OpeningHoursSpecification", "dayOfWeek": "Friday", "opens": "16:00", "closes": "23:30" },
@@ -1350,7 +1349,7 @@
             <p class="wait-note" id="waitNote">Collection orders are usually ready in 20&ndash;30 minutes.</p>
             <table class="hours-table" id="hoursTable">
               <tr data-day="1"><td>Monday</td><td>16:00 &ndash; 23:00</td></tr>
-              <tr data-day="2"><td>Tuesday</td><td>16:00 &ndash; 23:00</td></tr>
+              <tr data-day="2"><td>Tuesday</td><td>Closed</td></tr>
               <tr data-day="3"><td>Wednesday</td><td>16:00 &ndash; 23:00</td></tr>
               <tr data-day="4"><td>Thursday</td><td>16:00 &ndash; 23:00</td></tr>
               <tr data-day="5"><td>Friday</td><td>16:00 &ndash; 23:30</td></tr>
@@ -1706,7 +1705,7 @@
     const HOURS = {
       0: { open: 13 * 60, close: 23 * 60 },  // Sunday
       1: { open: 16 * 60, close: 23 * 60 },  // Monday
-      2: { open: 16 * 60, close: 23 * 60 },  // Tuesday
+      2: null,                                // Tuesday: closed
       3: { open: 16 * 60, close: 23 * 60 },  // Wednesday
       4: { open: 16 * 60, close: 23 * 60 },  // Thursday
       5: { open: 16 * 60, close: 23 * 60 + 30 }, // Friday
